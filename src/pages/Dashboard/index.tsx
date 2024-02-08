@@ -4,20 +4,18 @@ import { Artist, Track } from "@spotify/web-api-ts-sdk";
 import TrackArt from "@/components/TrackArt";
 import { getTopSongs } from "@/utils/Spotify/Tracks";
 
+import TrackModal from "@/components/Modal/TrackModal";
+
 export default function Dashboard() {
     
     const [currentTab, setCurrentTab] = useState('Top Songs');
     const [topTracks, setTopTracks] = useState<Track[]>([])
-    const [topArtists, setTopArtists] = useState<Artist[]>([]);
-    const [user, setUser] = useState();
     const [selectedTrack, setSelectedTrack] = useState<Track>()
-    const [playlistQuery, setPlaylistQuery] = useState();
 
     // Convert this into an object
     const navbarTitles = ['Top Songs', 'Top Artists', 'Playlists'];
 
     useEffect(() => {
-
         // todo : Add a switch variable
         // Asynchronous function to be able to load 
         const loadData = async () => {
@@ -28,17 +26,19 @@ export default function Dashboard() {
                 // Get the user Data
                 // const response = await getUserData(access_token)
                
-                const response = await getTopSongs(access_token, "tracks")
-                // console.log(response)
+                const response = await getTopSongs(access_token, "tracks");
+                console.log(response)
                 if ('items' in response) setTopTracks(response.items as Track[]);
             }
         } 
-        // loadData();
-    })
+        loadData();
+    },[])
+
+ 
 
     return (
-        <section className="w-full min-h-screen bg-primary flex">
-            <div className="min-h-screen border w-1/5 flex justify-center items-center">
+        <section className="w-full min-h-screen">
+            {/* <div className="min-h-screen border w-1/5 flex justify-center items-center">
                 <div className="border w-full h-fit ">
                     {navbarTitles.map((title, index) => {
                     let navbarItemStyle = `${currentTab == title ? 'font-bold' : ''}`
@@ -47,15 +47,18 @@ export default function Dashboard() {
                     })}
                 </div>
 
-            </div>
+            </div> */}
 
             {/* Container that would hold the cover arts for songs / artists */}
-            <section className="min-h-screen border w-4/5">
+            <section className="min-h-screen border ">
+                {
+                    selectedTrack && (<TrackModal track = {selectedTrack} closeHandler = {() => setSelectedTrack(undefined)}/>)
+                }
                 <div className="w-full border min-h-screen min flex justify-center items-center">
-                    <div className="flex flex-wrap  border w-3/5">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-10 w-fit">
                         {
                             topTracks.map((track, index) => {
-                                return <TrackArt key = {index} track = {track} />
+                                return <TrackArt key = {index} track = {track} trackHandler = {() => setSelectedTrack(track) }/>
                             })
                         }
                     </div>
