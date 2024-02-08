@@ -4,13 +4,14 @@ import { Artist, Track } from "@spotify/web-api-ts-sdk";
 import TrackArt from "@/components/TrackArt";
 import { getTopSongs } from "@/utils/Spotify/Tracks";
 
-import TrackModal from "@/components/Modal/TrackModal";
-
+import ModalContainer from "@/Containers/ModalContainer";
 export default function Dashboard() {
     
     const [currentTab, setCurrentTab] = useState('Top Songs');
     const [topTracks, setTopTracks] = useState<Track[]>([])
-    const [selectedTrack, setSelectedTrack] = useState<Track>()
+    // const [selectedTrack, setSelectedTrack] = useState<Track>()
+    const [ selected, setSelected ] = useState<Track | Artist>();
+    const [modal, setModal] = useState(false);
 
     // Convert this into an object
     const navbarTitles = ['Top Songs', 'Top Artists', 'Playlists'];
@@ -34,10 +35,17 @@ export default function Dashboard() {
         loadData();
     },[])
 
+
+    const handleCloseModal = () => {
+        setSelected(undefined);
+        setModal(false)
+    }
  
 
     return (
         <section className="w-full min-h-screen">
+            {selected ? <ModalContainer selectedEntry={selected} modalCloseHandler={handleCloseModal}/>: null}
+
             {/* <div className="min-h-screen border w-1/5 flex justify-center items-center">
                 <div className="border w-full h-fit ">
                     {navbarTitles.map((title, index) => {
@@ -51,14 +59,14 @@ export default function Dashboard() {
 
             {/* Container that would hold the cover arts for songs / artists */}
             <section className="min-h-screen border ">
-                {
+                {/* {
                     selectedTrack && (<TrackModal track = {selectedTrack} closeHandler = {() => setSelectedTrack(undefined)}/>)
-                }
+                } */}
                 <div className="w-full border min-h-screen min flex justify-center items-center">
                     <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-10 w-fit">
                         {
                             topTracks.map((track, index) => {
-                                return <TrackArt key = {index} track = {track} trackHandler = {() => setSelectedTrack(track) }/>
+                                return <TrackArt key = {index} track = {track} trackHandler = {() => setSelected(track) }/>
                             })
                         }
                     </div>
