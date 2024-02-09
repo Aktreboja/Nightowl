@@ -45,11 +45,11 @@ export default function TopTracksContainer({previewHandler, itemHandler} : any) 
 
         <div className="bg-white w-full rounded md">
             <div>
-                <p className="text-3xl m-3 font-bold">Your Top Tracks</p>
+                <p className="text-3xl m-3 font-bold text-black">Your Top Tracks</p>
                 <div className="flex ">
-                    <p onClick = {() => setTimeRange('short_term')} className={`${timeRange == 'short_term' ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold`}>Last Month</p>
-                    <p onClick = {() => setTimeRange('medium_term')} className={`${timeRange == 'medium_term' ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold`}>Last 6 Months</p>
-                    <p onClick = {() => setTimeRange('long_term')} className={`${timeRange == 'long_term'  ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold`}>All Time</p>
+                    <p onClick = {() => setTimeRange('short_term')} className={`${timeRange == 'short_term' ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold text-black`}>Last Month</p>
+                    <p onClick = {() => setTimeRange('medium_term')} className={`${timeRange == 'medium_term' ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold text-black`}>Last 6 Months</p>
+                    <p onClick = {() => setTimeRange('long_term')} className={`${timeRange == 'long_term'  ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold text-black`}>All Time</p>
                 </div>
             </div>
 
