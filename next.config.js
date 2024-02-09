@@ -5,7 +5,8 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'i.scdn.co'
+                hostname: 'i.scdn.co',
+                pathname: '/image/*'
             }
         ]
     }

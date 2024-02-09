@@ -34,16 +34,16 @@ export default function ModalContainer({selectedEntry, modalCloseHandler} : Moda
                     // Get the artists associated with the track
                     const artistsResponse = await GetSeveralArtists(access_token, queryString);
 
-                    // Get seed artists and seed Tracks for recommended tracks.
-                    const recommendationsResponse = await GetRecommendations(access_token, `seed_tracks=${track.id}` )
+                    // // Get seed artists and seed Tracks for recommended tracks.
+                    // const recommendationsResponse = await GetRecommendations(access_token, `seed_tracks=${track.id}` )
                    
                     const data : ModalProps = {
                         track: track,
                         closeHandler: modalCloseHandler,
                         preview_url: track.preview_url as string,
-                        recommendations: recommendationsResponse.tracks, 
+                        recommendations: [], 
                         artists: artistsResponse.artists,
-                        image: album.images[0].url
+                        image: album.images[1].url
                     }
                     setModalData(data);
                 }
@@ -55,11 +55,11 @@ export default function ModalContainer({selectedEntry, modalCloseHandler} : Moda
     }, [selected, modalCloseHandler])
 
     return (
-        <div className="fixed inset-0 z-50 overflow-auto bg-black bg-primary bg-opacity-75 flex justify-center items-center">
+        <div className="fixed w-full h-screen inset-0 z-50 overflow-auto  bg-primary bg-opacity-5 flex justify-center items-center">
             {
                 ('preview_url' in selected) && modalData ? (
                     <TrackModal modalData={modalData}/>
-                ) : <div></div>
+                ) : null
             }
         </div>
     )

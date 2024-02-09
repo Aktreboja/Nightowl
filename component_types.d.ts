@@ -6,7 +6,7 @@ export interface ModalContainerProps {
 
 export interface ModalProps {
     track: Track;
-    artists?: Artist[];
+    artists: Artist[];
     preview_url: string;
     image: string;
     recommendations: Track[];

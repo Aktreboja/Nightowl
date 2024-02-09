@@ -5,7 +5,8 @@ import { useState, useRef, MouseEventHandler } from "react";
 // Track component for rendering Spotify Tracks
 export default function TrackArt({track, trackHandler} : {track: Track, trackHandler: MouseEventHandler<HTMLDivElement>}) {
     const [preview, setPreview] = useState(false)
-    
+
+
     // UseRef is used here to bypass typescript checking / explicitly referencing the km
     const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -34,10 +35,11 @@ export default function TrackArt({track, trackHandler} : {track: Track, trackHan
     }
 
     return (
-        <div className="w-28 flex-shrink-0 m-0 p-1 hover:shadow-lg duration-100 cursor-pointer hover:bg-primary" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick = {trackHandler}>
+        <div className="relative w-28  m-0 hover:shadow-lg duration-100 cursor-pointer hover:bg-primary" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick = {trackHandler}>
             <audio ref = {audioRef} autoPlay = {preview} loop = {preview}>
                 <source src = {`${preview_url}`} type="audio/mpeg"/>
             </audio>
+            <div className={`absolute top-0 left-0 w-full h-full bg-white bg-opacity-25 z-10 opacity-0 transition-opacity duration-75 ${preview ? 'opacity-100' : ''}`}></div> 
             <Image 
                 src={trackArt.url} 
                 alt = {`${name} Track Art`} 

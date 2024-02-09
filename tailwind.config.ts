@@ -15,8 +15,12 @@ const config: Config = {
       },
     },
     colors: {
-      'primary': "#3D3D3D",
-      'white': '#FFFFFF'
+      'primary': "#587B7F",
+      'secondary': '#1E2019',
+      'white': '#FFFFFF',
+      'black': '#000000',
+      'button-primary': '#394032',
+      'button-secondary': '#CFEE9E'
     }
   },
   plugins: [],
