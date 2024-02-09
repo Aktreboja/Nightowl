@@ -4,11 +4,12 @@
 //  https://nextjs.org/docs/app/building-your-application/rendering/client-components
 
 import Image from 'next/image'
-import { TokenResponse } from '../../types';
+
 
 import Landing from '@/pages/Landing';
 import Dashboard from '@/pages/Dashboard';
 import currentToken from '@/utils/TokenService';
+import './globals.css';
 import { useEffect, useState } from 'react';
 import { loginWithSpotifyClick, getToken, isValidTokenResponse } from '@/utils/Spotify/Spotify';
 
