@@ -5,14 +5,13 @@ const spotifyEndpoint = "https://api.spotify.com/v1"
 // todo: Error handle API functions.
 
 // Get Top Artists for a Spotify User
-export const GetTopArtists = async (access_token: string, type : string) => {
-    const response = await fetch(spotifyEndpoint + `/me/top/${type}`, {
+export const GetTopArtists = async (access_token: string, time_range : string) => {
+    const response = await fetch(spotifyEndpoint + `/me/top/artists?limit=50&time_range=${time_range}`, {
         method: "GET",
         headers: {'Authorization': "Bearer " + access_token},
     })
     return await response.json();
 }
-
 
 // Gets a specific artist
 export const GetArtist = async (access_token: string, id: string) => {
@@ -50,4 +49,12 @@ export const GetArtistsAlbums = async (access_token: string, id: string) => {
         headers: {'Authorization': "Bearer " + access_token}
     })
     return await response.json()
+}
+
+export const GetRelatedArtists = async (access_token: string, id: string) => {
+    const response = await fetch(spotifyEndpoint + `/artists/${id}/related-artists`, {
+        method: "GET",
+        headers: {'Authorization': "Bearer " + access_token}
+    })
+    return await response.json();
 }

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { ModalProps } from "../../../../component_types";
-import { useMemo } from "react";
 
 export default function TrackModal({ modalData }: { modalData: ModalProps }) {
     const { track, artists, preview_url, recommendations, image, closeHandler } = modalData;
