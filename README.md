@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Nightowl, A Spotify based Web Application
+
+Nightowl is a Web application that allows you to retrieve analytical data from your Spotify history and provide you with insights and recommendations on new music, artists and albums.
 
 ## Getting Started
 
-First, run the development server:
+In order to be able to use this application, you will need to 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    1. Have a Spotify Account
+    2. Have listened to music from Spotify, the more and the longer you have listened the better!
+    
+This application will utilize localStorage within your web browser.
+    
+## Current Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    1. Able to look into a user's top Tracks and artists, based on various time frames (last month, 6 months, or all time).
+    2. Be able to view metadata on a selected track, as well as receive similar artists and tracks based on the Spotify's recommendation API route.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Upcoming changes and features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+##### As of February 10, 2024 These are the upcoming features for this project
+ 
+    1. Be able to add music directly from the site to your Spotify account
+        a. This will start off as saving to your 'Liked Songs' section, but eventually we will get into playlist creation.
+    2. Be able to create and add music into 
+    
+    
+##### Challenges and optimizations
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    1. API requests are used A LOT, trying to reduce API calls by Spotify's batch APIs / bundling API calls whenever possible.
+    2. Image rendering; this application is very visual to promote a (like what you see) concept; therefore image optimizations are required to ensure a smooth User experience.

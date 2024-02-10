@@ -39,16 +39,18 @@ export default function Dashboard() {
                         }
 
                         {/* Preview section */}
-                        {/*
-                            preview ? <div className="mt-4"><PreviewContainer item = {preview} /></div> : null
-                        */}
+                        {
+                            preview ? <div className="my-6"><PreviewContainer item = {preview} /></div> : null
+                        }
 
 
                         {/* Artist Section */}
-                        
-                        {/*
-                            selected  && 'preview_url' in selected?  <div className="mt-4"><ArtistContainer artist = {selected.artists[0]}/></div> : null
-                    */}
+                        {/* {
+                                selected  && 'preview_url' in selected?  <div className="mt-4"><ArtistContainer artist = {selected.artists[0]}/></div> : null
+                        }
+                         */}
+                           
+                   
                     </div>
                 </div>
             </div>

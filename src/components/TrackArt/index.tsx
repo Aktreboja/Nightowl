@@ -37,7 +37,7 @@ export default function TrackArt({track, previewHandler, selectedHandler} : {tra
     }
 
     return (
-        <div className="relative w-28  m-0 hover:shadow-lg duration-100 cursor-pointer hover:bg-primary" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick = {selectedHandler}>
+        <div className="relative w-28 h-28  m-0 hover:shadow-lg duration-100 cursor-pointer hover:bg-primary" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick = {selectedHandler}>
             <audio ref = {audioRef} autoPlay = {preview} loop = {preview}>
                 <source src = {`${preview_url}`} type="audio/mpeg"/>
             </audio>
@@ -45,9 +45,10 @@ export default function TrackArt({track, previewHandler, selectedHandler} : {tra
             <Image 
                 src={trackArt.url} 
                 alt = {`${name} Track Art`} 
-                width={120} 
-                height={120} 
+                layout = "fill"
+                objectFit="cover"
                 aria-label={`${name}`} 
+                loading="lazy"
                 title = {`${name}`}
                 />
         </div>

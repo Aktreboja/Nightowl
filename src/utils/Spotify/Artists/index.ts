@@ -35,7 +35,7 @@ export const GetSeveralArtists = async (access_token: string, ids: string) => {
 
 // Gets artists Top Tracks
 export const GetArtistsTopTracks = async (access_token: string, id: string) => {
-    const response = await fetch(spotifyEndpoint + `/artists/${id}/top-tracks`, {
+    const response = await fetch(spotifyEndpoint + `/artists/${id}/top-tracks?market=ES`, {
         method: "GET",
         headers: {'Authorization': "Bearer " + access_token}
     })
