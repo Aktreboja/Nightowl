@@ -1,11 +1,14 @@
+'use client'
+
 import { useState, useEffect } from "react"
 import { Artist, Track } from "@spotify/web-api-ts-sdk";
 import PreviewContainer from "@/Containers/PreviewContainer";
-import ArtistContainer from "@/Containers/ArtistContainer";
+
 import TopTracksContainer from "@/Containers/TopTracksContainer";
 import TopArtistsContainer from "@/Containers/TopArtistsContainer";
+import WelcomeModal from "@/components/Modal/WelcomeModal";
 
-export default function Dashboard() {
+export default function Dashboard({authenticated}: {authenticated: boolean}) {
     
     // View related state
     const [currentTab, setCurrentTab] = useState('Tracks');
@@ -22,8 +25,12 @@ export default function Dashboard() {
 
     return (
         <section className="w-full min-h-screen bg-primary">
+
+            {!authenticated ? <WelcomeModal />: null}
+
+
             {/* Container that would hold the cover arts for songs / artists */}
-            <div className="min-h-screen  relative z-60">
+            <div className="min-h-screen  relative ">
                 <div className="w-full border min-h-screen flex justify-center items-center">
                     {/* Wrapper container for all left sided components */}
                     <div className="w-fit flex flex-col justify-center  h-fit ">
@@ -44,12 +51,7 @@ export default function Dashboard() {
                         }
 
 
-                        {/* Artist Section */}
-                        {/* {
-                                selected  && 'preview_url' in selected?  <div className="mt-4"><ArtistContainer artist = {selected.artists[0]}/></div> : null
-                        }
-                         */}
-                           
+
                    
                     </div>
                 </div>

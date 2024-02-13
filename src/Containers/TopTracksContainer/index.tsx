@@ -54,6 +54,7 @@ export default function TopTracksContainer({previewHandler, itemHandler} : any) 
             </div>
 
             <div className="grid px-3 py-4 grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 w-fit shadow-lg overflow-y-auto max-h-[600px]">
+         
             {
                 (timeRange === 'short_term' && tracksData.short_term) &&
                 tracksData.short_term.map((track, key) => (
