@@ -4,15 +4,14 @@ import { GetTopArtists } from "@/utils/Spotify/Artists"
 import { getAccessToken } from "@/utils/Spotify/Spotify"
 import { Artist } from "@spotify/web-api-ts-sdk"
 
+
 interface TopTracksProps {
     short_term: Artist[] | null;
     medium_term: Artist[] | null;
     long_term: Artist[] | null;
 }
 
-
-
-export default function TopArtistsContainer(handler: any) {
+const TopArtistsContainer = () => {
 
     const [artistsData, setArtistsData] = useState<TopTracksProps>({
         short_term: null,
@@ -21,14 +20,15 @@ export default function TopArtistsContainer(handler: any) {
     })
 
     const [timeRange, setTimeRange] = useState('medium_term')
-
+    const [loading, setLoading] = useState(false)
 
 
 
     useEffect(() => {
         // Utility function to load top Tracks
         const loadTopArtists = async (time_range: string) => {
-            const access_token = getAccessToken()
+            setLoading(true);
+            const access_token = await getAccessToken()
             if (access_token) {
                 const response = await GetTopArtists(access_token, time_range);
                 if ('items' in response) {
@@ -40,6 +40,7 @@ export default function TopArtistsContainer(handler: any) {
                 }
 
             }
+            setLoading(false)
         }
 
         if (!artistsData[timeRange as keyof TopTracksProps]) {
@@ -47,6 +48,11 @@ export default function TopArtistsContainer(handler: any) {
         }
     }, [timeRange, artistsData])
 
+
+    const LoadingState = () => {
+        const placeholders = Array.from({length: 50},(_,index) => { return <div className={`relative w-24 h-24  ${index % 2 === 0 ? 'bg-secondary' : 'bg-primary'}`} key = {index}></div> })
+        return placeholders
+    }
 
     return (
 
@@ -61,6 +67,9 @@ export default function TopArtistsContainer(handler: any) {
             </div>
 
             <div className="grid px-3 py-4 grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 w-fit shadow-lg overflow-y-auto max-h-[600px]">
+
+            {loading && <LoadingState /> } 
+
             {
                 (timeRange === 'medium_term' && artistsData.medium_term) &&
                 artistsData.medium_term.map((Artist, key) => (
@@ -76,7 +85,7 @@ export default function TopArtistsContainer(handler: any) {
             {
                 (timeRange === 'long_term' && artistsData.long_term) &&
                 artistsData.long_term.map((Artist, key) => (
-                    <ArtistArt key={key} artist={Artist}  />
+                    <ArtistArt key={key} artist={Artist} />
                 ))
             }
             </div>      
@@ -84,3 +93,4 @@ export default function TopArtistsContainer(handler: any) {
 
     )
 }
+export default TopArtistsContainer

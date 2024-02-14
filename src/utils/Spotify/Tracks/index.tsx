@@ -9,5 +9,5 @@ export const getTopSongs = async (access_token: string, time_range: string) : Pr
         headers: {'Authorization': "Bearer " + access_token},
     })
 
-    return await response.json();
+    return response.json();
 }

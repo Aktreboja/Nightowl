@@ -25,9 +25,12 @@ export interface UserProfileResponse {
 }
 
 
-export interface SpotifyResponseError {
+interface ResponseError {
     status: number;
     message: string;
+}
+export interface SpotifyResponseError {
+    error: ResponseError
 }
 
 

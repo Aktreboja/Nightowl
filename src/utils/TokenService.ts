@@ -25,8 +25,9 @@ const currentToken: CurrentToken = {
       localStorage.setItem('refresh_token', refresh_token);
       localStorage.setItem('expires_in', expires_in.toString());
   
-      const now = new Date();
-      const expiry = new Date(now.getTime() + expires_in * 1000);
+      // Generate a Unix Timestamp for easier refresh comparisons
+      const now = Date.now();
+      const expiry = new Date(now + expires_in * 1000);
       localStorage.setItem('expires', expiry.toString());
     },
   };
