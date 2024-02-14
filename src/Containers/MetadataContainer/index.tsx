@@ -9,7 +9,7 @@ import { GetRecommendations } from "@/utils/Spotify/Recommendations";
 export default function MetadataContainer() {
 
     useEffect(() => {
-        
+         
     })
 
     return (

@@ -40,7 +40,7 @@ const Dashboard : React.FC = () =>  {
                         {/* first big box (top tracks / artists + modifiers). Switch Statement here*/}
                         {   currentTab === 'Tracks' ? <TopTracksContainer /> : currentTab === 'Artists' ? <TopArtistsContainer />: null }
                         {/* Selected Item Overview */}
-                        {   selected && <div className="my-6"><MetadataContainer selectedEntry = {selected} modalCloseHandler=""/></div> }
+                        {   selected && <div className="my-6"><MetadataContainer /></div> }
                     </div>
                 </div>
                 
