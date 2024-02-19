@@ -13,7 +13,7 @@ import { useContext } from "react";
 
 const Dashboard : React.FC = () =>  {    
     const useDashboard = useContext(DashboardContext);
-    const {clickedWelcome,preview, selected} = useDashboard
+    const { clickedWelcome,preview, selected  } = useDashboard
 
     // View related state
     const [currentTab, setCurrentTab] = useState('Tracks');
@@ -40,7 +40,7 @@ const Dashboard : React.FC = () =>  {
                         {/* first big box (top tracks / artists + modifiers). Switch Statement here*/}
                         {   currentTab === 'Tracks' ? <TopTracksContainer /> : currentTab === 'Artists' ? <TopArtistsContainer />: null }
                         {/* Selected Item Overview */}
-                        {   selected && <div className="my-6"><MetadataContainer /></div> }
+                        {   selected && <div className="my-6 w-full"><MetadataContainer /></div> }
                     </div>
                 </div>
                 
