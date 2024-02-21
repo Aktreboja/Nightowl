@@ -8,8 +8,10 @@ import { DashboardContext } from "@/Context/DashboardProvider/DashboardContext"
 
 export const TopTracksContainer = () => {
 
-    const {topTracks, setTopTracks, loading, setLoading} = useContext(DashboardContext)
+    const {topTracks, setTopTracks} = useContext(DashboardContext)
     const [timeRange, setTimeRange] = useState('medium_term')
+
+    const [loading,setLoading] = useState(false)
 
     useEffect(() => {
         // Utility function to load top Tracks
@@ -41,7 +43,7 @@ export const TopTracksContainer = () => {
     }
 
     return (
-        <div className="bg-white w-fit rounded md">
+        <div className="bg-white w-full rounded md">
             <div>
                 <p className="text-3xl m-3 font-bold text-black text-center xl:text-left">Your Top Tracks</p>
                 <div className="flex justify-center xl:justify-start">
@@ -50,14 +52,14 @@ export const TopTracksContainer = () => {
                     <p onClick = {() => setTimeRange('long_term')} className={`${timeRange == 'long_term'  ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold text-black`}>All Time</p>
                 </div>
             </div>
-            <div className="flex">
+            <div className="flex justify-center">
                 <div className="grid px-3 py-4 grid-cols-4 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 w-fit  shadow-lg overflow-y-auto max-h-[600px]">
 
                     {loading && <LoadingState /> } 
                     
                     {/* todo: Might switch back to previous implementation, felt faster. Optimize images for next here as well */}
                     {!loading && topTracks.map((track, key) => (
-                        <TrackArt key={key} track={track} />
+                        <TrackArt key={key} track={track} dimension={24}/>
                     ))}
 
                 </div>    

@@ -24,12 +24,19 @@ export const GetArtist = async (access_token: string, id: string) => {
 
 // Get Several Artists
 // Comma-separated list of Spotify Ids
-export const GetSeveralArtists = async (access_token: string, ids: string) => {
-    const response = await fetch(spotifyEndpoint + `/artists?ids=${ids}`, {
-        method: "GET",
-        headers: {'Authorization': "Bearer " + access_token}
-    })
-    return await response.json()
+export const GetSeveralArtists = async (access_token: string, ids: string[]) => {
+    try {
+        const idsQuery = (ids.map((id) => id)).join(',');
+        console.log("IDS: ", idsQuery)
+        const response = await fetch(spotifyEndpoint + `/artists?ids=${idsQuery}`, {
+            method: "GET",
+            headers: {'Authorization': "Bearer " + access_token}
+        })
+        const artistsObject = await response.json()
+        return artistsObject.artists;
+    } catch (e) {
+        console.error('Error at "Getting Several Artists": ', e)
+    }
 }
 
 

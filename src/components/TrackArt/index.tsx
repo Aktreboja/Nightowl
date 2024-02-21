@@ -4,8 +4,8 @@ import { useContext, useState, useRef } from "react";
 import { DashboardContext } from "@/Context/DashboardProvider/DashboardContext"
 
 // Track component for rendering Spotify Tracks
-const TrackArt = ({track} : {track: Track}) =>  {
-    const {autoplay, preview, setPreview, setSelected} = useContext(DashboardContext)
+const TrackArt = ({track, dimension} : {track: Track, dimension: number}) =>  {
+    const {autoplay, preview, setPreview, setSelected, previewUrl, setPreviewUrl} = useContext(DashboardContext)
 
     const [hover, setHover] = useState(false);
 
@@ -16,42 +16,43 @@ const TrackArt = ({track} : {track: Track}) =>  {
     const { name, preview_url, artists, album } = track
     const trackArt = album.images[0] 
 
-    const handleMouseEnter = () => {
+    const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+        console.log("PREVIEWING: ", track.name)
         setHover(true)
         setPreview(track);
+        setPreviewUrl(track.preview_url)
         if(audioRef.current) {
             audioRef.current.volume = 0.1; // Adjust volume to 20%
             audioRef.current.currentTime = 0;
             audioRef.current.play();
         }
-    
     }
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
         setHover(false)
         setPreview(undefined);
+        setPreviewUrl(null)
         if(audioRef.current) {
             audioRef.current.pause();
         }
     }
 
-    const handleClick = () => {
+    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setSelected(track)
     }
 
     return (
-        <div className="relative w-fit h-fit m-0 hover:shadow-lg duration-100 cursor-pointer hover:bg-primary" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick = {handleClick}>
-            <audio ref = {audioRef} autoPlay = {autoplay} loop = {autoplay}>
-                <source src = {`${preview_url}`} type="audio/mpeg"/>
-            </audio>
-            <div className={`absolute top-0 left-0 w-24 h-24 bg-white bg-opacity-25 z-20 opacity-0 transition-opacity duration-75 ${ hover ? 'opacity-100' : ''}`}></div> 
+        <div className={`relative w-${dimension} h-${dimension} m-0 hover:shadow-lg duration-100 cursor-pointer hover:bg-primary`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick = {handleClick}>
+
+            <div className={`absolute top-0 left-0 w-${dimension} h-${dimension} bg-white bg-opacity-25 z-20 opacity-0 transition-opacity duration-75 ${ hover ? 'opacity-100' : ''}`}></div> 
             <Image 
                 src={trackArt.url} 
                 alt = {`${name} Track Art`} 
-                width = {96}
-                height = {96}
+                fill = {true}
+                className="object-cover"
                 aria-label={`${name}`} 
                 loading="lazy"
+                sizes="(min-width: 1000px) 24w"
                 title = {`${name}`}
                 />
         </div>

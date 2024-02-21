@@ -15,6 +15,7 @@ export const DashboardProvider : React.FC<DashboardProviderProps> = ({ children 
     const [topTracks, setTopTracks] = useState<Track[]>([]);
     const [topArtists, setTopArtists] = useState<Artist[]>([]);
     const [ preview, setPreview ] = useState<Track | Artist | undefined >();
+    const [ previewUrl, setPreviewUrl] = useState<string | null>(null)
     const [ selected, setSelected ] = useState<Track | Artist | undefined>();
 
     const authContextValue : DashboardContextProps = {
@@ -24,6 +25,7 @@ export const DashboardProvider : React.FC<DashboardProviderProps> = ({ children 
         topTracks,
         topArtists,
         preview,
+        previewUrl,
         selected,
         setClickedWelcome,
         setLoading,
@@ -31,6 +33,7 @@ export const DashboardProvider : React.FC<DashboardProviderProps> = ({ children 
         setTopTracks,
         setTopArtists,
         setPreview,
+        setPreviewUrl,
         setSelected
     }
 

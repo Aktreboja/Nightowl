@@ -41,7 +41,7 @@ export default  function ArtistArt({artist} : {artist: Artist}) {
     }
 
     return (
-        <div className="relative rounded-full w-24 h-24 m-0 hover:shadow-lg duration-100 cursor-pointer  " onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
+        <div className="relative  rounded-full w-24 h-24 m-0 hover:shadow-lg duration-100 cursor-pointer  " onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
             {/* <audio ref = {audioRef} autoPlay = {preview} loop = {preview}>
                 <source src = {`${preview_url}`} type="audio/mpeg"/>
             </audio> */}
@@ -49,8 +49,8 @@ export default  function ArtistArt({artist} : {artist: Artist}) {
             <Image 
                 src={images[images.length - 1].url} 
                 alt = {`${name} Track Art`} 
-                objectFit="cover"
-                layout="fill"
+                className="object-cover"
+                fill = {true}
                 loading="lazy"
                 aria-label={`${name}`} 
                 title = {`${name}`}

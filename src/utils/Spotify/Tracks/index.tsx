@@ -11,3 +11,23 @@ export const getTopSongs = async (access_token: string, time_range: string) : Pr
 
     return response.json();
 }
+
+// Checks a song(s) if the user has liked them already or not
+export const checkSavedTracks = async (access_token: string, ids: string[]) => {
+    try {
+        let queryString = ""
+        for (let i = 0 ; i < ids.length; i++) {
+            queryString += ids[i] + ","
+        }
+    
+        const response = await fetch(spotifyEndpoint + `/me/tracks/contains?ids=${queryString.slice(0,-1)}`, {
+            method: "GET",
+            headers: {'Authorization': "Bearer " + access_token},
+        })
+    
+        return response.json();
+    } catch (e) {
+        console.error("Error at /me/tracks/contains: ", e)
+    }
+
+}

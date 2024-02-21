@@ -2,9 +2,6 @@ import { Artist, Track } from "@spotify/web-api-ts-sdk"
 import Image from "next/image"
 
 export default function PreviewContainer({item}: {item: Track | Artist }) {
-
-    console.log("ITEM: ", item)
-
     // If it is a track
     if ('preview_url' in item)
     {

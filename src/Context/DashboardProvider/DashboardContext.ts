@@ -9,6 +9,7 @@ export interface DashboardContextProps {
     topTracks: Track[];
     topArtists: Artist[];
     preview: Track | Artist | undefined;
+    previewUrl: string | null;
     selected: Track | Artist | undefined;
     setClickedWelcome: Dispatch<SetStateAction<boolean>>;
     setLoading: Dispatch<SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ export interface DashboardContextProps {
     setTopTracks: Dispatch<SetStateAction<Track[]>>;
     setTopArtists: Dispatch<SetStateAction<Artist[]>>;
     setPreview: Dispatch<SetStateAction<Track | Artist | undefined>>;
+    setPreviewUrl : Dispatch<SetStateAction<string | null>>;
     setSelected: Dispatch<SetStateAction<Track | Artist | undefined>>;
 }
 
@@ -26,6 +28,7 @@ export const DashboardContext = createContext<DashboardContextProps>({
     topTracks: [],
     topArtists: [],
     preview: undefined,
+    previewUrl: null,
     selected: undefined,
     setClickedWelcome: () => {},
     setLoading: () => {},
@@ -33,5 +36,6 @@ export const DashboardContext = createContext<DashboardContextProps>({
     setTopTracks: () => {},
     setTopArtists: () => {},
     setPreview: () => {},
+    setPreviewUrl: () => {},
     setSelected: () => {}
 });

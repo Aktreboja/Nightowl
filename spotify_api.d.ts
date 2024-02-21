@@ -43,3 +43,11 @@ export interface TopItems {
     total: number;
     items: Artist[] | Track[]
 }
+
+
+export interface RecommendationQuery {
+    seedTracks: string[];
+    seedArtists: string[];
+    seedGenres?: string[];
+    market?: string;
+}
