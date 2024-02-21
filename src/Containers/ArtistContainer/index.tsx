@@ -15,7 +15,7 @@ export default function ArtistContainer({artist}: {artist: SimplifiedArtist}) {
     // useEffect to load artist information
     useEffect(() => {
         const loadArtistData = async () => {
-            const access_token = getAccessToken()
+            const access_token = await getAccessToken()
             if (access_token) {
                 const response = await GetArtist(access_token, id);
                 setSelectedArtist(response)
@@ -29,7 +29,7 @@ export default function ArtistContainer({artist}: {artist: SimplifiedArtist}) {
     // useEffect to get the artists top tracks
     useEffect(() => {
         const loadArtistTopTracks = async () => {
-            const access_token = getAccessToken()
+            const access_token = await getAccessToken()
             if (access_token) {
                 const response = await GetArtistsTopTracks(access_token, id)
                 setArtistTopTracks(response.tracks)
@@ -61,7 +61,7 @@ export default function ArtistContainer({artist}: {artist: SimplifiedArtist}) {
     const ArtistTopTracks = ({tracks}: {tracks: Track[]}) => {
         console.log('ARTIST TOP TRACKS: ', tracks)
         const topTracks = tracks.map((track, key) => {
-            return <TrackArt track={track} key={key} previewHandler="" selectedHandler=""/>
+            return <TrackArt track={track} key={key} dimension={20}/>
         })
 
         return (<div className="border">
