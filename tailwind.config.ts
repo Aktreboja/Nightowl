@@ -22,7 +22,21 @@ const config: Config = {
       'black': '#000000',
       'button-primary': '#394032',
       'button-secondary': '#CFEE9E'
-    }
+    },
+    keyframes: {
+      expand: {
+        '0%': { height: '100%'},
+        '100%': {height: '0'}
+      },
+      toggle: {
+        '0': {opacity: '100'},
+        '25%': {opacity: '0'}
+      }
+    },
+    animation: {
+      expand: 'expand 1s ease forwards',
+      toggle: 'toggle 1s infinite forwards'
+    } 
   },
   plugins: [],
 }

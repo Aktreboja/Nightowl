@@ -10,7 +10,7 @@ import { AuthContext } from "@/Context/AuthProvider/AuthContext";
 import { useContext } from "react";
 
 export default function AppContainer() {    
-
+    
     const {auth, setAuth} = useContext(AuthContext)
 
     useEffect(() => {
