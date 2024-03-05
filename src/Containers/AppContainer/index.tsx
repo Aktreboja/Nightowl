@@ -8,10 +8,10 @@ import { getToken } from "@/utils/Spotify/Spotify";
 import { DashboardProvider } from "@/Context/DashboardProvider";
 import { AuthContext } from "@/Context/AuthProvider/AuthContext";
 import { useContext } from "react";
+import Landing from "@/pages/Landing";
 
 export default function AppContainer() {    
-    
-    const {auth, setAuth} = useContext(AuthContext)
+    const { auth, setAuth } = useContext(AuthContext);
 
     useEffect(() => {
         // todo: Potentially move this into a utility function
@@ -52,6 +52,7 @@ export default function AppContainer() {
 
 
     return (<DashboardProvider>
-        <Dashboard />
+        <Landing />
+            {/* <Dashboard /> */}
     </DashboardProvider>)
 }

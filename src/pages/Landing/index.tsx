@@ -1,7 +1,8 @@
+"use client"
 import { loginWithSpotifyClick } from "@/utils/Spotify/Spotify"
-import WelcomeModal from "@/components/Modal/WelcomeModal"
 import { Merriweather_Sans } from "next/font/google"
-import Link from "next/link"
+import { Audio } from "react-loader-spinner"
+import { useState, useEffect } from "react"
 
 const merriweather = Merriweather_Sans({
   subsets: ['latin'],
@@ -25,12 +26,19 @@ const landingText = [
 
 // Index page component for first / unauthenticated visit
 const Landing = () => {
+
+  
     return (
       <main className={` relative w-screen h-full  bg-white ${merriweather.className}`}>
-      <div className='w-full h-2/5  bg-primary flex flex-col justify-end items-center'>
-        
-        <div className='w-96 h-80 bg-secondary absolute'>
-
+      <div className='w-full h-2/5  min-h-[400px] bg-primary flex flex-col justify-end items-center'>
+        <div className='w-96 h-80 bg-secondary absolute flex items-end justify-end'>
+          <Audio
+            height="120"
+            width="120"
+            color="#394032"
+            ariaLabel="audio"
+            visible={true}
+          />
         </div>
         <div className='my-7 text-white z-50'>
           <h1 className='font-bold text-7xl w-fit h-fit  text-center text-white'>Nightowl</h1>
@@ -39,17 +47,16 @@ const Landing = () => {
 
       </div>
       
-      <div className='w-4/5 mx-auto h-fit flex flex-col my-16 lg:my-7 lg:flex-row'>
+      <div className='w-4/5 mx-auto h-fit flex flex-col my-16 lg:my-7 lg:flex-row py-10'>
         {landingText.map((text, key) => <div className='px-5 mb-3' key = {key}>
           <h1 className='text-xl font-bold mb-4'>{text.title}</h1>
           <p className=''>{text.description}</p>
         </div>)}
       </div>
-      <div className='w-full py-4 flex flex-col flex-grow items-center my-20'>
+      <div className='w-full  py-10 flex flex-col flex-grow items-center'>
         <h1 className='text-center text-2xl'>Get Started with Nightowl</h1>
-        <button className='border-[#858786] bg-primary hover:bg-button-primary hover:text-white duration-75 text-white w-44 lg:w-56 text-lg lg:text-xl px-4 py-3 mt-3 rounded-sm'>Get Started</button>
+        <button className='border-[#858786] bg-primary hover:bg-button-primary hover:text-white duration-75 text-white w-44 lg:w-56 text-lg lg:text-xl px-4 py-3 mt-3 rounded-sm' onClick = {() => loginWithSpotifyClick()}>Get Started</button>
       </div>
-      <footer className='w-full flex justify-center lg:absolute lg:bottom-3'>&#169; Aldrich Reboja | Designed and Built by <a><Link href = "https://github.com/AldrichhhXO/AldrichhhXO" target='_blank' className='ml-1 text-[#3E92CC] hover:underline'>Aldrich Reboja</Link></a></footer>
     </main>
     )
 }
