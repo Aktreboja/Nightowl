@@ -34,8 +34,7 @@ const Dashboard : React.FC = () =>  {
     return (
         <section className="w-full min-h-screen bg-primary relative">
             <Navbar />
-            {/* Convert this into an always rendered component. the click will handle the preview url */}
-            {!clickedWelcome && <WelcomeModal /> } 
+
 
             {/* Container that would hold the cover arts for songs / artists */}
             <div className="min-h-screen relative flex items-center ">

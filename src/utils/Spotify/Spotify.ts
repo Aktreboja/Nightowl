@@ -56,7 +56,7 @@ export const isValidTokenResponse = (token: any): token is TokenResponse => {
 /**
  *  Spotify API Calls
  */
-export async function getToken(code: string) {
+export async function getToken(code: string) : Promise<TokenResponse | null> {
     
     const code_verifier = localStorage.getItem("code_verifier");
     const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_TOKEN_ENDPOINT as string, {
@@ -72,6 +72,8 @@ export async function getToken(code: string) {
             code_verifier: code_verifier || ''
         })
     })
+
+    // todo: Error handle API call here in case the request fails
 
     return await response.json();
 }

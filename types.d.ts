@@ -13,5 +13,6 @@ export interface TokenResponse {
     expires: string | null;
   
     save(response: TokenResponse): void;
+    validateToken(currentDatetime: number, expires: number): boolean
   }
   
