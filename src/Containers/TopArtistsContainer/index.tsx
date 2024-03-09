@@ -32,7 +32,6 @@ const TopArtistsContainer = () => {
             if (access_token) {
                 const response = await GetTopArtists(access_token, time_range);
                 if ('items' in response) {
-                    console.log("Artists: ", response.items)
                     setArtistsData(prevState => ({
                         ...prevState,
                         [timeRange]: response.items as Artist[]

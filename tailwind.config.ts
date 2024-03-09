@@ -31,11 +31,17 @@ const config: Config = {
       toggle: {
         '0': {opacity: '100'},
         '25%': {opacity: '0'}
+      },
+      pulse: {
+        '0%': {opacity: '100%'},
+        '50%': {opacity: '50%'},
+        '100%': {opacity: '100%'}
       }
     },
     animation: {
       expand: 'expand 1s ease forwards',
-      toggle: 'toggle 1s infinite forwards'
+      toggle: 'toggle 1s infinite forwards',
+      pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
     } 
   },
   plugins: [],

@@ -13,26 +13,33 @@ import { GetRecommendations } from "@/utils/Spotify/Recommendations";
 import TrackArt from "@/components/TrackArt";
 import { checkSavedTracks } from "@/utils/Spotify/Tracks";
 
+import ArtistLoader from "@/components/Loaders/ArtistLoader";
+
 
 export default function MetadataContainer() {
     const { selected, setSelected } = useContext(DashboardContext)
     const [songArtists, setSongArtists] = useState<Artist[]>([])
     const [recommendedTracks, setRecommendedTracks] = useState<Track[]>([])
     const [loading, setLoading] = useState(true);
-    const [likedTrack, setLikedTrack] = useState(false)
+    const [likedTrack, setLikedTrack] = useState<boolean[]>([])
 
     // UseEffect for loading artists
     useEffect(() => {
         setLoading(true)
+        setSongArtists([])
+        setRecommendedTracks([])
+
         const loadSongArtists = async (ids: string[]) => {
             const accessToken = await getAccessToken()
             if (accessToken && selected) {
                 // Get the artist information for the track
                 const artistsResponse = await GetSeveralArtists(accessToken, ids)
-                setSongArtists(artistsResponse)
+                console.log('artists: ', artistsResponse)
+                if ('error' in artistsResponse) {
+                    console.error('Error loading Artist information')
+                } else setSongArtists(artistsResponse)
 
-                
-
+    
                 // Get the similar tracks from this track.
                 const recommendationQuery: RecommendationQuery = {
                     seedTracks: new Array(selected.id),
@@ -42,13 +49,14 @@ export default function MetadataContainer() {
 
                 // Check to see if all of the tracks have been liked
                 const likedResponse = await checkSavedTracks(accessToken, [selected.id])
-                setLikedTrack(likedResponse)
+                if ('error' in likedResponse) console.error('Error checking if the track is liked')
+                else setLikedTrack(likedResponse)
 
                 const recResponse = await GetRecommendations(accessToken, recommendationQuery)
-                setRecommendedTracks(recResponse.tracks)
+                if ('error' in recResponse) console.error('Error retrieving recommendations')
+                else setRecommendedTracks(recResponse.tracks)
+                
                 setLoading(false)
-
-
             }
         }   
 
@@ -59,21 +67,11 @@ export default function MetadataContainer() {
             for (let i = 0; i < artists.length; i++) {
                 artistIds.push(artists[i].id)
             }
-            
             loadSongArtists(artistIds)
         }
-
     }, [selected, setLoading])
 
-    // Getting Recommended songs
-    // useEffect(() => {
-    //     if (selected) {
-    //         const recommendationQuery: RecommendationQuery = {
-    //             seedTracks: Array.from(selected.id),
-    //             seedArtists: Array.from(selecte)
-    //         }
-    //     }
-    // }, [selected])
+ 
 
 
     // Conditional for Track
@@ -106,16 +104,17 @@ export default function MetadataContainer() {
                         {/* Artist Images */}
                         <div className="w-full flex">
                             {
-                                  songArtists.length > 0 ? songArtists.map((artist, key) => {
+                                  !loading && songArtists.length > 0 ? songArtists.map((artist, key) => {
                                 
                                     return (<div key={key} className="relative w-20 h-20 rounded-full mx-1 cursor-pointer">
                                     <Image 
                                         src={artist.images[0].url}
                                         fill = {true}
                                         alt="artist"
+                                        loading="eager"
                                         objectFit="cover"
                                         className="w-full h-full object-cover rounded-full"/>
-                                </div>)}) : null
+                                </div>)}) : <ArtistLoader />
                             }
                         </div>
                     </div>
@@ -130,16 +129,6 @@ export default function MetadataContainer() {
                         {
                             recommendedTracks.length > 0 && recommendedTracks.map((track, key) => <TrackArt key={key} track = {track} dimension={20}/>)
                         }
-                        {/* {
-                            recommendedTracks.length > 0 && recommendedTracks.map((track, key) => <div key = {key} className="relative w-20 h-20 cursor-pointer">
-                                <Image 
-                                    src = {track.album.images[0].url} 
-                                    alt = "ye"
-                                    fill = {true}
-                                    objectFit="cover"
-                                    />
-                            </div>)
-                        } */}
                     </div>
                 </div>
             </section>

@@ -14,10 +14,9 @@ const TrackArt = ({track, dimension} : {track: Track, dimension: number}) =>  {
 
     // Extracting Values from Track 
     const { name, preview_url, artists, album } = track
-    const trackArt = album.images[0] 
+    const trackArt = album.images[1] 
 
     const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
-        console.log("PREVIEWING: ", track.name)
         setHover(true)
         setPreview(track);
         setPreviewUrl(track.preview_url)
@@ -51,7 +50,7 @@ const TrackArt = ({track, dimension} : {track: Track, dimension: number}) =>  {
                 fill = {true}
                 className="object-cover"
                 aria-label={`${name}`} 
-                loading="lazy"
+                loading="eager"
                 sizes="(min-width: 1000px) 24w"
                 title = {`${name}`}
                 />

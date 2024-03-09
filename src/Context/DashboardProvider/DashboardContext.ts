@@ -1,5 +1,5 @@
 'use client'
-import { Track, Artist } from "@spotify/web-api-ts-sdk";
+import { Track, Artist, User } from "@spotify/web-api-ts-sdk";
 import { Dispatch, SetStateAction, createContext } from "react"
 
 export interface DashboardContextProps {
@@ -11,6 +11,8 @@ export interface DashboardContextProps {
     preview: Track | Artist | undefined;
     previewUrl: string | null;
     selected: Track | Artist | undefined;
+    currentUser: User | null;
+    currentView: 'Top Stats' | 'Playlists' | 'Generator';
     setClickedWelcome: Dispatch<SetStateAction<boolean>>;
     setLoading: Dispatch<SetStateAction<boolean>>;
     setAutoplay: Dispatch<SetStateAction<boolean>>;
@@ -19,6 +21,8 @@ export interface DashboardContextProps {
     setPreview: Dispatch<SetStateAction<Track | Artist | undefined>>;
     setPreviewUrl : Dispatch<SetStateAction<string | null>>;
     setSelected: Dispatch<SetStateAction<Track | Artist | undefined>>;
+    setCurrentUser: Dispatch<SetStateAction<User | null>>;
+    setCurrentView: Dispatch<SetStateAction<'Top Stats' | 'Playlists' | 'Generator'>>;
 }
 
 export const DashboardContext = createContext<DashboardContextProps>({
@@ -30,6 +34,8 @@ export const DashboardContext = createContext<DashboardContextProps>({
     preview: undefined,
     previewUrl: null,
     selected: undefined,
+    currentUser: null,
+    currentView: 'Top Stats',
     setClickedWelcome: () => {},
     setLoading: () => {},
     setAutoplay: () => {},
@@ -37,5 +43,7 @@ export const DashboardContext = createContext<DashboardContextProps>({
     setTopArtists: () => {},
     setPreview: () => {},
     setPreviewUrl: () => {},
-    setSelected: () => {}
+    setSelected: () => {},
+    setCurrentUser: () => {},
+    setCurrentView: () => {}
 });

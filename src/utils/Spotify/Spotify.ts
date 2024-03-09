@@ -110,7 +110,7 @@ export async function loginWithSpotifyClick() {
 }
 
 // Logs you out of spotify app
-async function logoutClick() {
+export async function logoutClick() {
     localStorage.clear();
     window.location.href = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URL as string;
 }

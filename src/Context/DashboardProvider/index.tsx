@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 import { DashboardContext, DashboardContextProps } from "./DashboardContext";
-import { Track, Artist } from "@spotify/web-api-ts-sdk";
+import { Track, Artist, User } from "@spotify/web-api-ts-sdk";
 
 interface DashboardProviderProps {
     children: React.ReactNode
@@ -17,6 +17,8 @@ export const DashboardProvider : React.FC<DashboardProviderProps> = ({ children 
     const [ preview, setPreview ] = useState<Track | Artist | undefined >();
     const [ previewUrl, setPreviewUrl] = useState<string | null>(null)
     const [ selected, setSelected ] = useState<Track | Artist | undefined>();
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [currentView, setCurrentView] = useState<'Top Stats' | 'Playlists' | 'Generator'>('Top Stats');
 
     const authContextValue : DashboardContextProps = {
         clickedWelcome,
@@ -27,6 +29,8 @@ export const DashboardProvider : React.FC<DashboardProviderProps> = ({ children 
         preview,
         previewUrl,
         selected,
+        currentUser,
+        currentView,
         setClickedWelcome,
         setLoading,
         setAutoplay,
@@ -34,7 +38,9 @@ export const DashboardProvider : React.FC<DashboardProviderProps> = ({ children 
         setTopArtists,
         setPreview,
         setPreviewUrl,
-        setSelected
+        setSelected,
+        setCurrentUser,
+        setCurrentView
     }
 
     return (

@@ -5,7 +5,6 @@ import { getAccessToken } from "@/utils/Spotify/Spotify"
 import { Track } from "@spotify/web-api-ts-sdk"
 import { DashboardContext } from "@/Context/DashboardProvider/DashboardContext"
 
-
 export const TopTracksContainer = () => {
 
     const {topTracks, setTopTracks} = useContext(DashboardContext)
@@ -26,7 +25,6 @@ export const TopTracksContainer = () => {
                     // Access token is available but 401 is called because 
                     const { message, status } = response.error
                     if (status === 401) {
-                        // todo Add refresh functionality here
                     }
                 }
             }
@@ -38,7 +36,7 @@ export const TopTracksContainer = () => {
 
     // Loading State for track and Artist container section
     const LoadingState = () => {
-        const placeholders = Array.from({length: 50},(_,index) => { return <div className={`relative w-24 h-24  ${index % 2 === 0 ? 'bg-secondary' : 'bg-primary'}`} key = {index}></div> })
+        const placeholders = Array.from({length: 50},(_,index) => { return <div className={`relative w-24 h-24 animate-pulse`} key = {index}></div> })
         return placeholders
     }
 
@@ -54,13 +52,9 @@ export const TopTracksContainer = () => {
             </div>
             <div className="flex justify-center">
                 <div className="grid px-3 py-4 grid-cols-4 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 w-fit  shadow-lg overflow-y-auto max-h-[600px]">
-
-                    {loading && <LoadingState /> } 
-                    
-                    {/* todo: Might switch back to previous implementation, felt faster. Optimize images for next here as well */}
-                    {!loading && topTracks.map((track, key) => (
+                    {!loading ? topTracks.map((track, key) => (
                         <TrackArt key={key} track={track} dimension={24}/>
-                    ))}
+                    )) : <LoadingState />}
 
                 </div>    
             </div>
