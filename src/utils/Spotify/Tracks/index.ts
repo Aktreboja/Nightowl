@@ -1,5 +1,11 @@
 import { TopItems, SpotifyResponseError } from "../../../../spotify_api";
 
+
+class SpotifyTracks {
+    
+}
+
+
 /**
  * @description Gets the top songs for a user, based on a given time range
  * @param access_token the access token required to run the function
@@ -48,5 +54,44 @@ export const checkSavedTracks = async (access_token: string, ids: string[]) : Pr
         }
     } catch (error) {
         throw new Error(`Error retrieving saved Tracks: ${(error as Error).message}`)
+    }
+}
+
+
+export const checkSavedTrack = async (access_token: string, id: string): Promise<boolean> => {
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + `/me/tracks/contains?ids=${id}`, {
+            method: "GET",
+            headers: {'Authorization': "Bearer " + access_token},
+        })            
+        const savedArray = await response.json() as boolean[]
+        return savedArray[0]
+    } catch (error) {
+        throw new Error(`Error retrieving saved Tracks: ${(error as Error).message}`)
+    }
+}
+
+// Saves a track
+export const saveSpotifyTrack = async (access_token: string, id: string): Promise<void> => {
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + `/me/tracks`, {
+            method: "PUT",
+            headers: {'Authorization': "Bearer " + access_token},
+            body: JSON.stringify({ids: [ id ]})
+        })
+    } catch (error) {
+        
+    }
+}
+
+export const unsaveSpotifyTrack = async (access_token: string, id: string): Promise<void> => {
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + `/me/tracks`, {
+            method: "DELETE",
+            headers: {'Authorization': "Bearer " + access_token},
+            body: JSON.stringify({ids: [ id ]})
+        })
+    } catch (error) {
+        
     }
 }

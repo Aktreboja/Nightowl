@@ -7,7 +7,7 @@ import { TopItems, SpotifyResponseError } from "../../../../spotify_api";
  * @param time_range Time range to retrieve time based results. (short_term, medium_term, long_term)
  * @returns {TopItems} The top items for the user (Artist[])
  */
-export const GetTopArtists = async (access_token: string, time_range : string) : Promise<TopItems | SpotifyResponseError>  => {
+export const GetTopArtists = async (access_token: string, time_range : string) : Promise<TopItems>  => {
     try {
         const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + `/me/top/artists?limit=50&time_range=${time_range}`, {
             method: "GET",

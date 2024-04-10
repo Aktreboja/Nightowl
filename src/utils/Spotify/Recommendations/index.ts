@@ -7,7 +7,7 @@ import { RecommendationsResponse } from "@spotify/web-api-ts-sdk";
  * @param query a query containing track / artist seeds
  * @returns {RecommendationsResponse}
  */
-export const GetRecommendations = async (access_token: string, query: RecommendationQuery) : Promise<RecommendationsResponse | SpotifyResponseError> => {
+export const GetRecommendations = async (access_token: string, query: RecommendationQuery) : Promise<RecommendationsResponse> => {
     try {
         const {seedArtists, seedTracks} = query
         let artistQuery = "seed_artists="

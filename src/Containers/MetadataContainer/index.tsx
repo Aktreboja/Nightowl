@@ -1,78 +1,82 @@
 
 'use client'
 import { useState, useEffect } from "react";
-import { DashboardContext } from "@/Context/DashboardProvider/DashboardContext";
-import { useContext } from "react";
 import Image from "next/image";
-
-import { getAccessToken } from "@/utils/Spotify/Spotify";
-import { GetSeveralArtists } from "@/utils/Spotify/Artists";
 import { Track, Artist } from "@spotify/web-api-ts-sdk"
 import { RecommendationQuery } from "../../../spotify_api";
-import { GetRecommendations } from "@/utils/Spotify/Recommendations";
 import TrackArt from "@/components/TrackArt";
-import { checkSavedTracks } from "@/utils/Spotify/Tracks";
-
 import ArtistLoader from "@/components/Loaders/ArtistLoader";
-
+import { useAppSelector } from "@/features/hooks";
+import { getSelected, getSelectedArtists, setSelected, getSimilarTracks, getIsSaved } from "@/features/reducers/MusicReducer";
+import { useAppDispatch } from "@/features/hooks";
+import { checkToken } from "@/features/reducers/AuthReducer";
+import { checkForSaved, fetchSimilarTracks, saveTrack, unsaveTrack } from "@/features/actions/track";
+import { fetchSelectedArtists } from "@/features/actions/artist";
 
 export default function MetadataContainer() {
-    const { selected, setSelected } = useContext(DashboardContext)
-    const [songArtists, setSongArtists] = useState<Artist[]>([])
-    const [recommendedTracks, setRecommendedTracks] = useState<Track[]>([])
     const [loading, setLoading] = useState(true);
-    const [likedTrack, setLikedTrack] = useState<boolean[]>([])
+
+    const dispatch = useAppDispatch()
+
+    const token = useAppSelector(checkToken)
+    const selected = useAppSelector(getSelected)
+    const isSaved = useAppSelector(getIsSaved)
+    const selectedArtists = useAppSelector(getSelectedArtists)
+    const recommendedTracks = useAppSelector(getSimilarTracks)
 
     // UseEffect for loading artists
     useEffect(() => {
         setLoading(true)
-        setSongArtists([])
-        setRecommendedTracks([])
 
-        const loadSongArtists = async (ids: string[]) => {
-            const accessToken = await getAccessToken()
-            if (accessToken && selected) {
-                // Get the artist information for the track
-                const artistsResponse = await GetSeveralArtists(accessToken, ids)
-                console.log('artists: ', artistsResponse)
-                if ('error' in artistsResponse) {
-                    console.error('Error loading Artist information')
-                } else setSongArtists(artistsResponse)
+        // Utility functions to load the metadata Container
+        const checkSaved = async (access_token: string, id: string) => dispatch(checkForSaved({ access_token, id }))
+        const loadArtists = async (access_token: string, ids: string[]) => dispatch(fetchSelectedArtists({access_token, ids}))
+        const loadRecommendations = async (access_token: string, recommendationQuery: RecommendationQuery) => dispatch(fetchSimilarTracks({access_token, recommendationQuery}))
 
-    
+        // Check if the token exists, if not set 
+        const access_token = token?.access_token
+        if (access_token && selected) {
+
+            // Track implementation
+            if ('preview_url' in selected) {
+                const { artists } = selected as Track
+                const artistIds : string[] = []
+                for (let i = 0; i < artists.length; i++) {
+                    artistIds.push(artists[i].id)
+                }
+
                 // Get the similar tracks from this track.
                 const recommendationQuery: RecommendationQuery = {
                     seedTracks: new Array(selected.id),
-                    seedArtists: ids
+                    seedArtists: artistIds
                 }
-
-
-                // Check to see if all of the tracks have been liked
-                const likedResponse = await checkSavedTracks(accessToken, [selected.id])
-                if ('error' in likedResponse) console.error('Error checking if the track is liked')
-                else setLikedTrack(likedResponse)
-
-                const recResponse = await GetRecommendations(accessToken, recommendationQuery)
-                if ('error' in recResponse) console.error('Error retrieving recommendations')
-                else setRecommendedTracks(recResponse.tracks)
                 
-                setLoading(false)
-            }
-        }   
+                // Load data
+                checkSaved(access_token, selected.id)
+                loadArtists(access_token, artistIds)
+                loadRecommendations(access_token, recommendationQuery)
+            } else {
+                // Artist implementation
 
-        // First check what the selected item is
-        if (selected && 'preview_url' in selected) {
-            const { artists } = selected as Track
-            const artistIds : string[] = []
-            for (let i = 0; i < artists.length; i++) {
-                artistIds.push(artists[i].id)
             }
-            loadSongArtists(artistIds)
+            setLoading(false)
         }
-    }, [selected, setLoading])
+    }, [selected, setLoading, dispatch, token?.access_token])
 
- 
-
+    // onClick handler to handle saving or unsaving a track
+    const handleTrackSave = (mode: string) => {
+        const access_token = token?.access_token
+        if (access_token && selected) {
+            switch(mode) {
+                case 'Add':
+                    dispatch(saveTrack({ access_token, id: selected.id }))
+                    break;
+                case 'Saved':
+                    dispatch(unsaveTrack({ access_token, id: selected.id } ))
+                    break;
+            }
+        }
+    }
 
     // Conditional for Track
     if (selected && 'preview_url' in selected) {
@@ -83,7 +87,7 @@ export default function MetadataContainer() {
         const artistsString = artists.map((artist) => artist.name).join(", ");
         return (
             <section className=" bg-white rounded-md  py-7 w-full relative">
-                <span className="absolute right-3 top-2 cursor-pointer" onClick = {() => setSelected(undefined)}>X</span>
+                <span className="absolute right-3 top-2 cursor-pointer" onClick = {() => dispatch(setSelected(null))}>X</span>
                 <div className="flex xl:w-[90%] xl:mx-auto">
                     <div className="relative w-28 h-28 ml-3">
                         <Image src = {images[0].url} layout="fill" objectFit="cover" alt = {`${name} cover `}/>
@@ -92,7 +96,16 @@ export default function MetadataContainer() {
                     <div className="px-6 mt-0.5">
                         <h1 className="w-full font-bold">{name}</h1>
                         <p>{artistsString}</p>
-                        <button className="border-black border rounded-sm px-3 py-0.5 mt-2">{likedTrack ? "Saved": "Add"}</button>
+                        <button 
+                            className="border-black border rounded-sm px-3 py-0.5 mt-2"
+                            onClick = {
+                                    isSaved ? 
+                                    () => handleTrackSave('Saved') :
+                                    () => handleTrackSave('Add')
+                                }
+                            >
+                            {isSaved ? "Saved": "Add"}
+                        </button>
                     </div>
                 </div>
                 <hr className="my-4 text-primary w-4/5 mx-auto"/>
@@ -104,7 +117,7 @@ export default function MetadataContainer() {
                         {/* Artist Images */}
                         <div className="w-full flex">
                             {
-                                  !loading && songArtists.length > 0 ? songArtists.map((artist, key) => {
+                                  !loading && selectedArtists.length > 0 ? selectedArtists.map((artist, key) => {
                                 
                                     return (<div key={key} className="relative w-20 h-20 rounded-full mx-1 cursor-pointer">
                                     <Image 
@@ -157,7 +170,7 @@ export default function MetadataContainer() {
                     {/* Artist Images */}
                     <div>
                         {
-                            !loading && songArtists.length > 0 && songArtists.map((artist, key) => {return <div key={key}>{artist.name}</div> })
+                            !loading && selectedArtists.length > 0 && selectedArtists.map((artist, key) => {return <div key={key}>{artist.name}</div> })
                         }
                     </div>
                 </div>

@@ -1,17 +1,16 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import TopArtistsContainer from "../TopArtistsContainer";
 import TopTracksContainer from "../TopTracksContainer";
 import MetadataContainer from "../MetadataContainer";
 import PreviewContainer from "../PreviewContainer";
+import { getPreview, getSelected } from "@/features/reducers/MusicReducer";
 
-import { DashboardContext } from "@/Context/DashboardProvider/DashboardContext";
+import { useAppSelector } from "@/features/hooks";
 const TopStatsContainer = () => {
-    const useDashboard = useContext(DashboardContext);
-    const {selected, preview} = useDashboard
-
+    const preview = useAppSelector(getPreview)
+    const selected = useAppSelector(getSelected)
     const [ currentTab, setCurrentTab ] = useState('Tracks');
 
-    
     return (
         <div className="min-h-screen relative flex items-center ">
             <div className="w-full md:w-3/5 min-h-screen flex justify-center lg:justify-end items-center ">

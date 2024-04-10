@@ -1,8 +1,7 @@
-"use client"
+
 import { loginWithSpotifyClick } from "@/utils/Spotify/Spotify"
 import { Merriweather_Sans } from "next/font/google"
 import { Audio } from "react-loader-spinner"
-import { useState, useEffect } from "react"
 
 const merriweather = Merriweather_Sans({
   subsets: ['latin'],
@@ -44,7 +43,6 @@ const Landing = () => {
           <h1 className='font-bold text-7xl w-fit h-fit  text-center text-white'>Nightowl</h1>
           <p className='mt-2'>A platform  for the adventurous</p>
         </div>
-
       </div>
       
       <div className='w-4/5 mx-auto h-fit flex flex-col my-16 lg:my-7 lg:flex-row py-10'>

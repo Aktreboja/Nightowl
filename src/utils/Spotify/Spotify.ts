@@ -1,5 +1,5 @@
 
-import { TokenResponse } from "../../../types";
+import { Token } from "../../../types";
 
 // Spotify Authorization Utils
 const generateRandomString = (length: number) => {
@@ -44,7 +44,7 @@ export async function redirectToSpotifyAuthorize() {
 }
 
 // Checks to make sure that the input is a Spotify Access_token
-export const isValidTokenResponse = (token: any): token is TokenResponse => {
+export const isValidTokenResponse = (token: any): token is Token => {
     return (
         typeof token === 'object' &&
         'access_token' in token &&
@@ -56,8 +56,7 @@ export const isValidTokenResponse = (token: any): token is TokenResponse => {
 /**
  *  Spotify API Calls
  */
-export async function getToken(code: string) : Promise<TokenResponse | null> {
-    
+export async function getToken(code: string) : Promise<Token | null> {
     const code_verifier = localStorage.getItem("code_verifier");
     const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_TOKEN_ENDPOINT as string, {
         method: "POST",
@@ -74,16 +73,15 @@ export async function getToken(code: string) : Promise<TokenResponse | null> {
     })
 
     // todo: Error handle API call here in case the request fails
-
     return await response.json();
 }
 
-export async function getAccessToken() {
+export function getAccessToken() {
     return localStorage.getItem("access_token")
 }
 
 // Refreshing the Access token
-export async function refreshToken(refresh_token: string) {
+export async function refreshToken(refresh_token: string) : Promise<any> {
     try {
         const response = await fetch( process.env.NEXT_PUBLIC_SPOTIFY_TOKEN_ENDPOINT as string, {
             method: "POST",
