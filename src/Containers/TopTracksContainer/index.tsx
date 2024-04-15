@@ -46,7 +46,7 @@ export const TopTracksContainer = () => {
     }
 
     return (
-        <div className="bg-white w-full rounded md">
+        <div className="bg-white w-full rounded md ">
             <div>
                 <p className="text-3xl m-3 font-bold text-black text-center xl:text-left">Your Top Tracks</p>
                 <div className="flex justify-center xl:justify-start">

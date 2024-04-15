@@ -12,6 +12,7 @@ import { useAppDispatch } from "@/features/hooks";
 import { checkToken } from "@/features/reducers/AuthReducer";
 import { checkForSaved, fetchSimilarTracks, saveTrack, unsaveTrack } from "@/features/actions/track";
 import { fetchSelectedArtists } from "@/features/actions/artist";
+import { getUserPlaylists } from "@/features/actions/playlist";
 
 export default function MetadataContainer() {
     const [loading, setLoading] = useState(true);
@@ -29,9 +30,11 @@ export default function MetadataContainer() {
         setLoading(true)
 
         // Utility functions to load the metadata Container
-        const checkSaved = async (access_token: string, id: string) => dispatch(checkForSaved({ access_token, id }))
+        const checkSaved = async (access_token: string, id: string) => dispatch(checkForSaved({ access_token, id })) 
         const loadArtists = async (access_token: string, ids: string[]) => dispatch(fetchSelectedArtists({access_token, ids}))
         const loadRecommendations = async (access_token: string, recommendationQuery: RecommendationQuery) => dispatch(fetchSimilarTracks({access_token, recommendationQuery}))
+
+        const loadPlaylists = async (access_token: string) => dispatch(getUserPlaylists(access_token))
 
         // Check if the token exists, if not set 
         const access_token = token?.access_token
@@ -55,6 +58,7 @@ export default function MetadataContainer() {
                 checkSaved(access_token, selected.id)
                 loadArtists(access_token, artistIds)
                 loadRecommendations(access_token, recommendationQuery)
+                loadPlaylists(access_token)
             } else {
                 // Artist implementation
 
@@ -149,8 +153,9 @@ export default function MetadataContainer() {
     }
     else {
         const {name, images} = selected as Artist
-
-            return (<section className=" bg-white rounded-md px-3 py-2 ">
+            return (
+        <section className=" bg-white rounded-md px-3 py-7 ">
+            <span className="absolute right-3 top-2 cursor-pointer" onClick = {() => dispatch(setSelected(null))}>X</span>
             <div className="flex">
                 <div className="relative w-28 h-28">
                     <Image src = {images[0].url} layout="fill" objectFit="cover" alt = {`${name} cover `}/>
@@ -162,7 +167,6 @@ export default function MetadataContainer() {
                 </div>
             </div>
             <hr className="my-4"/>
-
             {/* Artists */}
             <div>
                 <h1 className="font-semibold">Artists</h1>
@@ -175,9 +179,6 @@ export default function MetadataContainer() {
                     </div>
                 </div>
             </div>
-
-            
-
         </section>)
     }
 

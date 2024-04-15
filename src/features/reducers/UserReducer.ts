@@ -28,8 +28,6 @@ const fetchUser = createAsyncThunk(
     }
 )
     
-
-
 const UserReducer = createSlice({
     name: "User",
     initialState,
@@ -37,6 +35,9 @@ const UserReducer = createSlice({
         setUser: (state, action : PayloadAction<User | null>) => {
             state.user = action.payload;
         },
+        setView: (state, action: PayloadAction<string>) => {
+            state.view = action.payload
+        }
 
     },
     extraReducers(builder) {
@@ -54,5 +55,5 @@ const UserReducer = createSlice({
 export const getUser = (state: RootState) => state.user.user
 export const getView = (state: RootState) => state.user.view
 
-export const { setUser } = UserReducer.actions;
+export const { setUser, setView } = UserReducer.actions;
 export default UserReducer.reducer;

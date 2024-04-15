@@ -59,7 +59,7 @@ const TopArtistsContainer = () => {
 
 
     const LoadingState = () => {
-        const placeholders = Array.from({length: 50},(_,index) => { return <div className={`relative w-24 h-24  ${index % 2 === 0 ? 'bg-secondary' : 'bg-primary'}`} key = {index}></div> })
+        const placeholders = Array.from({length: 50},(_,index) => { return <div className={`relative w-24 h-24 animate-pulse`} key = {index}></div> })
         return placeholders
     }
 
@@ -73,9 +73,7 @@ const TopArtistsContainer = () => {
                     <p onClick = {() => setTimeRange('long_term')} className={`${timeRange == 'long_term'  ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold`}>All Time</p>
                 </div>
             </div>
-
             <div className="grid px-3 py-4  grid-cols-4 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-10 w-fit shadow-lg overflow-y-auto max-h-[600px]">
-                
                 {
                     !loading ? artists.map((Artist, key) => (
                         <ArtistArt key={key} artist={Artist}  />

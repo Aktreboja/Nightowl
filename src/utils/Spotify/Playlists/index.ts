@@ -1,4 +1,4 @@
-
+import { Playlist } from '@spotify/web-api-ts-sdk'
 
 interface PlaylistMeta {
     name: string;
@@ -15,15 +15,23 @@ interface PlaylistMeta {
 
 
 
-// Retrieves the user's playlists
-// todo: Check to see if there is a way to wrap this, and type check this function
-export const GetUserPlaylists = async (access_token: string) => {
-    const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + "/me/playlists", {
-        method: "GET",
-        headers: {'Authorization': `Bearer ${access_token}`}
-    })
 
-    return await response.json();
+/**
+ * @description retrieves the user's playlists
+ * @param access_token 
+ * @returns {Playlists} The playlists linked to the user
+ */
+export const GetUserPlaylists = async (access_token: string) : Promise<Playlist[]> => {
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + "/me/playlists", {
+            method: "GET",
+            headers: {'Authorization': `Bearer ${access_token}`}
+        })
+        const playlists = await response.json();
+        return playlists.items as Playlist[];
+    } catch (error) {
+        throw new Error(`Error retrieving user's playlists`)
+    }
 }
 
 // Create a new playlist

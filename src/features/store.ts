@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import PreviewReducer from "./reducers/MusicReducer";
 import AuthReducer from "./reducers/AuthReducer";
 import UserReducer from "./reducers/UserReducer";
+import PlaylistReducer from "./reducers/PlaylistReducer";
 // import storage from 'redux-persist/lib/storage'
 
 // const persistConfig = {
@@ -21,7 +22,8 @@ export const makeStore = () => {
         reducer: {
             user: UserReducer,
             music: PreviewReducer,
-            auth: AuthReducer
+            auth: AuthReducer,
+            playlist: PlaylistReducer
         }
     })
 }

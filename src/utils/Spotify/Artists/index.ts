@@ -137,3 +137,22 @@ export const GetRelatedArtists = async (access_token: string, id: string) : Prom
         throw new Error(`Unable to get related artists: ${(error as Error).message}`)
     }
 }
+
+/**
+ * @description Checks to see if the user currently follows an artist
+ * @param access_token 
+ * @param id 
+ * @returns 
+ */
+export const checkFollowedArtist = async (access_token: string, id: string): Promise<boolean> => {
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + `/me/tracks/contains?type=artist&ids=${id}`, {
+            method: "GET",
+            headers: {'Authorization': "Bearer " + access_token},
+        })            
+        const savedArray = await response.json() as boolean[]
+        return savedArray[0]
+    } catch (error) {
+        throw new Error(`Error retrieving saved Tracks: ${(error as Error).message}`)
+    }
+}

@@ -8,10 +8,9 @@ import { getPreviewUrl } from "@/features/reducers/MusicReducer";
 import { useAppDispatch, useAppSelector } from "@/features/hooks";
 import { setUser, getView } from "@/features/reducers/UserReducer";
 import { checkToken } from "@/features/reducers/AuthReducer";
+import PlaylistContainer from "@/Containers/PlaylistContainer";
 
 const Dashboard : React.FC = () =>  {    
-
-
     const dispatch = useAppDispatch()
 
     // App selectors for preview and User
@@ -52,8 +51,13 @@ const Dashboard : React.FC = () =>  {
         <section className="w-full min-h-screen bg-primary relative">
             <Navbar />
             {/* Container that would hold the cover arts for songs / artists */}
-            {   view === 'Top Stats' &&  <TopStatsContainer />   }
-
+            {   view === 'Top Stats' ?
+                <div className="ml-0 md:ml-5">
+                    <TopStatsContainer />
+                </div> : 
+                <PlaylistContainer />  
+            }
+            
             {/* Single audio player */}
             <audio ref = {audioRef}/>
         </section>

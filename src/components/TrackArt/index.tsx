@@ -3,6 +3,7 @@ import { setPreview, setPreviewUrl } from "@/features/reducers/MusicReducer";
 import { Track } from "@spotify/web-api-ts-sdk";
 import Image from "next/image";
 import { useState } from "react";
+import { addTrackToQueue } from "@/features/reducers/PlaylistReducer";
 import { setSelected } from "@/features/reducers/MusicReducer";
 
 // Track component for rendering Spotify Tracks
@@ -17,6 +18,7 @@ const TrackArt = ({track, dimension} : {track: Track, dimension: number}) =>  {
     // Mouse handlers to trigger the preview url of a track
     const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
         setHover(true)
+        
         dispatch(setPreview(track));
         dispatch(setPreviewUrl(preview_url as string));
     }
@@ -29,6 +31,7 @@ const TrackArt = ({track, dimension} : {track: Track, dimension: number}) =>  {
 
     // onClick handler to showcase selected track / artist.
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        dispatch(addTrackToQueue(track))
         dispatch(setSelected(track))
     }
 

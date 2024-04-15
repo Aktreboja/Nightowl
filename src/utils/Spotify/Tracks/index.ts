@@ -74,13 +74,26 @@ export const checkSavedTrack = async (access_token: string, id: string): Promise
 // Saves a track
 export const saveSpotifyTrack = async (access_token: string, id: string): Promise<void> => {
     try {
-        const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + `/me/tracks`, {
+        await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + `/me/tracks`, {
             method: "PUT",
             headers: {'Authorization': "Bearer " + access_token},
             body: JSON.stringify({ids: [ id ]})
         })
     } catch (error) {
-        
+        throw new Error(`Error retrieving saved Tracks: ${(error as Error).message}`)
+    }
+}
+
+export const saveSpotifyTracks = async (access_token: string, ids: string[]) : Promise<void> => {
+    try {
+
+        await fetch (process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + `/me/tracks`, {
+            method: 'PUT',
+            headers: {'Authorization': 'Bearer ' + access_token},
+            body: JSON.stringify({ ids: ids})
+        })
+    } catch (error) {
+        throw new Error(`Error saving Tracks: ${(error as Error).message}`)
     }
 }
 
