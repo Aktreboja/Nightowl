@@ -1,49 +1,42 @@
+import { useAppDispatch } from "@/features/hooks";
+import { setPreview, setPreviewUrl } from "@/features/reducers/MusicReducer";
 import { Track } from "@spotify/web-api-ts-sdk";
 import Image from "next/image";
-import { useContext, useState, useRef } from "react";
-import { DashboardContext } from "@/Context/DashboardProvider/DashboardContext"
+import { useState } from "react";
+import { addTrackToQueue } from "@/features/reducers/PlaylistReducer";
+import { setSelected } from "@/features/reducers/MusicReducer";
 
 // Track component for rendering Spotify Tracks
 const TrackArt = ({track, dimension} : {track: Track, dimension: number}) =>  {
-    const {autoplay, preview, setPreview, setSelected, previewUrl, setPreviewUrl} = useContext(DashboardContext)
-
+    const dispatch = useAppDispatch()
     const [hover, setHover] = useState(false);
-
-    // UseRef is used here to bypass typescript checking / explicitly referencing the km
-    const audioRef = useRef<HTMLAudioElement>(null);
 
     // Extracting Values from Track 
     const { name, preview_url, artists, album } = track
-    const trackArt = album.images[0] 
+    const trackArt = album.images[1] 
 
+    // Mouse handlers to trigger the preview url of a track
     const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
-        console.log("PREVIEWING: ", track.name)
         setHover(true)
-        setPreview(track);
-        setPreviewUrl(track.preview_url)
-        if(audioRef.current) {
-            audioRef.current.volume = 0.1; // Adjust volume to 20%
-            audioRef.current.currentTime = 0;
-            audioRef.current.play();
-        }
+        
+        dispatch(setPreview(track));
+        dispatch(setPreviewUrl(preview_url as string));
     }
 
     const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
         setHover(false)
-        setPreview(undefined);
-        setPreviewUrl(null)
-        if(audioRef.current) {
-            audioRef.current.pause();
-        }
+        dispatch(setPreview(null));
+        dispatch(setPreviewUrl(''))
     }
 
+    // onClick handler to showcase selected track / artist.
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        setSelected(track)
+        dispatch(addTrackToQueue(track))
+        dispatch(setSelected(track))
     }
 
     return (
         <div className={`relative w-${dimension} h-${dimension} m-0 hover:shadow-lg duration-100 cursor-pointer hover:bg-primary`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick = {handleClick}>
-
             <div className={`absolute top-0 left-0 w-${dimension} h-${dimension} bg-white bg-opacity-25 z-20 opacity-0 transition-opacity duration-75 ${ hover ? 'opacity-100' : ''}`}></div> 
             <Image 
                 src={trackArt.url} 
@@ -51,7 +44,7 @@ const TrackArt = ({track, dimension} : {track: Track, dimension: number}) =>  {
                 fill = {true}
                 className="object-cover"
                 aria-label={`${name}`} 
-                loading="lazy"
+                loading="eager"
                 sizes="(min-width: 1000px) 24w"
                 title = {`${name}`}
                 />

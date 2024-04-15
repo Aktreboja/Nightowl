@@ -1,28 +1,28 @@
 'use client'
-import { useState, useRef, useEffect } from "react"
-
-import PreviewContainer from "@/Containers/PreviewContainer";
-import MetadataContainer from "@/Containers/MetadataContainer";
-import TopTracksContainer from "@/Containers/TopTracksContainer";
-import TopArtistsContainer from "@/Containers/TopArtistsContainer";
-import WelcomeModal from "@/components/Modal/WelcomeModal";
-
+import { useRef, useEffect } from "react"
+import TopStatsContainer from "@/Containers/TopStatsContainer";
 // Context components
-import { DashboardContext } from "@/Context/DashboardProvider/DashboardContext";
-import { useContext } from "react";
 import Navbar from "@/components/Navbar";
+import { getUserData } from "@/utils/Spotify/Users";
+import { getPreviewUrl } from "@/features/reducers/MusicReducer";
+import { useAppDispatch, useAppSelector } from "@/features/hooks";
+import { setUser, getView } from "@/features/reducers/UserReducer";
+import { checkToken } from "@/features/reducers/AuthReducer";
+import PlaylistContainer from "@/Containers/PlaylistContainer";
 
 const Dashboard : React.FC = () =>  {    
-    const useDashboard = useContext(DashboardContext);
-    const { clickedWelcome, preview, selected, autoplay,  previewUrl } = useDashboard
+    const dispatch = useAppDispatch()
 
-    // View related state
-    const [currentTab, setCurrentTab] = useState('Tracks');
-    const changeView = (view: string) => setCurrentTab(view);
+    // App selectors for preview and User
+    const token = useAppSelector(checkToken)
+    const previewUrl = useAppSelector(getPreviewUrl)
+    const view = useAppSelector(getView)
 
-    // // UseRef is used here to bypass typescript checking / explicitly referencing the km
+    // UseRef is used here to bypass typescript checking / explicitly referencing the km
     const audioRef = useRef<HTMLAudioElement>(null);
 
+    // todo: Update Song functionality here
+    // useEffect to change between audio files.
     useEffect(() => {
         if (previewUrl && audioRef.current ) {
             audioRef.current.src = previewUrl;
@@ -31,38 +31,35 @@ const Dashboard : React.FC = () =>  {
         } else if (!previewUrl && audioRef.current) audioRef.current.pause();
     }, [previewUrl])
 
+    
+    useEffect(() => {
+        const retrieveUserData = async () => {
+            if (token) {
+                try {
+                    const access_token = token?.access_token;
+                    const userResponse = await getUserData(access_token);
+                    dispatch(setUser(userResponse))
+                } catch (error) {
+                    console.error("Error fetching user Data: ", (error as Error).message)
+                }
+            }
+        }   
+        retrieveUserData();
+    }, [ dispatch, token])
+
     return (
         <section className="w-full min-h-screen bg-primary relative">
             <Navbar />
-
-
             {/* Container that would hold the cover arts for songs / artists */}
-            <div className="min-h-screen relative flex items-center ">
-                <div className="w-full md:w-3/5 min-h-screen flex justify-center lg:justify-end items-center ">
-                    {/* Wrapper container for all left sided components */}
-                    <div className=" flex flex-col justify-center items-end h-fit w-fit ">
-                        {/* Naviation bar */}
-                        <div className="w-full bg-primary flex ">
-                            <div onClick = {() => changeView('Tracks')} className = {`w-fit my-2 mx-1 px-3 py-2 text-black font-semibold cursor-pointer rounded-md ${currentTab == 'Tracks' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}  hover:bg-button-secondary hover:text-black  duration-100`}>Top Tracks</div>
-                            <div onClick = {() => changeView('Artists')} className = {`w-fit my-2 mx-1 px-3 py-2 font-semibold cursor-pointer rounded-md ${currentTab == 'Artists' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}   hover:bg-button-secondary hover:text-black  duration-100`}>Top Artists</div>
-                        </div>
-
-
-                        {/* first big box (top tracks / artists + modifiers). Switch Statement here*/}
-                        {   currentTab === 'Tracks' ? <TopTracksContainer /> : currentTab === 'Artists' ? <TopArtistsContainer />: null }
-                        {/* Selected Item Overview */}
-                        {   selected && <div className="my-6 w-full"><MetadataContainer /></div> }
-                    </div>
-                </div>
-                
-                {/* Preview component that functions on hover of track / Artist elements */}
-                {   preview && (<PreviewContainer item={preview} />)    }
-            </div>
+            {   view === 'Top Stats' ?
+                <div className="ml-0 md:ml-5">
+                    <TopStatsContainer />
+                </div> : 
+                <PlaylistContainer />  
+            }
+            
             {/* Single audio player */}
             <audio ref = {audioRef}/>
-
-
-
         </section>
     )
 }

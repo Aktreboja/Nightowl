@@ -1,4 +1,4 @@
-
+import { Playlist } from '@spotify/web-api-ts-sdk'
 
 interface PlaylistMeta {
     name: string;
@@ -12,18 +12,26 @@ interface PlaylistMeta {
  *
  */
 
-const spotifyEndpoint = "https://api.spotify.com/v1"
-const access_token = ""
 
-// Retrieves the user's playlists
-// todo: Check to see if there is a way to wrap this, and type check this function
-export const GetUserPlaylists = async () => {
-    const response = await fetch(spotifyEndpoint + "/me/playlists", {
-        method: "GET",
-        headers: {'Authorization': `Bearer ${access_token}`}
-    })
 
-    return await response.json();
+
+
+/**
+ * @description retrieves the user's playlists
+ * @param access_token 
+ * @returns {Playlists} The playlists linked to the user
+ */
+export const GetUserPlaylists = async (access_token: string) : Promise<Playlist[]> => {
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + "/me/playlists", {
+            method: "GET",
+            headers: {'Authorization': `Bearer ${access_token}`}
+        })
+        const playlists = await response.json();
+        return playlists.items as Playlist[];
+    } catch (error) {
+        throw new Error(`Error retrieving user's playlists`)
+    }
 }
 
 // Create a new playlist
@@ -38,7 +46,7 @@ export const CreatePlaylist = async ({userId, access_token, playlistMetadata}: {
         description: description || "", // default to an empty string if description is null
     };
     
-    const response = await fetch (spotifyEndpoint + `/users/${userId}/playlists`, {
+    const response = await fetch (process.env.NEXT_PUBLIC_SPOTIFY_API_BASE + `/users/${userId}/playlists`, {
         method: "POST",
         headers: {'Authorization': `Bearer ${access_token}`},
         body: new URLSearchParams(
