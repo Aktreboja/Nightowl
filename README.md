@@ -1,4 +1,3 @@
-
 <a name="readme-top"></a>
 
 <!-- PROJECT LOGO -->
@@ -14,8 +13,6 @@
     A Web application focused on improving music exploration within spotify
   </p>
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -39,36 +36,28 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 Nighowl is a web application that improves the way you discover music through Spotify.
 
-
-Some current features include:
-    1. Viewing and analyzing top tracks and artists based on timeline.
-    2. Preview tracks to enhance and speed up music discovery.
-    3. Retrieving track recommendations based on the selected track.
-    4. Ability to select and save tracks to their Spotify account.
-
-
+Some current features include: 1. Viewing and analyzing top tracks and artists based on timeline. 2. Preview tracks to enhance and speed up music discovery. 3. Retrieving track recommendations based on the selected track. 4. Ability to select and save tracks to their Spotify account.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 ### Built With
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Tailwind][Tailwind]][Tailwind-url]
-* [![TypeScript][TypeScript]][TypeScript-url]
-* [![Redux][Redux]][Redux-url]
+- [![Next][Next.js]][Next-url]
+- [![React][React.js]][React-url]
+- [![Tailwind][Tailwind]][Tailwind-url]
+- [![TypeScript][TypeScript]][TypeScript-url]
+- [![Redux][Redux]][Redux-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 ### Prerequisites and Installation
@@ -81,48 +70,45 @@ In order to get started by using Nightowl locally
    ```
 2. Register your app with Spotify
 
-    _link get started: https://developer.spotify.com/documentation/web-api/tutorials/getting-started_
+   _link get started: https://developer.spotify.com/documentation/web-api/tutorials/getting-started_
 
-3. Add in environment variables    
+3. Add in environment variables
 
-    ```env
-    NEXT_PUBLIC_SPOTIFY_API_BASE = https://api.spotify.com/v1
+   ```env
+   NEXT_PUBLIC_SPOTIFY_API_BASE = https://api.spotify.com/v1
 
-    # Client id comes from registering the application on Spotify's developer dashboard
-    NEXT_PUBLIC_SPOTIFY_CLIENT_ID = ""
+   # Client id comes from registering the application on Spotify's developer dashboard
+   NEXT_PUBLIC_SPOTIFY_CLIENT_ID = ""
 
-    # The scope that the access token you requested will have. This will be dependent on which APIs you call. Please refer to the API route's documentation for more information
-    NEXT_PUBLIC_SPOTIFY_SCOPE = "user-top-read user-library-modify playlist-read-private playlist-modify-public playlist-modify-private playlist-read-private user-library-read"
+   # The scope that the access token you requested will have. This will be dependent on which APIs you call. Please refer to the API route's documentation for more information
+   NEXT_PUBLIC_SPOTIFY_SCOPE = "user-top-read user-library-modify playlist-read-private playlist-modify-public playlist-modify-private playlist-read-private user-library-read"
 
-    # The endpoints that will provide you the access and refresh tokens 
-    NEXT_PUBLIC_SPOTIFY_AUTH_ENDPOINT = https://accounts.spotify.com/authorize
-    NEXT_PUBLIC_SPOTIFY_TOKEN_ENDPOINT = https://accounts.spotify.com/api/token
-    
-    # This will be different based on various environments, redirects you to this url once you have authorized your Spotify account from the AUTH endpoint
-    NEXT_PUBLIC_SPOTIFY_REDIRECT_URL = "http://localhost:3000"
+   # The endpoints that will provide you the access and refresh tokens
+   NEXT_PUBLIC_SPOTIFY_AUTH_ENDPOINT = https://accounts.spotify.com/authorize
+   NEXT_PUBLIC_SPOTIFY_TOKEN_ENDPOINT = https://accounts.spotify.com/api/token
 
-    ```
+   # This will be different based on various environments, redirects you to this url once you have authorized your Spotify account from the AUTH endpoint
+   NEXT_PUBLIC_SPOTIFY_REDIRECT_URL = "http://localhost:3000"
+
+   ```
 
 4. Install the necessary packages and run the application
 
-    ```sh
-        # Install dependencies
-        npm install
+   ```sh
+       # Install dependencies
+       npm install
 
-        # Run the application
-        npm run dev
-    ```  
+       # Run the application
+       npm run dev
+   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 ## Previews
 
 ### Landing Page
 
-
 ![image](https://github.com/Aktreboja/spotify/assets/15055373/36f4927b-1a6d-4e9a-90ed-54ecb8ff21c1)
-
 
 ### Authorize Page (Spotify authorize)
 
@@ -135,24 +121,19 @@ The following url will also contain query parameters
 2. Client ID: The client id of the application
 3. scope: The scope of what the access token received will be able to use
 4. redirect_uri: Where the authorize page will redirect to once authorization is completed
-   
 
 ### Dashboard Page (Top Stats)
 
 ![image](https://github.com/Aktreboja/spotify/assets/15055373/18662b29-bfd1-41a6-baa7-8febd5187717)
-
-
 
 ### Notes
 
 1. Hover over a track to view it's information and listen to a preview
 2. Select a track to learn more about the track (artist(s) and similar tracks
 
-
 ### Dashboard Page (Hovered Track)
 
 ![image](https://github.com/Aktreboja/spotify/assets/15055373/fc80efcc-e77c-48b2-932e-f073452b71be)
-
 
 ### Dashboard Page (Selected Track)
 
@@ -162,7 +143,6 @@ The following url will also contain query parameters
 
 1. Selecting a track will provide metadata on that track
 2. Can also hover and select the tracks from within the container to be able to easily navigate through tracks.
-
 
 ### Dashboard Page (Playlist View)
 
@@ -174,7 +154,9 @@ The following url will also contain query parameters
 2. If the user doesn't want a specific track, can delete from the list.
 
 <!-- ROADMAP -->
+
 ## Roadmap
+
 - [ ] Fix unaligned hover outlines on trackArt components
 - [ ] Add previews to artists by playing their top track
 - [ ] Fix UI errors from playback state changes
@@ -185,12 +167,10 @@ The following url will also contain query parameters
 - [ ] Implement recommended playlist feature
 - [ ] Convert from REST to GraphQL api.
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Aldrich Reboja - aktreboja@gmail.com
@@ -199,9 +179,9 @@ Project Link: [https://github.com/aktreboja/Spotify](https://github.com/aktreboj
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/aktreboja
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white

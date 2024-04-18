@@ -1,11 +1,9 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/_pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/Containers/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     extend: {
@@ -16,34 +14,34 @@ const config: Config = {
       },
     },
     colors: {
-      'primary': "#587B7F",
-      'secondary': '#1E2019',
-      'white': '#FFFFFF',
-      'black': '#000000',
+      primary: '#587B7F',
+      secondary: '#1E2019',
+      white: '#FFFFFF',
+      black: '#000000',
       'button-primary': '#394032',
-      'button-secondary': '#CFEE9E'
+      'button-secondary': '#CFEE9E',
     },
     keyframes: {
       expand: {
-        '0%': { height: '100%'},
-        '100%': {height: '0'}
+        '0%': { height: '100%' },
+        '100%': { height: '0' },
       },
       toggle: {
-        '0': {opacity: '100'},
-        '25%': {opacity: '0'}
+        '0': { opacity: '100' },
+        '25%': { opacity: '0' },
       },
       pulse: {
-        '0%': {opacity: '100%'},
-        '50%': {opacity: '50%'},
-        '100%': {opacity: '100%'}
-      }
+        '0%': { opacity: '100%' },
+        '50%': { opacity: '50%' },
+        '100%': { opacity: '100%' },
+      },
     },
     animation: {
       expand: 'expand 1s ease forwards',
       toggle: 'toggle 1s infinite forwards',
-      pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-    } 
+      pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+    },
   },
   plugins: [],
-}
-export default config
+};
+export default config;

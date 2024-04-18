@@ -1,5 +1,3 @@
 {
-    "recommendations": [
-        "ms-mssql.sqlops-debug"
-    ]
+  "recommendations": ["ms-mssql.sqlops-debug"]
 }
