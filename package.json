@@ -1,6 +1,7 @@
 {
-  "name": "explore",
-  "version": "0.1.0",
+  "name": "nightowl",
+  "version": "0.2.1",
+  "description": "Nightowl is a web application that focuses on finding and creating playlists on spotify much faster.",
   "private": true,
   "scripts": {
     "dev": "next dev",
