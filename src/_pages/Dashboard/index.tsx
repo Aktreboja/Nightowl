@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from '@/features/hooks';
 import { setUser, getView } from '@/features/reducers/UserReducer';
 import { checkToken } from '@/features/reducers/AuthReducer';
 import PlaylistContainer from '@/app/Dashboard/_Containers/PlaylistContainer';
+import NotificationToast from '@/app/Dashboard/_Components/NotificationToast';
+import RecommendationContainer from '@/app/Dashboard/_Containers/RecommendationContainer';
 
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -49,17 +51,23 @@ const Dashboard: React.FC = () => {
   return (
     <section className="w-full min-h-screen bg-primary relative">
       <Navbar />
-      {/* Container that would hold the cover arts for songs / artists */}
+
+      {/* Conditionals to render content */}
       {view === 'Top Stats' ? (
-        <div className="ml-0 md:ml-5">
+        <div className="ml-0 md:ml-7">
           <TopStatsContainer />
         </div>
-      ) : (
+      ) : view === 'Playlists' ? (
         <PlaylistContainer />
+      ) : (
+        <RecommendationContainer />
       )}
 
       {/* Single audio player */}
       <audio ref={audioRef} />
+
+      {/* Notification Toast message for events within the Application */}
+      {/* <NotificationToast message='Playlist added'/> */}
     </section>
   );
 };

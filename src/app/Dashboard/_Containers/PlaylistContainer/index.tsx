@@ -4,6 +4,7 @@ import { useAppSelector } from '@/features/hooks';
 import { checkToken } from '@/features/reducers/AuthReducer';
 import { getTrackQueue } from '@/features/reducers/PlaylistReducer';
 import { saveSpotifyTracks } from '@/utils/Spotify/Tracks';
+import PlaylistListContainer from '../../_Components/PlaylistListContainer';
 
 const PlaylistContainer = () => {
   const queue = useAppSelector(getTrackQueue);
@@ -51,8 +52,9 @@ const PlaylistContainer = () => {
           >
             Save Tracks
           </button>
-          {/* <button className="my-1 px-3 py-2 mx-2 bg-button-primary text-white font-semibold rounded-sm">Add To Playlist</button>
-                    <button className="my-1 px-3 py-2 mx-2 bg-button-primary text-white font-semibold rounded-sm">Recommend Playlist</button> */}
+          <button className="bg-button-primary text-white my-1 px-3 py-2">
+            Add to Playlist
+          </button>
         </div>
       </div>
     </section>

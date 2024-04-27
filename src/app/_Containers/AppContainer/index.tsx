@@ -8,6 +8,7 @@ import { getToken } from '@/utils/Spotify/Spotify';
 import Landing from '@/_pages/Landing';
 import LandingLoader from '@/app/_Components/LandingLoader';
 import { useAppDispatch, useAppSelector } from '@/features/hooks';
+
 import {
   checkAuth,
   setToken,
@@ -23,6 +24,7 @@ export default function AppContainer() {
 
   const [startedLoading, setStartedLoading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [client, setClient] = useState(false);
 
   // Loading useEffect, fully loads once 'startedLoading' is set to True
   useEffect(() => {
@@ -58,12 +60,13 @@ export default function AppContainer() {
         if (
           checkTokenExp(
             Date.now() / 1000,
-            Math.floor(new Date(token.expires as string).getTime() / 1000),
+            Math.floor(new Date(token.expires).getTime() / 1000),
           )
         ) {
+          console.log('Refreshing');
           const refreshResponse = await refreshToken(token.refresh_token);
           dispatch(setToken(await refreshResponse));
-        }
+        } else console.log('not expired yet');
         dispatch(setAuth(true));
       }
     };
@@ -84,13 +87,18 @@ export default function AppContainer() {
     setStartedLoading(true);
   }, [dispatch, token]);
 
+  // UseEffect to resolve hydration errors
+  useEffect(() => {
+    if (typeof window !== 'undefined') setClient(true);
+  }, []);
+
   return (
     <div className="relative w-full h-screen">
       <LandingLoader loading={loading} />
       <div
         className={`absolute inset-0 transition-opacity duration-300 ${!loading ? 'opacity-100' : 'opacity-0'}`}
       >
-        {auth ? <Dashboard /> : <Landing />}
+        {auth && client ? <Dashboard /> : <Landing />}
       </div>
     </div>
   );

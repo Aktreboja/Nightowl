@@ -1,3 +1,4 @@
+'use client';
 import { loginWithSpotifyClick } from '@/utils/Spotify/Spotify';
 import { Merriweather_Sans } from 'next/font/google';
 import { Audio } from 'react-loader-spinner';

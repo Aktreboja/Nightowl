@@ -33,13 +33,9 @@ const Navbar = () => {
   });
 
   // View Change on-click Handler
-  const handleViewChange = () => {
-    if (currentView == 'Top Stats') {
-      dispatch(setSelected(null));
-      dispatch(setView('Playlists'));
-    } else {
-      dispatch(setView('Top Stats'));
-    }
+  const handleViewChange = (newView: string) => {
+    dispatch(setSelected(null));
+    dispatch(setView(newView));
   };
 
   if (!user) return null;
@@ -53,14 +49,14 @@ const Navbar = () => {
       <div className="flex">
         <p
           className={`${currentView === 'Top Stats' && 'underline'} px-4 cursor-pointer font-semibold hover:underline`}
-          onClick={() => handleViewChange()}
+          onClick={() => handleViewChange('Top Stats')}
         >
           Top Stats
         </p>
         <div className="relative">
           <p
             className={`${currentView === 'Playlists' && 'underline'} px-4 cursor-pointer font-semibold hover:underline relative`}
-            onClick={() => handleViewChange()}
+            onClick={() => handleViewChange('Playlists')}
           >
             Playlist
           </p>
@@ -70,8 +66,14 @@ const Navbar = () => {
             </div>
           )}
         </div>
+        <p
+          className={`${currentView === 'Recommend' && 'underline'} px-4 cursor-pointer font-semibold hover:underline`}
+          onClick={() => handleViewChange('Recommend')}
+        >
+          Recommend
+        </p>
       </div>
-      <div className=" w-fit  px-5 ">
+      <div className="w-fit px-5">
         <div className="flex items-center">
           <p className="px-3 font-semibold">{display_name}</p>
           <Image

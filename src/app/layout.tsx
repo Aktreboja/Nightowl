@@ -1,6 +1,9 @@
+'use client';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import StoreProvider from './StoreProvider';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor } from '@/features/store';
 
 const inter = Inter({ subsets: ['latin'] });
 
