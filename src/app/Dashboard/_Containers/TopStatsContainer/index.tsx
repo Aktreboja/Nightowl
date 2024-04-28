@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy } from 'react';
 import TopArtistsContainer from '../TopArtistsContainer';
 import TopTracksContainer from '../TopTracksContainer';
 import MetadataContainer from '../MetadataContainer';
@@ -15,18 +15,18 @@ const TopStatsContainer = () => {
     <div className="min-h-screen relative flex items-center ">
       <div className="w-full md:w-3/5 min-h-screen flex justify-center lg:justify-end items-center ">
         {/* Wrapper container for all left sided components */}
-        <div className=" flex flex-col justify-center items-end h-fit w-fit ml-2 ">
+        <div className=" flex flex-col justify-center items-end h-fit max-md:w-4/5 w-fit ml-2 ">
           {/* Naviation bar */}
           <div className="w-full bg-primary flex ">
             <div
               onClick={() => setCurrentTab('Tracks')}
-              className={`w-fit my-2 mx-1 px-3 py-2 text-black font-semibold cursor-pointer rounded-md ${currentTab == 'Tracks' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}  hover:bg-button-secondary hover:text-black  duration-100`}
+              className={`w-fit my-2 mx-1 px-3 py-2 max-sm:text-sm text-black font-semibold cursor-pointer rounded-md ${currentTab == 'Tracks' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}  hover:bg-button-secondary hover:text-black  duration-100`}
             >
               Top Tracks
             </div>
             <div
               onClick={() => setCurrentTab('Artists')}
-              className={`w-fit my-2 mx-1 px-3 py-2 font-semibold cursor-pointer rounded-md ${currentTab == 'Artists' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}   hover:bg-button-secondary hover:text-black  duration-100`}
+              className={`w-fit my-2 mx-1 px-3 py-2  max-sm:text-sm font-semibold cursor-pointer rounded-md ${currentTab == 'Artists' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}   hover:bg-button-secondary hover:text-black  duration-100`}
             >
               Top Artists
             </div>

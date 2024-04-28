@@ -177,7 +177,7 @@ export default function MetadataContainer() {
           <div className="grid px-1 py-4 grid-cols-5  md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-8 2xl:grid-cols-10 w-fit sound overflow-y-auto max-h-[600px]">
             {recommendedTracks.length > 0 &&
               recommendedTracks.map((track, key) => (
-                <TrackArt key={key} track={track} dimension={20} />
+                <TrackArt key={key} track={track} />
               ))}
           </div>
         </div>

@@ -51,23 +51,24 @@ const Dashboard: React.FC = () => {
   return (
     <section className="w-full min-h-screen bg-primary relative">
       <Navbar />
+      <div className="hf">
+        {/* Conditionals to render content */}
+        {view === 'Top Stats' ? (
+          <div className="ml-0 md:ml-7">
+            <TopStatsContainer />
+          </div>
+        ) : view === 'Playlists' ? (
+          <PlaylistContainer />
+        ) : (
+          <RecommendationContainer />
+        )}
 
-      {/* Conditionals to render content */}
-      {view === 'Top Stats' ? (
-        <div className="ml-0 md:ml-7">
-          <TopStatsContainer />
-        </div>
-      ) : view === 'Playlists' ? (
-        <PlaylistContainer />
-      ) : (
-        <RecommendationContainer />
-      )}
+        {/* Single audio player */}
+        <audio ref={audioRef} />
 
-      {/* Single audio player */}
-      <audio ref={audioRef} />
-
-      {/* Notification Toast message for events within the Application */}
-      {/* <NotificationToast message='Playlist added'/> */}
+        {/* Notification Toast message for events within the Application */}
+        {/* <NotificationToast message='Playlist added'/> */}
+      </div>
     </section>
   );
 };

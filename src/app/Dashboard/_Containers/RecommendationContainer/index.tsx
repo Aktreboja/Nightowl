@@ -41,7 +41,7 @@ export default function RecommendationContainer() {
 
   return (
     <section className="mx-3 min-h-screen relative flex items-center justify-center rounded-sm">
-      <div className="w-1/2 h-fit bg-white py-3 rounded-sm">
+      <div className="w-3/4 max-w-[700px] h-fit bg-white py-3 rounded-sm">
         <h1 className="text-2xl text-center font-semibold">
           Search for some Tracks
         </h1>

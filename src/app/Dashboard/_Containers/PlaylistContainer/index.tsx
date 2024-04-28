@@ -19,18 +19,18 @@ const PlaylistContainer = () => {
     if (token) {
       const { access_token } = token;
       await saveSpotifyTracks(access_token, queueIds);
-
       // await getUserPlaylists(access_token)
     }
   };
 
   return (
-    <section className="mx-3 min-h-screen relative flex items-center">
-      <div className="rounded-sm w-full max-w-2xl mx-auto px-4 py-2 bg-white h-fit  ">
+    <section className="mx-3 min-h-screen relative  flex items-center justify-center">
+      {/* todo: Adjust height for regular / ultrawide screens */}
+      <div className="rounded-sm w-full max-w-2xl flex flex-col justify-between px-4 py-2 bg-white h-3/4 max-h-[600px]  ">
         <h1 className="w-full text-center text-xl font-bold my-3">
           Your New Tracks
         </h1>
-        <div className=" px-1 h-[80vh] max-h-[800px] md:h-[800px] md:4/5 overflow-y-auto">
+        <div className=" px-1 h-4/5 min-h-[400px] overflow-y-auto relative">
           {queue.length > 0 ? (
             queue.map((track, key) => (
               <div className="my-2" key={key}>
@@ -38,7 +38,7 @@ const PlaylistContainer = () => {
               </div>
             ))
           ) : (
-            <div className="text-center h-full flex justify-center items-center">
+            <div className="text-center absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <p className="text-lg font-semibold">
                 No Tracks Yet, Add from the Top Stats Tab
               </p>
@@ -47,7 +47,7 @@ const PlaylistContainer = () => {
         </div>
         <div className="w-full flex flex-col md:flex-row justify-center my-3">
           <button
-            className="my-1 px-3 py-2 mx-2 bg-button-secondary rounded-sm font-semibold"
+            className="my-1 px-3 py-2 md:mx-1 bg-button-secondary rounded-sm font-semibold"
             onClick={() => saveTrackHandler()}
           >
             Save Tracks

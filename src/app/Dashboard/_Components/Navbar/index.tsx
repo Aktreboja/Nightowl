@@ -46,7 +46,7 @@ const Navbar = () => {
       <div className="h-full w-fit flex  items-center">
         <h1 className="px-4 font-bold">Nightowl</h1>
       </div>
-      <div className="flex">
+      <div className="hidden md:flex ">
         <p
           className={`${currentView === 'Top Stats' && 'underline'} px-4 cursor-pointer font-semibold hover:underline`}
           onClick={() => handleViewChange('Top Stats')}
@@ -83,15 +83,41 @@ const Navbar = () => {
             height={35}
             style={{ borderRadius: '50%', cursor: 'pointer' }}
             onClick={() => setSettings(!settings)}
-            ref={settingsRef}
           />
         </div>
       </div>
       {settings && (
-        <div className="fixed top-16 right-1 w-60 h-fit z-40 rounded-md bg-white text-black">
+        <div
+          className="fixed top-16 right-1 w-60 h-fit z-40 rounded-md bg-white text-black shadow-lg"
+          ref={settingsRef}
+        >
+          <div className="max-md:block hidden">
+            <button
+              type="button"
+              onClick={() => handleViewChange('Top Stats')}
+              className={`${currentView === 'Top Stats' && 'bg-button-primary text-white'} text-center py-2 w-full font-semibold hover:bg-button-primary hover:text-white duration-75 rounded-t-md`}
+            >
+              Top Stats
+            </button>
+            <button
+              type="button"
+              onClick={() => handleViewChange('Playlists')}
+              className={`${currentView === 'Playlists' && 'bg-button-primary text-white'} text-center py-2 w-full font-semibold hover:bg-button-primary hover:text-white duration-75`}
+            >
+              Playlist
+            </button>
+            <button
+              type="button"
+              onClick={() => handleViewChange('Recommend')}
+              className={`${currentView === 'Recommend' && 'bg-button-primary text-white'} text-center py-2 w-full font-semibold hover:bg-button-primary hover:text-white duration-75`}
+            >
+              Recommend
+            </button>
+          </div>
+
           <button
             type="button"
-            className=" text-center py-2 w-full font-semibold"
+            className=" text-center py-2 w-full font-semibold  hover:bg-button-primary hover:text-white duration-75 rounded-b-md"
             onClick={() => logoutClick()}
           >
             Log Out
