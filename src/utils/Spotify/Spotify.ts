@@ -1,6 +1,11 @@
 import { Token } from '../../../types';
 
-// Spotify Authorization Utils
+/**
+ * @name generateRandomString
+ * @description Generatees a random string
+ * @param length
+ * @returns
+ */
 const generateRandomString = (length: number) => {
   const possible =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -8,6 +13,11 @@ const generateRandomString = (length: number) => {
   return values.reduce((acc, x) => acc + possible[x % possible.length], '');
 };
 
+/**
+ * @name sha256
+ * @param plain plaintext that will be used to encrypt into a SHA-256 string
+ * @returns
+ */
 const sha256 = async (plain: string) => {
   const encoder = new TextEncoder();
   const data = encoder.encode(plain);

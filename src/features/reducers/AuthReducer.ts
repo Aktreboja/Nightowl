@@ -24,11 +24,15 @@ const AuthReducer = createSlice({
     setAuth: (state, action: PayloadAction<boolean>) => {
       state.auth = action.payload;
     },
+    setCodeVerifier: (state, action: PayloadAction<string>) => {
+      state.code_verifier = action.payload;
+    },
   },
 });
 
 export const checkAuth = (state: RootState) => state.auth.auth;
 export const checkToken = (state: RootState) => state.auth.token;
+export const getCodeVerifier = (state: RootState) => state.auth.code_verifier;
 
-export const { setAuth, setToken } = AuthReducer.actions;
+export const { setAuth, setToken, setCodeVerifier } = AuthReducer.actions;
 export default AuthReducer.reducer;

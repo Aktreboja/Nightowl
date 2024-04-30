@@ -4,6 +4,7 @@ import { checkTokenExp } from '@/utils/TokenService';
 import Dashboard from '@/_pages/Dashboard';
 import { refreshToken } from '@/utils/Spotify/Spotify';
 import { getToken } from '@/utils/Spotify/Spotify';
+import useSpotify from '@/utils/Spotify/hooks/useSpotify';
 
 import Landing from '@/_pages/Landing';
 import LandingLoader from '@/app/_Components/LandingLoader';
@@ -26,6 +27,9 @@ export default function AppContainer() {
   const [loading, setLoading] = useState(true);
   const [client, setClient] = useState(false);
 
+  // useSpotify Hook
+  const { getAccessToken } = useSpotify();
+
   // Loading useEffect, fully loads once 'startedLoading' is set to True
   useEffect(() => {
     if (startedLoading) {
@@ -35,39 +39,25 @@ export default function AppContainer() {
     }
   }, [startedLoading]);
 
-  // useEffect for if the url contains a code.
+  // useEffect for when a code urlSearchParam is present (retrieving access token).
   useEffect(() => {
     const validateUser = async (args: URLSearchParams) => {
       const code = args.get('code');
-      const error = args.get('error');
 
       // Implement based on search query
-      if (code) {
-        const token = await getToken(code);
-        if (token) {
-          dispatch(setToken(token));
-          dispatch(setAuth(true));
-        }
-      } else if (error) {
-        console.error(error);
-      }
-    };
+      // if (code) {
+      //   const token = await getToken(code);
+      //   if (token) {
+      //     dispatch(setToken(token));
+      //     dispatch(setAuth(true));
+      //   }
+      // } else if (error) {
+      //   console.error(error);
+      // }
 
-    const validateToken = async () => {
-      // New Implementation (redux)
-      if (token) {
-        // Check to see if the access token has expired; if so Refresh and authenticated
-        if (
-          checkTokenExp(
-            Date.now() / 1000,
-            Math.floor(new Date(token.expires).getTime() / 1000),
-          )
-        ) {
-          console.log('Refreshing');
-          const refreshResponse = await refreshToken(token.refresh_token);
-          dispatch(setToken(await refreshResponse));
-        } else console.log('not expired yet');
-        dispatch(setAuth(true));
+      if (code) {
+        const token = await getAccessToken(code);
+        console.log('token: ', token);
       }
     };
 
@@ -83,9 +73,8 @@ export default function AppContainer() {
     const updatedUrl = url.search ? url.search : url.href.replace('?', '');
     window.history.replaceState({}, document.title, updatedUrl);
 
-    validateToken();
     setStartedLoading(true);
-  }, [dispatch, token]);
+  }, [dispatch, token, getAccessToken]);
 
   // UseEffect to resolve hydration errors
   useEffect(() => {

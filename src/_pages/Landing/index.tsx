@@ -2,6 +2,7 @@
 import { loginWithSpotifyClick } from '@/utils/Spotify/Spotify';
 import { Merriweather_Sans } from 'next/font/google';
 import { Audio } from 'react-loader-spinner';
+import useSpotify from '@/utils/Spotify/hooks/useSpotify';
 
 const merriweather = Merriweather_Sans({
   subsets: ['latin'],
@@ -28,6 +29,8 @@ const landingText = [
 
 // Index page component for first / unauthenticated visit
 const Landing = () => {
+  const { redirectToSpotifyAuthorize } = useSpotify();
+
   return (
     <main
       className={` relative w-screen h-full  bg-white ${merriweather.className}`}
@@ -62,7 +65,7 @@ const Landing = () => {
         <h1 className="text-center text-2xl">Get Started with Nightowl</h1>
         <button
           className="border-[#858786] bg-primary hover:bg-button-primary hover:text-white duration-75 text-white w-44 lg:w-56 text-lg lg:text-xl px-4 py-3 mt-3 rounded-sm"
-          onClick={() => loginWithSpotifyClick()}
+          onClick={async () => redirectToSpotifyAuthorize()}
         >
           Get Started
         </button>
