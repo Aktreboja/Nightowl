@@ -1,9 +1,5 @@
 import { useAppDispatch } from '@/features/hooks';
-import { useAppSelector } from '@/features/hooks';
-import {
-  getCodeVerifier,
-  setCodeVerifier,
-} from '@/features/reducers/AuthReducer';
+import { setCodeVerifier } from '@/features/reducers/AuthReducer';
 
 /**
  * A custom React hook for Spotify authentication flow.

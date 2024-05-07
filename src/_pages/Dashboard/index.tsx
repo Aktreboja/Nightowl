@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 import TopStatsContainer from '@/app/Dashboard/_Containers/TopStatsContainer';
 // Context components
 import Navbar from '@/app/Dashboard/_Components/Navbar';
-import { getUserData } from '@/utils/Spotify/Users';
+
 import { getPreviewUrl } from '@/features/reducers/MusicReducer';
 import { useAppDispatch, useAppSelector } from '@/features/hooks';
 import { setUser, getView } from '@/features/reducers/UserReducer';
@@ -11,6 +11,7 @@ import { checkToken } from '@/features/reducers/AuthReducer';
 import PlaylistContainer from '@/app/Dashboard/_Containers/PlaylistContainer';
 import NotificationToast from '@/app/Dashboard/_Components/NotificationToast';
 import RecommendationContainer from '@/app/Dashboard/_Containers/RecommendationContainer';
+import useSpotify from '@/utils/Spotify/hooks/useSpotify';
 
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,8 +24,9 @@ const Dashboard: React.FC = () => {
   // UseRef is used here to bypass typescript checking / explicitly referencing the km
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // todo: Update Song functionality here
-  // useEffect to change between audio files.
+  const { getUser } = useSpotify();
+
+  // todo: useEffect to play music, refactor to fix errors
   useEffect(() => {
     if (previewUrl && audioRef.current) {
       audioRef.current.src = previewUrl;
@@ -37,9 +39,8 @@ const Dashboard: React.FC = () => {
     const retrieveUserData = async () => {
       if (token) {
         try {
-          const access_token = token?.access_token;
-          const userResponse = await getUserData(access_token);
-          dispatch(setUser(userResponse));
+          const response = await getUser();
+          dispatch(setUser(response));
         } catch (error) {
           console.error('Error fetching user Data: ', (error as Error).message);
         }

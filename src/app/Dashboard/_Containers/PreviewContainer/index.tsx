@@ -18,7 +18,8 @@ export default function PreviewContainer({ item }: { item: Track | Artist }) {
               src={images[0].url}
               alt={`${name} Album art`}
               fill={true}
-              onLoadingComplete={() => setImageLoaded(true)}
+              sizes="(max-width: 800px) 100%"
+              onLoad={() => setImageLoaded(true)}
             />
           </div>
 

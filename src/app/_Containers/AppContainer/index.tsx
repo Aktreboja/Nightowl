@@ -1,11 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { checkTokenExp } from '@/utils/TokenService';
 import Dashboard from '@/_pages/Dashboard';
-import { refreshToken } from '@/utils/Spotify/Spotify';
-import { getToken } from '@/utils/Spotify/Spotify';
 import useSpotify from '@/utils/Spotify/hooks/useSpotify';
-
 import Landing from '@/_pages/Landing';
 import LandingLoader from '@/app/_Components/LandingLoader';
 import { useAppDispatch, useAppSelector } from '@/features/hooks';
@@ -41,40 +37,34 @@ export default function AppContainer() {
 
   // useEffect for when a code urlSearchParam is present (retrieving access token).
   useEffect(() => {
+    // Async function to validate user.
     const validateUser = async (args: URLSearchParams) => {
       const code = args.get('code');
-
-      // Implement based on search query
-      // if (code) {
-      //   const token = await getToken(code);
-      //   if (token) {
-      //     dispatch(setToken(token));
-      //     dispatch(setAuth(true));
-      //   }
-      // } else if (error) {
-      //   console.error(error);
-      // }
-
+      // If redirect code exists in the query parameters
+      // Retrieve the token and add it to redux store.
       if (code) {
         const token = await getAccessToken(code);
-        console.log('token: ', token);
+        if (token && 'expires_in' in token) {
+          dispatch(setToken(token));
+          dispatch(setAuth(true));
+        }
+
+        // Replace the url of the page to default route
+        const url = new URL(window.location.href);
+        url.searchParams.delete('code');
+        const updatedUrl = url.search ? url.search : url.href.replace('?', '');
+        window.history.replaceState({}, document.title, updatedUrl);
       }
     };
 
-    // Check for any code directs
+    // If url has query params, validate user
     const args = new URLSearchParams(window.location.search);
     if (args.size > 0) {
       validateUser(args);
     }
 
-    // Replace the url of the page to default route
-    const url = new URL(window.location.href);
-    url.searchParams.delete('code');
-    const updatedUrl = url.search ? url.search : url.href.replace('?', '');
-    window.history.replaceState({}, document.title, updatedUrl);
-
     setStartedLoading(true);
-  }, [dispatch, token, getAccessToken]);
+  }, [getAccessToken, dispatch]);
 
   // UseEffect to resolve hydration errors
   useEffect(() => {

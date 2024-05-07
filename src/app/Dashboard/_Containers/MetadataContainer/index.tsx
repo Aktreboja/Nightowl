@@ -22,7 +22,6 @@ import {
   unsaveTrack,
 } from '@/features/actions/track';
 import { fetchSelectedArtists } from '@/features/actions/artist';
-import { getUserPlaylists } from '@/features/actions/playlist';
 
 export default function MetadataContainer() {
   const [loading, setLoading] = useState(true);
@@ -49,9 +48,6 @@ export default function MetadataContainer() {
       recommendationQuery: RecommendationQuery,
     ) => dispatch(fetchSimilarTracks({ access_token, recommendationQuery }));
 
-    const loadPlaylists = async (access_token: string) =>
-      dispatch(getUserPlaylists(access_token));
-
     // Check if the token exists, if not set
     const access_token = token?.access_token;
     if (access_token && selected) {
@@ -73,7 +69,6 @@ export default function MetadataContainer() {
         checkSaved(access_token, selected.id);
         loadArtists(access_token, artistIds);
         loadRecommendations(access_token, recommendationQuery);
-        loadPlaylists(access_token);
       } else {
         // Artist implementation
       }

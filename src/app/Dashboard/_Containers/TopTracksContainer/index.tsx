@@ -11,6 +11,7 @@ import {
   getTracks,
 } from '@/features/reducers/MusicReducer';
 import { checkToken } from '@/features/reducers/AuthReducer';
+import useSpotify from '@/utils/Spotify/hooks/useSpotify';
 
 export const TopTracksContainer = () => {
   const [loading, setLoading] = useState(false);
@@ -20,24 +21,14 @@ export const TopTracksContainer = () => {
   const token = useAppSelector(checkToken);
   const tracks = useAppSelector(getTracks);
 
+  const { fetchTopTracks } = useSpotify();
+
   useEffect(() => {
     // Utility function to load top Tracks
     const loadTopTracks = async (time_range: string) => {
       setLoading(true);
-      const access_token = token?.access_token;
-      if (access_token) {
-        const response = await getTopSongs(access_token, time_range);
-        if ('items' in response) {
-          dispatch(setTracks(response.items as Track[]));
-        } else {
-          // Access token is available but 401 is called because
-          const { message, status } = response.error;
-          if (status === 401) {
-          }
-        }
-      } else {
-        // todo: Add logic here
-      }
+      const topTracks = await fetchTopTracks(time_range);
+      dispatch(setTracks(topTracks));
       setLoading(false);
     };
     loadTopTracks(time_range);
@@ -54,7 +45,7 @@ export const TopTracksContainer = () => {
   };
 
   return (
-    <div className="bg-white w-full px-3 rounded md h-[485px] overflow-y-hidden ">
+    <>
       <div>
         <p className="max-sm:text-xl text-3xl mx-3 mt-3 font-bold text-black text-center xl:text-left">
           Your Top Tracks
@@ -90,7 +81,7 @@ export const TopTracksContainer = () => {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

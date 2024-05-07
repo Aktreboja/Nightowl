@@ -1,4 +1,4 @@
-import { useState, lazy } from 'react';
+import { useState } from 'react';
 import TopArtistsContainer from '../TopArtistsContainer';
 import TopTracksContainer from '../TopTracksContainer';
 import MetadataContainer from '../MetadataContainer';
@@ -33,11 +33,14 @@ const TopStatsContainer = () => {
           </div>
 
           {/* first big box (top tracks / artists + modifiers). Switch Statement here*/}
-          {currentTab === 'Tracks' ? (
-            <TopTracksContainer />
-          ) : currentTab === 'Artists' ? (
-            <TopArtistsContainer />
-          ) : null}
+          <div className="bg-white w-full px-3 rounded md h-[485px] overflow-y-hidden">
+            {currentTab === 'Tracks' ? (
+              <TopTracksContainer />
+            ) : currentTab === 'Artists' ? (
+              <TopArtistsContainer />
+            ) : null}
+          </div>
+
           {/* Selected Item Overview */}
           {selected && (
             <div className="my-6 w-full">

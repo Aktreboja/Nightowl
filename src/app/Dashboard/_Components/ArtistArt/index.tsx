@@ -23,13 +23,13 @@ export default function ArtistArt({ artist }: { artist: Artist }) {
 
   return (
     <div
-      className="relative  rounded-full w-24 h-24 m-0 hover:shadow-lg duration-100 cursor-pointer  "
+      className="relative max-sm:w-16 max-sm:h-16 w-20 h-20 m-0 hover:shadow-lg duration-100 cursor-pointer  "
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => dispatch(setSelected(artist))}
     >
       <div
-        className={`absolute top-0 left-0 w-24 h-24 bg-white bg-opacity-25 z-10 opacity-0 transition-opacity duration-75  ${hover ? 'opacity-100' : ''}`}
+        className={`absolute top-0 left-0 max-sm:w-16 max-sm:h-16 w-20 h-20 bg-white bg-opacity-25 z-10 opacity-0 transition-opacity duration-75  ${hover ? 'opacity-100' : ''}`}
       ></div>
       <Image
         src={images[images.length - 1].url}

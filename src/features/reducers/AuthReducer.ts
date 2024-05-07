@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Token } from '../../../types';
 import { RootState } from '../store';
+import { SpotifyToken } from '../../../types';
 
 interface AuthState {
   auth: boolean;
-  token: Token | null;
+  token: SpotifyToken | null;
   code_verifier: string | null;
 }
 
@@ -18,7 +18,7 @@ const AuthReducer = createSlice({
   name: 'Auth',
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<Token | null>) => {
+    setToken: (state, action: PayloadAction<SpotifyToken | null>) => {
       state.token = action.payload;
     },
     setAuth: (state, action: PayloadAction<boolean>) => {

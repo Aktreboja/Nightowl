@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Playlist, Track } from '@spotify/web-api-ts-sdk';
+import { Playlist, Track, TrackItem } from '@spotify/web-api-ts-sdk';
 import { RootState } from '../store';
-import { getUserPlaylists } from '../actions/playlist';
 
 interface PlaylistMetadata {
   name: string;
@@ -11,7 +10,7 @@ interface PlaylistMetadata {
 interface PlaylistState {
   queue: Track[];
   playlistMeta: PlaylistMetadata;
-  playlists: Playlist[];
+  playlists: Playlist<TrackItem>[];
   searchResults: Track[];
 }
 
@@ -41,6 +40,9 @@ const PlaylistReducer = createSlice({
     clearSearchResults: (state) => {
       state.searchResults = [];
     },
+    updatePlaylists: (state, action: PayloadAction<Playlist<TrackItem>[]>) => {
+      state.playlists = action.payload;
+    },
     addTrackToQueue: (state, action: PayloadAction<Track>) => {
       const existingTrack = state.queue.find(
         (track) => track.id === action.payload.id,
@@ -63,14 +65,14 @@ const PlaylistReducer = createSlice({
       state.queue = [];
     },
   },
-  extraReducers(builder) {
-    builder.addCase(
-      getUserPlaylists.fulfilled,
-      (state, action: PayloadAction<Playlist[]>) => {
-        state.playlists = action.payload;
-      },
-    );
-  },
+  // extraReducers(builder) {
+  //   builder.addCase(
+  //     getUserPlaylists.fulfilled,
+  //     (state, action: PayloadAction<Playlist[]>) => {
+  //       state.playlists = action.payload;
+  //     },
+  //   );
+  // },
 });
 
 export const getTrackQueue = (state: RootState) => state.playlist.queue;
@@ -85,6 +87,7 @@ export const {
   addTrackToQueue,
   clearTrackQueue,
   removeTrackFromQueue,
+  updatePlaylists,
   updatePlaylistDescription,
   updatePlaylistName,
   updateSearchResults,
