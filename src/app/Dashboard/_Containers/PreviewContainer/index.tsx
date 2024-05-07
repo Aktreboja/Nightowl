@@ -11,9 +11,9 @@ export default function PreviewContainer({ item }: { item: Track | Artist }) {
     const { images } = album;
 
     return (
-      <div className="w-1/3 max-w-lg py-12 max-md:hidden md:fixed md:top-1/2 md:transform md:-translate-y-1/2 md:right-0 ">
+      <div className="w-1/3 max-w-lg py-12 max-lg:hidden md:fixed md:top-1/2 md:transform md:-translate-y-1/2 md:right-0 ">
         <div className="flex flex-col justify-center items-center">
-          <div className="p-3 relative max-lg:w-44 max-lg:h-44 w-56 h-56">
+          <div className="p-3 relative max-lg:w-36 max-lg:h-36 w-44 h-44">
             <Image
               src={images[0].url}
               alt={`${name} Album art`}
@@ -25,13 +25,13 @@ export default function PreviewContainer({ item }: { item: Track | Artist }) {
 
           {imageLoaded && (
             <div className="p-3 text-center text-white">
-              <strong className="font-bold lg:text-lg">{name}</strong>
-              <p className="font-semibold">
+              <strong className="font-bold max-lg:text-md">{name}</strong>
+              <p className="font-semibold max-lg:text-sm">
                 {artists && artists.length > 0
                   ? artists.map((artist) => artist.name).join(', ')
                   : 'No Artists Available'}
               </p>
-              <p className="w-4/5 mx-auto">
+              <p className="w-4/5 mx-auto max-lg:text-sm">
                 <span className="font-semibold ">
                   From the {album.album_type.toLowerCase()}:
                 </span>{' '}

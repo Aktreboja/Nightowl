@@ -10,6 +10,7 @@ import {
 import { saveSpotifyTracks } from '@/utils/Spotify/Tracks';
 import { getUser } from '@/features/reducers/UserReducer';
 import useSpotifyPlaylists from '@/utils/Spotify/hooks/useSpotifyPlaylists';
+import Image from 'next/image';
 
 const PlaylistContainer = () => {
   const queue = useAppSelector(getTrackQueue);
@@ -65,7 +66,7 @@ const PlaylistContainer = () => {
     return (
       <section className="mx-3 min-h-screen relative  flex items-center justify-center">
         {/* todo: Adjust height for regular / ultrawide screens */}
-        <div className="rounded-sm w-full max-w-2xl flex flex-col justify-between px-4 py-2 bg-white h-3/4 max-h-[600px]  ">
+        <div className="rounded-sm w-4/5 max-w-2xl flex flex-col justify-between px-4 py-2 bg-white h-3/4 max-h-[600px]  ">
           <h1 className="w-full text-center text-xl font-bold my-3">
             Your New Tracks
           </h1>
@@ -77,15 +78,16 @@ const PlaylistContainer = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <p className="text-lg font-semibold">
+              <div className="text-center absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5">
+                <p className="max-lg:text-sm text-lg font-semibold ">
                   No Tracks Yet, Add from the Top Stats Tab
                 </p>
               </div>
             )}
           </div>
-          <div className="w-full flex flex-col md:flex-row justify-center my-3">
-            <div>
+          {/* Button Container */}
+          <div className="w-full flex flex-row justify-center my-3">
+            <div className="mx-1">
               <button
                 className="my-1 px-3 py-2 md:mx-2 bg-button-secondary rounded-sm font-semibold hover:bg-button-primary hover:text-white duration-75"
                 onClick={() => saveTrackHandler()}
@@ -94,7 +96,7 @@ const PlaylistContainer = () => {
               </button>
             </div>
 
-            <div>
+            <div className="mx-1">
               <button
                 onClick={() => setAddToPlaylist(true)}
                 className="bg-button-primary text-white my-1 px-3 py-2 hover:bg-button-secondary hover:text-black font-semibold duration-75"
@@ -109,7 +111,7 @@ const PlaylistContainer = () => {
   else
     return (
       <section className="absolute w-full h-screen flex justify-center items-center bg-primary">
-        <div className="w-1/3 border bg-white rounded-sm py-4 min-h-[500px]">
+        <div className="max-lg:w-3/4 w-1/3 shadow-lg bg-white rounded-md py-4 min-h-[500px]">
           <h3 className=" text-center text-xl font-semibold">
             Add to Playlist
           </h3>
@@ -153,11 +155,25 @@ const PlaylistContainer = () => {
             </div>
 
             {/* Playlists Container */}
-            <div className="h-40 overflow-y-scroll">
+            <div className="h-40 grid grid-cols-2 place-items-center overflow-y-scroll border ">
               {playlists &&
                 playlists.map((playlist, key) => (
-                  <div key={key} className="my-2 border w-1/2">
-                    <p className="font-semibold">{playlist.name}</p>
+                  <div
+                    key={key}
+                    className="my-2 border border-gray rounded-sm w-4/5 h-16 mx-1 flex items-end p-2"
+                  >
+                    {/* Add a conditionally Rendered playlist image component */}
+                    {playlist.images ? (
+                      <Image
+                        src={playlist.images[0].url}
+                        width={50}
+                        height={50}
+                        alt="Playlist"
+                      />
+                    ) : (
+                      <div className="w-[50px] h-[50px] bg-gray"></div>
+                    )}
+                    <p className="font-semibold ml-2 mb-1">{playlist.name}</p>
                   </div>
                 ))}
             </div>

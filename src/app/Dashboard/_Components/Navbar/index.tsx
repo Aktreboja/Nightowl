@@ -42,7 +42,7 @@ const Navbar = () => {
   const { display_name, images } = user as User;
 
   return (
-    <nav className="fixed shadow-xl w-full h-14 z-40 overflow-hidden bg-secondary text-white flex items-center justify-between">
+    <nav className="fixed top-0 shadow-xl w-full h-14 z-40 overflow-hidden bg-secondary text-white flex items-center justify-between">
       <div className="h-full w-fit flex  items-center">
         <h1 className="px-4 font-bold">Nightowl</h1>
       </div>

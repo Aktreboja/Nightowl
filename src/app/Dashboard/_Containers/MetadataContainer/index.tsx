@@ -106,8 +106,8 @@ export default function MetadataContainer() {
         >
           X
         </span>
-        <div className="flex xl:w-[90%] xl:mx-auto">
-          <div className="relative w-28 h-28 ml-3">
+        <div className="flex w-[90%]  mx-auto mt-3">
+          <div className="relative w-20 h-20 ml-3">
             <Image
               src={images[0].url}
               layout="fill"
@@ -116,11 +116,11 @@ export default function MetadataContainer() {
             />
           </div>
 
-          <div className="px-6 mt-0.5">
+          <div className="px-4">
             <h1 className="w-full font-bold">{name}</h1>
             <p>{artistsString}</p>
             <button
-              className="border-black border rounded-sm px-3 py-0.5 mt-2"
+              className="border-black border rounded-sm px-4 py-0.5"
               onClick={
                 isSaved
                   ? () => handleTrackSave('Saved')
@@ -134,9 +134,9 @@ export default function MetadataContainer() {
         <hr className="my-4 text-primary w-4/5 mx-auto" />
 
         {/* Artists */}
-        <div className="px-3 xl:w-[90%] xl:mx-auto">
+        <div className="px-3 w-[90%] mx-auto">
           <h1 className="font-semibold ml-1">Artists</h1>
-          <div className="flex">
+          <div className="flex mt-2">
             {/* Artist Images */}
             <div className="w-full flex">
               {!loading && selectedArtists.length > 0 ? (
@@ -144,7 +144,7 @@ export default function MetadataContainer() {
                   return (
                     <div
                       key={key}
-                      className="relative w-20 h-20 rounded-full mx-1 cursor-pointer"
+                      className="relative w-14 h-14 rounded-full mx-1 cursor-pointer"
                     >
                       <Image
                         src={artist.images[0].url}
@@ -153,6 +153,7 @@ export default function MetadataContainer() {
                         loading="eager"
                         objectFit="cover"
                         className="w-full h-full object-cover rounded-full"
+                        title={`${artist.name}`}
                       />
                     </div>
                   );
@@ -165,11 +166,11 @@ export default function MetadataContainer() {
         </div>
         {/* Similar Music */}
         <hr className="my-4 text-primary  mx-auto w-4/5" />
-        <div className="flex flex-col px-3 items-center">
+        <div className="flex flex-col px-3 items-center w-[90%] mx-auto">
           <h1 className="font-semibold w-full lg:w-[90%] ">Similar Tracks</h1>
 
           {/* Tracks container */}
-          <div className="grid px-1 py-4 grid-cols-5  md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-8 2xl:grid-cols-10 w-fit sound overflow-y-auto max-h-[600px]">
+          <div className="grid px-1 py-4 max-md:grid-cols-5 grid-cols-10  w-fit overflow-y-auto ">
             {recommendedTracks.length > 0 &&
               recommendedTracks.map((track, key) => (
                 <TrackArt key={key} track={track} />

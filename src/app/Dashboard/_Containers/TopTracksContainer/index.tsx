@@ -47,39 +47,37 @@ export const TopTracksContainer = () => {
   return (
     <>
       <div>
-        <p className="max-sm:text-xl text-3xl mx-3 mt-3 font-bold text-black text-center xl:text-left">
+        <p className="max-md:text-lg text-3xl mx-3 mt-3 font-bold text-black text-center xl:text-left">
           Your Top Tracks
         </p>
         {/* Selectors for time ranges. */}
         <div className="flex justify-center xl:justify-start my-2">
           <p
             onClick={() => dispatch(setTimeRange('short_term'))}
-            className={`${time_range == 'short_term' ? 'underline' : ''} max-sm:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
+            className={`${time_range == 'short_term' ? 'underline' : ''} max-md:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
           >
             Last Month
           </p>
           <p
             onClick={() => dispatch(setTimeRange('medium_term'))}
-            className={`${time_range == 'medium_term' ? 'underline' : ''} max-sm:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
+            className={`${time_range == 'medium_term' ? 'underline' : ''} max-md:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
           >
             Last 6 Months
           </p>
           <p
             onClick={() => dispatch(setTimeRange('long_term'))}
-            className={`${time_range == 'long_term' ? 'underline' : ''} max-sm:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
+            className={`${time_range == 'long_term' ? 'underline' : ''} max-md:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
           >
             All Time
           </p>
         </div>
       </div>
-      <div className="flex justify-center h-96 overflow-y-hidden">
-        <div className="grid px-3  grid-cols-6  xl:grid-cols-10 w-full overflow-y-scroll max-h-[500px] ">
-          {!loading ? (
-            tracks.map((track, key) => <TrackArt key={key} track={track} />)
-          ) : (
-            <LoadingState />
-          )}
-        </div>
+      <div className="grid px-3 max-md:grid-cols-5 grid-cols-10 w-full overflow-y-auto max-h-[500px] mx-auto">
+        {!loading ? (
+          tracks.map((track, key) => <TrackArt key={key} track={track} />)
+        ) : (
+          <LoadingState />
+        )}
       </div>
     </>
   );

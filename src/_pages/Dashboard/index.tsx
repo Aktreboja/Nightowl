@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
   return (
     <section className="w-full min-h-screen bg-primary relative">
       <Navbar />
-      <div className="hf">
+      <div className="mt-14">
         {/* Conditionals to render content */}
         {view === 'Top Stats' ? (
           <div className="ml-0 md:ml-7">
