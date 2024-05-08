@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Track, Artist } from '@spotify/web-api-ts-sdk';
+import { Track, Artist, Album } from '@spotify/web-api-ts-sdk';
 import { RootState } from '../store';
 import { saveTrack, checkForSaved, fetchSimilarTracks } from '../actions/track';
 import { fetchArtists, fetchSelectedArtists } from '../actions/artist';
@@ -8,8 +8,12 @@ import { fetchArtists, fetchSelectedArtists } from '../actions/artist';
 interface SelectedState {
   selectedItem: Artist | Track | null;
   saved: boolean;
+  followed: boolean;
   selectedArtists: Artist[];
   similarTracks: Track[];
+  artistTopTracks: Track[];
+  relatedArtists: Artist[];
+  artistAlbums: Album[];
 }
 
 interface PreviewState {
@@ -34,6 +38,10 @@ const initialState: PreviewState = {
     saved: false,
     selectedArtists: [],
     similarTracks: [],
+    followed: false,
+    artistTopTracks: [],
+    relatedArtists: [],
+    artistAlbums: [],
   },
 };
 
@@ -70,6 +78,15 @@ const MusicReducer = createSlice({
     },
     setSimilarTracks: (state, action: PayloadAction<Track[]>) => {
       state.selected.similarTracks = action.payload;
+    },
+    setArtistTopTracks: (state, action: PayloadAction<Track[]>) => {
+      state.selected.artistTopTracks = action.payload;
+    },
+    setRelatedArtists: (state, action: PayloadAction<Artist[]>) => {
+      state.selected.relatedArtists = action.payload;
+    },
+    setArtistAlbums: (state, action: PayloadAction<Album[]>) => {
+      state.selected.artistAlbums = action.payload;
     },
   },
   extraReducers(builder) {
@@ -119,6 +136,14 @@ export const getSimilarTracks = (state: RootState) =>
   state.music.selected.similarTracks;
 export const getIsSaved = (state: RootState) => state.music.selected.saved;
 
+// Selectors for artists view
+export const getArtistsTopTracks = (state: RootState) =>
+  state.music.selected.artistTopTracks;
+export const getRelatedArtists = (state: RootState) =>
+  state.music.selected.relatedArtists;
+export const getArtistsAlbums = (state: RootState) =>
+  state.music.selected.artistAlbums;
+
 // Exports for usage in other files
 export const {
   setPreview,
@@ -130,6 +155,9 @@ export const {
   setSaved,
   setSelectedArtists,
   setSimilarTracks,
+  setArtistTopTracks,
+  setRelatedArtists,
+  setArtistAlbums,
 } = MusicReducer.actions;
 
 export default MusicReducer.reducer;

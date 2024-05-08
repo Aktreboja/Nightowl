@@ -1,8 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-const initialState = {
+interface UIProps {
+  toastMessage: string;
+  interactable: boolean;
+}
+
+const initialState: UIProps = {
   toastMessage: '',
+  interactable: false,
 };
 
 const UIReducer = createSlice({
@@ -15,10 +21,15 @@ const UIReducer = createSlice({
     clearToastMessage: (state) => {
       state.toastMessage = '';
     },
+    setInteractable: (state, action: PayloadAction<boolean>) => {
+      state.interactable = action.payload;
+    },
   },
 });
 
 export const getToastMessage = (state: RootState) => state.UI.toastMessage;
+export const getInteractable = (state: RootState) => state.UI.interactable;
 
-export const { clearToastMessage, setToastMessage } = UIReducer.actions;
+export const { clearToastMessage, setToastMessage, setInteractable } =
+  UIReducer.actions;
 export default UIReducer.reducer;

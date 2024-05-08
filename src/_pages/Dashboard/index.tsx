@@ -12,6 +12,12 @@ import PlaylistContainer from '@/app/Dashboard/_Containers/PlaylistContainer';
 import NotificationToast from '@/app/Dashboard/_Components/NotificationToast';
 import RecommendationContainer from '@/app/Dashboard/_Containers/RecommendationContainer';
 import useSpotify from '@/utils/Spotify/hooks/useSpotify';
+import WelcomeComponent from '@/app/_Components/WelcomeComponent';
+
+import {
+  getInteractable,
+  setInteractable,
+} from '@/features/reducers/UIReducer';
 
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +26,7 @@ const Dashboard: React.FC = () => {
   const token = useAppSelector(checkToken);
   const previewUrl = useAppSelector(getPreviewUrl);
   const view = useAppSelector(getView);
+  const isInteractable = useAppSelector(getInteractable);
 
   // UseRef is used here to bypass typescript checking / explicitly referencing the km
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -50,8 +57,10 @@ const Dashboard: React.FC = () => {
   }, [dispatch, token]);
 
   return (
-    <section className="w-full min-h-screen bg-primary relative">
-      <Navbar />
+    <section className="w-full bg-primary relative">
+      {/* Welcome Message */}
+      {!isInteractable ? <WelcomeComponent /> : <Navbar />}
+
       <div className="mt-14">
         {/* Conditionals to render content */}
         {view === 'Top Stats' ? (

@@ -12,10 +12,10 @@ import {
 } from '@/features/reducers/MusicReducer';
 import { checkToken } from '@/features/reducers/AuthReducer';
 import useSpotify from '@/utils/Spotify/hooks/useSpotify';
+import { getInteractable } from '@/features/reducers/UIReducer';
 
 export const TopTracksContainer = () => {
   const [loading, setLoading] = useState(false);
-
   const dispatch = useAppDispatch();
   const time_range = useAppSelector(getTimeRange);
   const token = useAppSelector(checkToken);

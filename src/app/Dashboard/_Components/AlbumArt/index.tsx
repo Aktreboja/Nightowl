@@ -1,43 +1,36 @@
-import { useAppDispatch, useAppSelector } from '@/features/hooks';
-import { getInteractable } from '@/features/reducers/UIReducer';
+import { useAppDispatch } from '@/features/hooks';
 import { setPreview, setPreviewUrl } from '@/features/reducers/MusicReducer';
-import { Track } from '@spotify/web-api-ts-sdk';
+import { Album } from '@spotify/web-api-ts-sdk';
 import Image from 'next/image';
 import { useState } from 'react';
 import { addTrackToQueue } from '@/features/reducers/PlaylistReducer';
 import { setSelected } from '@/features/reducers/MusicReducer';
 
-// Track component for rendering Spotify Tracks
-const TrackArt = ({ track }: { track: Track }) => {
+// Album component for rendering Spotify Tracks
+const AlbumArt = ({ album }: { album: Album }) => {
   const dispatch = useAppDispatch();
-
-  const isInteractable = useAppSelector(getInteractable);
-
   const [hover, setHover] = useState(false);
 
-  // Extracting Values from Track
-  const { name, preview_url, artists, album } = track;
-  const trackArt = album.images[1];
+  // Extracting Values from Album
+  const { name, images } = album;
+  const albumArt = images[1];
 
-  // Mouse handlers to trigger the preview url of a track
   const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (isInteractable) {
-      setHover(true);
-      dispatch(setPreviewUrl(preview_url as string));
-      dispatch(setPreview(track));
-    }
+    setHover(true);
+    // dispatch(setPreviewUrl(preview_url as string));
+    // dispatch(setPreview(track));
   };
 
   const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
     setHover(false);
-    dispatch(setPreviewUrl(''));
-    dispatch(setPreview(null));
+    // dispatch(setPreviewUrl(''));
+    // dispatch(setPreview(null));
   };
 
   // onClick handler to showcase selected track / artist.
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    dispatch(addTrackToQueue(track));
-    dispatch(setSelected(track));
+    // dispatch(addTrackToQueue(track));
+    // dispatch(setSelected(track));
   };
 
   return (
@@ -51,7 +44,7 @@ const TrackArt = ({ track }: { track: Track }) => {
         className={`absolute top-0 left-0 w-full h-full  bg-white bg-opacity-40 z-20 opacity-0 transition-opacity duration-75 ${hover ? 'opacity-100' : ''}`}
       ></div>
       <Image
-        src={trackArt.url}
+        src={albumArt.url}
         alt={`${name} Track Art`}
         className="max-w-full h-auto"
         aria-label={`${name}`}
@@ -65,4 +58,4 @@ const TrackArt = ({ track }: { track: Track }) => {
   );
 };
 
-export default TrackArt;
+export default AlbumArt;

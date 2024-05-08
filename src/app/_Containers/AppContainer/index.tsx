@@ -72,7 +72,7 @@ export default function AppContainer() {
   }, []);
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative bg-primary w-full h-screen">
       <LandingLoader loading={loading} />
       <div
         className={`absolute inset-0 transition-opacity duration-300 ${!loading ? 'opacity-100' : 'opacity-0'}`}

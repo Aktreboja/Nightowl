@@ -67,7 +67,7 @@ const TopArtistsContainer = () => {
   return (
     <>
       <div>
-        <p className="max-sm:text-xl text-3xl mx-3 mt-3 font-bold text-black text-center xl:text-left">
+        <p className="max-md:text-lg text-3xl mx-3 mt-3 font-bold text-black text-center xl:text-left">
           Your Top Artists
         </p>
         <div className="flex justify-center xl:justify-start my-2">
@@ -91,17 +91,12 @@ const TopArtistsContainer = () => {
           </p>
         </div>
       </div>
-
-      <div className="flex justify-center h-96 overflow-y-hidden">
-        <div className="grid px-3  grid-cols-6  xl:grid-cols-10 w-full overflow-y-scroll max-h-[500px]">
-          {!loading ? (
-            artists.map((Artist, key) => (
-              <ArtistArt key={key} artist={Artist} />
-            ))
-          ) : (
-            <LoadingState />
-          )}
-        </div>
+      <div className="grid px-3 max-md:grid-cols-5 grid-cols-10 w-full overflow-y-auto max-h-[500px] mx-auto">
+        {!loading ? (
+          artists.map((Artist, key) => <ArtistArt key={key} artist={Artist} />)
+        ) : (
+          <LoadingState />
+        )}
       </div>
     </>
   );
