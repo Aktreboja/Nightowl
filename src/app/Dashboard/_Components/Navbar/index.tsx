@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { User } from '@spotify/web-api-ts-sdk';
 import { logoutClick } from '@/utils/Spotify/Spotify';
-import { getUser, getView, setView } from '@/features/reducers/UserReducer';
+import { getUser } from '@/features/reducers/UserReducer';
+import { getView, setView } from '@/features/reducers/UIReducer';
 import { useAppDispatch, useAppSelector } from '@/features/hooks';
 import { getQueueCount } from '@/features/reducers/PlaylistReducer';
 import { setSelected } from '@/features/reducers/MusicReducer';
@@ -15,7 +16,7 @@ const Navbar = () => {
   const queueCount = useAppSelector(getQueueCount);
 
   const [settings, setSettings] = useState(false);
-  const settingsRef = useRef<HTMLImageElement>(null);
+  const settingsRef = useRef<HTMLDivElement>(null);
 
   // UseEffect to handle out of click bounds for Profile
   useEffect(() => {
@@ -66,31 +67,32 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        <p
+        {/* todo: Keep commented until further notice */}
+        {/* <p
           className={`${currentView === 'Recommend' && 'underline'} px-4 cursor-pointer font-semibold hover:underline`}
           onClick={() => handleViewChange('Recommend')}
         >
           Recommend
-        </p>
+        </p> */}
       </div>
       <div className="w-fit px-5">
-        <div className="flex items-center">
+        <div
+          className="flex items-center cursor-pointer hover:underline"
+          ref={settingsRef}
+          onClick={() => setSettings(!settings)}
+        >
           <p className="px-3 font-semibold">{display_name}</p>
           <Image
             src={images[1].url}
             alt={display_name}
             width={35}
             height={35}
-            style={{ borderRadius: '50%', cursor: 'pointer' }}
-            onClick={() => setSettings(!settings)}
+            style={{ borderRadius: '50%' }}
           />
         </div>
       </div>
       {settings && (
-        <div
-          className="fixed top-16 right-1 w-60 h-fit z-40 rounded-md bg-white text-black shadow-lg"
-          ref={settingsRef}
-        >
+        <div className="fixed top-16 right-1 w-60 h-fit z-40 rounded-md bg-white text-black shadow-lg">
           <div className="max-md:block hidden">
             <button
               type="button"

@@ -1,18 +1,21 @@
-import { Artist, Track } from '@spotify/web-api-ts-sdk';
+import { Album, Artist, Track } from '@spotify/web-api-ts-sdk';
 import Image from 'next/image';
 import { useState } from 'react';
 
-export default function PreviewContainer({ item }: { item: Track | Artist }) {
+export default function PreviewContainer({
+  item,
+}: {
+  item: Track | Artist | Album;
+}) {
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // If it is a track
-  if ('preview_url' in item) {
-    const { name, album, artists } = item;
-    const { images } = album;
-
-    return (
-      <div className="w-1/3 max-w-lg py-12 max-lg:hidden md:fixed md:top-1/2 md:transform md:-translate-y-1/2 md:right-0 ">
-        <div className="flex flex-col justify-center items-center">
+  // Conditionally rendered Component for preview (Track, Artist, or Album).
+  const SpotifyItem = ({ item }: { item: Track | Artist | Album }) => {
+    if ('preview_url' in item) {
+      const { name, album, artists } = item;
+      const { images } = album;
+      return (
+        <>
           <div className="p-3 relative max-lg:w-36 max-lg:h-36 w-44 h-44">
             <Image
               src={images[0].url}
@@ -39,14 +42,12 @@ export default function PreviewContainer({ item }: { item: Track | Artist }) {
               </p>
             </div>
           )}
-        </div>
-      </div>
-    );
-  } else {
-    const { name, images } = item;
-    return (
-      <div className="w-1/3 max-w-lg py-12 hidden md:block ">
-        <div className="flex flex-col justify-center items-center">
+        </>
+      );
+    } else if ('followers' in item) {
+      const { name, images } = item;
+      return (
+        <>
           <div className="p-3 relative">
             <Image
               src={images[0].url}
@@ -61,8 +62,37 @@ export default function PreviewContainer({ item }: { item: Track | Artist }) {
               <strong className="font-bold">{name}</strong>
             </div>
           )}
-        </div>
+        </>
+      );
+    } else {
+      const album: Album = item;
+      const { images, name } = album;
+      return (
+        <>
+          <div className="p-3 relative">
+            <Image
+              src={images[0].url}
+              alt={`${name} Album art`}
+              width={250}
+              height={250}
+              onLoadingComplete={() => setImageLoaded(true)}
+            />
+          </div>
+          {imageLoaded && (
+            <div className="p-3 text-center text-white">
+              <strong className="font-bold">{name}</strong>
+            </div>
+          )}
+        </>
+      );
+    }
+  };
+
+  return (
+    <div className="w-1/3 max-w-lg py-12 hidden md:block ">
+      <div className="flex flex-col justify-center items-center">
+        <SpotifyItem item={item} />
       </div>
-    );
-  }
+    </div>
+  );
 }

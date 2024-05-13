@@ -24,7 +24,6 @@ import { checkToken } from '@/features/reducers/AuthReducer';
 import {
   checkForSaved,
   fetchSimilarTracks,
-  saveTrack,
   unsaveTrack,
 } from '@/features/actions/track';
 import { fetchSelectedArtists } from '@/features/actions/artist';
@@ -124,7 +123,7 @@ export default function MetadataContainer() {
     if (access_token && selected) {
       switch (mode) {
         case 'Add':
-          dispatch(saveTrack({ access_token, id: selected.id }));
+          // dispatch(saveTrack({ access_token, id: selected.id }));
           break;
         case 'Saved':
           dispatch(unsaveTrack({ access_token, id: selected.id }));
@@ -140,8 +139,9 @@ export default function MetadataContainer() {
 
     // Remove the last comma from the string
     const artistsString = artists.map((artist) => artist.name).join(', ');
+
     return (
-      <section className=" bg-white rounded-md  py-7 w-full relative">
+      <section className=" bg-white rounded-md py-7 w-full relative">
         <span
           className="absolute right-3 top-2 cursor-pointer border rounded-full border-black border-opacity-45 p-1 hover:bg-secondary hover:bg-opacity-85 hover:text-white duration-75"
           onClick={() => dispatch(setSelected(null))}
@@ -184,19 +184,8 @@ export default function MetadataContainer() {
               {!loading && selectedArtists.length > 0 ? (
                 selectedArtists.map((artist, key) => {
                   return (
-                    <div
-                      key={key}
-                      className="relative max-lg:w-14 max-lg:h-14 h-20 w-20 rounded-full mx-1 cursor-pointer"
-                    >
-                      <Image
-                        src={artist.images[0].url}
-                        fill={true}
-                        alt="artist"
-                        loading="eager"
-                        objectFit="cover"
-                        className="w-full h-full object-cover rounded-full"
-                        title={`${artist.name}`}
-                      />
+                    <div key={key} className="mx-1">
+                      <ArtistArt artist={artist} rounded={true} />
                     </div>
                   );
                 })

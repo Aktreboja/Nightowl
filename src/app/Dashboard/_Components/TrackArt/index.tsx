@@ -42,7 +42,7 @@ const TrackArt = ({ track }: { track: Track }) => {
 
   return (
     <div
-      className={`relative w-full m-0 duration-100 cursor-pointer hover:bg-primary`}
+      className={`relative w-full m-0 duration-100 cursor-pointer `}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}

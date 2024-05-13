@@ -32,11 +32,11 @@ export default function RecommendationContainer() {
     const recQuery: RecommendationQuery = {
       seedTracks: tracks,
     };
-    const recResponse = await GetRecommendations(
-      (token as Token).access_token,
-      recQuery,
-    );
-    console.log(recResponse);
+    // todo: comment until further notice
+    // const recResponse = await GetRecommendations(
+    //   (token as Token).access_token,
+    //   recQuery,
+    // );
   };
 
   return (

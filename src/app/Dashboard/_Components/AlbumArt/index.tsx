@@ -18,19 +18,19 @@ const AlbumArt = ({ album }: { album: Album }) => {
   const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
     setHover(true);
     // dispatch(setPreviewUrl(preview_url as string));
-    // dispatch(setPreview(track));
+    dispatch(setPreview(album));
   };
 
   const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
     setHover(false);
     // dispatch(setPreviewUrl(''));
-    // dispatch(setPreview(null));
+    dispatch(setPreview(null));
   };
 
   // onClick handler to showcase selected track / artist.
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     // dispatch(addTrackToQueue(track));
-    // dispatch(setSelected(track));
+    dispatch(setSelected(album));
   };
 
   return (

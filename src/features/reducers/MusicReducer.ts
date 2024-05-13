@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Track, Artist, Album } from '@spotify/web-api-ts-sdk';
+import { Track, Artist, Album, SimplifiedTrack } from '@spotify/web-api-ts-sdk';
 import { RootState } from '../store';
-import { saveTrack, checkForSaved, fetchSimilarTracks } from '../actions/track';
+import { checkForSaved, fetchSimilarTracks } from '../actions/track';
 import { fetchArtists, fetchSelectedArtists } from '../actions/artist';
 
 // Selected Item State
 interface SelectedState {
-  selectedItem: Artist | Track | null;
+  selectedItem: Artist | Track | Album | null;
   saved: boolean;
   followed: boolean;
   selectedArtists: Artist[];
@@ -14,10 +14,11 @@ interface SelectedState {
   artistTopTracks: Track[];
   relatedArtists: Artist[];
   artistAlbums: Album[];
+  albumTracks: SimplifiedTrack[];
 }
 
 interface PreviewState {
-  preview: Track | Artist | null;
+  preview: Track | Artist | Album | null;
   preview_url: string;
   tracks: Track[];
   artists: Artist[];
@@ -42,6 +43,7 @@ const initialState: PreviewState = {
     artistTopTracks: [],
     relatedArtists: [],
     artistAlbums: [],
+    albumTracks: [],
   },
 };
 
@@ -49,7 +51,10 @@ const MusicReducer = createSlice({
   name: 'Music',
   initialState,
   reducers: {
-    setPreview: (state, action: PayloadAction<Track | Artist | null>) => {
+    setPreview: (
+      state,
+      action: PayloadAction<Track | Artist | Album | null>,
+    ) => {
       state.preview = action.payload;
     },
     setTracks: (state, action: PayloadAction<Track[]>) => {
@@ -67,7 +72,10 @@ const MusicReducer = createSlice({
     setPreviewUrl: (state, action: PayloadAction<string>) => {
       state.preview_url = action.payload;
     },
-    setSelected: (state, action: PayloadAction<Track | Artist | null>) => {
+    setSelected: (
+      state,
+      action: PayloadAction<Track | Artist | Album | null>,
+    ) => {
       state.selected.selectedItem = action.payload;
     },
     setSaved: (state, action: PayloadAction<boolean>) => {
@@ -88,6 +96,9 @@ const MusicReducer = createSlice({
     setArtistAlbums: (state, action: PayloadAction<Album[]>) => {
       state.selected.artistAlbums = action.payload;
     },
+    setAlbumTracks: (state, action: PayloadAction<SimplifiedTrack[]>) => {
+      state.selected.albumTracks = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchSelectedArtists.fulfilled, (state, action) => {
@@ -104,9 +115,6 @@ const MusicReducer = createSlice({
       ),
       builder.addCase(fetchSimilarTracks.fulfilled, (state, action) => {
         state.selected.similarTracks = action.payload;
-      }),
-      builder.addCase(saveTrack.fulfilled, (state, action) => {
-        console.log('Track Saved');
       }),
       builder.addCase(fetchArtists.fulfilled, (state, action) => {
         state.artists = action.payload as Artist[];
@@ -144,6 +152,9 @@ export const getRelatedArtists = (state: RootState) =>
 export const getArtistsAlbums = (state: RootState) =>
   state.music.selected.artistAlbums;
 
+export const getAlbumTracks = (state: RootState) =>
+  state.music.selected.albumTracks;
+
 // Exports for usage in other files
 export const {
   setPreview,
@@ -158,6 +169,7 @@ export const {
   setArtistTopTracks,
   setRelatedArtists,
   setArtistAlbums,
+  setAlbumTracks,
 } = MusicReducer.actions;
 
 export default MusicReducer.reducer;

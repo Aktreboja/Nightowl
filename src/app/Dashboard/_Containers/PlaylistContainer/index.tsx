@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import QueueCard from '@/app/Dashboard/_Components/QueueCard';
 import { useAppDispatch, useAppSelector } from '@/features/hooks';
-import { checkToken } from '@/features/reducers/AuthReducer';
 import {
+  clearTrackQueue,
   getPlaylists,
   getTrackQueue,
   updatePlaylists,
 } from '@/features/reducers/PlaylistReducer';
-import { saveSpotifyTracks } from '@/utils/Spotify/Tracks';
+
+import useSpotifyTracks from '@/utils/Spotify/hooks/useSpotifyTracks';
 import { getUser } from '@/features/reducers/UserReducer';
 import useSpotifyPlaylists from '@/utils/Spotify/hooks/useSpotifyPlaylists';
 import Image from 'next/image';
+import { setToastMessage, setView } from '@/features/reducers/UIReducer';
 
 const PlaylistContainer = () => {
   const queue = useAppSelector(getTrackQueue);
-  const token = useAppSelector(checkToken);
 
   const user = useAppSelector(getUser);
   const playlists = useAppSelector(getPlaylists);
@@ -23,6 +24,8 @@ const PlaylistContainer = () => {
 
   const [addToPlaylist, setAddToPlaylist] = useState(false);
   const dispatch = useAppDispatch();
+
+  const tracksApi = useSpotifyTracks();
 
   // useEffect to fetch all of the user's playlists
   useEffect(() => {
@@ -35,17 +38,19 @@ const PlaylistContainer = () => {
     fetchPlaylists();
   }, [user]);
 
+  const handleFormSubmit = () => {
+    dispatch(clearTrackQueue());
+    dispatch(setView('Top Stats'));
+    dispatch(setToastMessage('Tracks saved to your Spotify!'));
+  };
+
   const saveTrackHandler = async () => {
-    const queueIds = [];
+    const queueIds: string[] = [];
     for (let i = 0; i < queue.length; i++) {
       queueIds.push(queue[i].id);
     }
-
-    if (token) {
-      const { access_token } = token;
-      await saveSpotifyTracks(access_token, queueIds);
-      // await getUserPlaylists(access_token)
-    }
+    await tracksApi.saveSpotifyTracks(queueIds);
+    handleFormSubmit();
   };
 
   // Create Playlist handler function
