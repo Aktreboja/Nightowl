@@ -44,7 +44,7 @@ export interface TopItems {
 
 export interface RecommendationQuery {
   seedTracks: string[];
-  seedArtists: string[];
+  seedArtists?: string[];
   seedGenres?: string[];
   market?: string;
 }

@@ -15,24 +15,27 @@ export const GetRecommendations = async (
   query: RecommendationQuery,
 ): Promise<RecommendationsResponse> => {
   try {
-    const { seedArtists, seedTracks } = query;
-    let artistQuery = 'seed_artists=';
+    const { seedTracks } = query;
+
     let trackQuery = 'seed_tracks=';
 
     for (let i = 0; i < seedTracks.length; i++) {
       trackQuery += seedTracks[i] + ',';
     }
 
-    for (let i = 0; i < seedArtists.length; i++) {
-      artistQuery += seedArtists[i] + ',';
-    }
-    let recArray = [trackQuery.slice(0, -1), artistQuery.slice(0, -1)].join(
-      '&',
-    );
+    // for (let i = 0; i < seedArtists.length; i++) {
+    //   artistQuery += seedArtists[i] + ',';
+    // }
+    // let recArray = [trackQuery.slice(0, -1), artistQuery.slice(0, -1)].join(
+    //   '&',
+    // );
 
+    let recArray = trackQuery.slice(0, -1);
+    console.log(recArray);
+    console.log('AccessToken: ', access_token);
     const recommendationResponse = await fetch(
       process.env.NEXT_PUBLIC_SPOTIFY_API_BASE +
-        `/recommendations?${recArray}&market=ES&limit=40`,
+        `/recommendations?${recArray}&market=ES&limit=30`,
       {
         method: 'GET',
         headers: { Authorization: 'Bearer ' + access_token },

@@ -65,38 +65,40 @@ const TopArtistsContainer = () => {
   };
 
   return (
-    <div className="bg-white w-full rounded md shadow-2xl">
+    <>
       <div>
-        <p className="text-3xl m-3 font-bold">Your Top Artists</p>
-        <div className="flex ">
+        <p className="max-md:text-lg text-3xl mx-3 mt-3 font-bold text-black text-center xl:text-left">
+          Your Top Artists
+        </p>
+        <div className="flex justify-center xl:justify-start my-2">
           <p
             onClick={() => setTimeRange('short_term')}
-            className={`${timeRange == 'short_term' ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold`}
+            className={`${timeRange == 'short_term' ? 'underline' : ''} max-sm:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
           >
             Last Month
           </p>
           <p
             onClick={() => setTimeRange('medium_term')}
-            className={`${timeRange == 'medium_term' ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold`}
+            className={`${timeRange == 'medium_term' ? 'underline' : ''} max-sm:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
           >
             Last 6 Months
           </p>
           <p
             onClick={() => setTimeRange('long_term')}
-            className={`${timeRange == 'long_term' ? 'underline' : ''} mx-3 my-2 cursor-pointer hover:underline font-semibold`}
+            className={`${timeRange == 'long_term' ? 'underline' : ''} max-sm:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
           >
             All Time
           </p>
         </div>
       </div>
-      <div className="grid px-3 py-4  grid-cols-4 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-10 w-fit shadow-lg overflow-y-auto max-h-[600px]">
+      <div className="grid px-3 max-md:grid-cols-5 grid-cols-10 w-full overflow-y-auto max-h-[500px] mx-auto">
         {!loading ? (
           artists.map((Artist, key) => <ArtistArt key={key} artist={Artist} />)
         ) : (
           <LoadingState />
         )}
       </div>
-    </div>
+    </>
   );
 };
 export default TopArtistsContainer;

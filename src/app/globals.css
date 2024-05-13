@@ -10,7 +10,7 @@
 
 /* Customizing scrollbar */
 ::-webkit-scrollbar {
-  width: 6px; /* Set the width of the scrollbar */
+  width: 10px; /* Set the width of the scrollbar */
 }
 
 ::-webkit-scrollbar-thumb {

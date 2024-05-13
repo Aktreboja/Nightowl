@@ -20,6 +20,7 @@ const config: Config = {
       black: '#000000',
       'button-primary': '#394032',
       'button-secondary': '#CFEE9E',
+      gray: '#808080',
     },
     keyframes: {
       expand: {

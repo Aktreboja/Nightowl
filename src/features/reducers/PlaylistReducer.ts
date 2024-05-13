@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Playlist, Track } from '@spotify/web-api-ts-sdk';
+import { Playlist, Track, TrackItem } from '@spotify/web-api-ts-sdk';
 import { RootState } from '../store';
-import { getUserPlaylists } from '../actions/playlist';
 
 interface PlaylistMetadata {
   name: string;
@@ -11,7 +10,8 @@ interface PlaylistMetadata {
 interface PlaylistState {
   queue: Track[];
   playlistMeta: PlaylistMetadata;
-  playlists: Playlist[];
+  playlists: Playlist<TrackItem>[];
+  searchResults: Track[];
 }
 
 const initialState: PlaylistState = {
@@ -21,6 +21,7 @@ const initialState: PlaylistState = {
     description: '',
   },
   playlists: [],
+  searchResults: [],
 };
 
 const PlaylistReducer = createSlice({
@@ -32,6 +33,15 @@ const PlaylistReducer = createSlice({
     },
     updatePlaylistDescription: (state, action: PayloadAction<string>) => {
       state.playlistMeta.description = action.payload;
+    },
+    updateSearchResults: (state, action: PayloadAction<Track[]>) => {
+      state.searchResults = action.payload;
+    },
+    clearSearchResults: (state) => {
+      state.searchResults = [];
+    },
+    updatePlaylists: (state, action: PayloadAction<Playlist<TrackItem>[]>) => {
+      state.playlists = action.payload;
     },
     addTrackToQueue: (state, action: PayloadAction<Track>) => {
       const existingTrack = state.queue.find(
@@ -55,14 +65,14 @@ const PlaylistReducer = createSlice({
       state.queue = [];
     },
   },
-  extraReducers(builder) {
-    builder.addCase(
-      getUserPlaylists.fulfilled,
-      (state, action: PayloadAction<Playlist[]>) => {
-        state.playlists = action.payload;
-      },
-    );
-  },
+  // extraReducers(builder) {
+  //   builder.addCase(
+  //     getUserPlaylists.fulfilled,
+  //     (state, action: PayloadAction<Playlist[]>) => {
+  //       state.playlists = action.payload;
+  //     },
+  //   );
+  // },
 });
 
 export const getTrackQueue = (state: RootState) => state.playlist.queue;
@@ -70,12 +80,17 @@ export const getQueueCount = (state: RootState) => state.playlist.queue.length;
 
 // Playlist Selectors
 export const getPlaylists = (state: RootState) => state.playlist.playlists;
+export const getSearchResults = (state: RootState) =>
+  state.playlist.searchResults;
 
 export const {
   addTrackToQueue,
   clearTrackQueue,
   removeTrackFromQueue,
+  updatePlaylists,
   updatePlaylistDescription,
   updatePlaylistName,
+  updateSearchResults,
+  clearSearchResults,
 } = PlaylistReducer.actions;
 export default PlaylistReducer.reducer;

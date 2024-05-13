@@ -7,14 +7,12 @@ interface UserState {
   user: User | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
-  view: string;
 }
 
 const initialState: UserState = {
   user: null,
   status: 'idle',
   error: null,
-  view: 'Top Stats',
 };
 
 // Asynchronous function to get the user.
@@ -33,9 +31,6 @@ const UserReducer = createSlice({
     setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
     },
-    setView: (state, action: PayloadAction<string>) => {
-      state.view = action.payload;
-    },
   },
   extraReducers(builder) {
     // Case that will be one of the three thunk states (fulfilled, loading, error)
@@ -50,7 +45,6 @@ const UserReducer = createSlice({
 
 // Selectors for User
 export const getUser = (state: RootState) => state.user.user;
-export const getView = (state: RootState) => state.user.view;
 
-export const { setUser, setView } = UserReducer.actions;
+export const { setUser } = UserReducer.actions;
 export default UserReducer.reducer;

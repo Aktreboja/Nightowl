@@ -1,19 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Track, Artist } from '@spotify/web-api-ts-sdk';
+import { Track, Artist, Album, SimplifiedTrack } from '@spotify/web-api-ts-sdk';
 import { RootState } from '../store';
-import { saveTrack, checkForSaved, fetchSimilarTracks } from '../actions/track';
+import { checkForSaved, fetchSimilarTracks } from '../actions/track';
 import { fetchArtists, fetchSelectedArtists } from '../actions/artist';
 
 // Selected Item State
 interface SelectedState {
-  selectedItem: Artist | Track | null;
+  selectedItem: Artist | Track | Album | null;
   saved: boolean;
+  followed: boolean;
   selectedArtists: Artist[];
   similarTracks: Track[];
+  artistTopTracks: Track[];
+  relatedArtists: Artist[];
+  artistAlbums: Album[];
+  albumTracks: SimplifiedTrack[];
 }
 
 interface PreviewState {
-  preview: Track | Artist | null;
+  preview: Track | Artist | Album | null;
   preview_url: string;
   tracks: Track[];
   artists: Artist[];
@@ -34,6 +39,11 @@ const initialState: PreviewState = {
     saved: false,
     selectedArtists: [],
     similarTracks: [],
+    followed: false,
+    artistTopTracks: [],
+    relatedArtists: [],
+    artistAlbums: [],
+    albumTracks: [],
   },
 };
 
@@ -41,7 +51,10 @@ const MusicReducer = createSlice({
   name: 'Music',
   initialState,
   reducers: {
-    setPreview: (state, action: PayloadAction<Track | Artist | null>) => {
+    setPreview: (
+      state,
+      action: PayloadAction<Track | Artist | Album | null>,
+    ) => {
       state.preview = action.payload;
     },
     setTracks: (state, action: PayloadAction<Track[]>) => {
@@ -59,7 +72,10 @@ const MusicReducer = createSlice({
     setPreviewUrl: (state, action: PayloadAction<string>) => {
       state.preview_url = action.payload;
     },
-    setSelected: (state, action: PayloadAction<Track | Artist | null>) => {
+    setSelected: (
+      state,
+      action: PayloadAction<Track | Artist | Album | null>,
+    ) => {
       state.selected.selectedItem = action.payload;
     },
     setSaved: (state, action: PayloadAction<boolean>) => {
@@ -70,6 +86,18 @@ const MusicReducer = createSlice({
     },
     setSimilarTracks: (state, action: PayloadAction<Track[]>) => {
       state.selected.similarTracks = action.payload;
+    },
+    setArtistTopTracks: (state, action: PayloadAction<Track[]>) => {
+      state.selected.artistTopTracks = action.payload;
+    },
+    setRelatedArtists: (state, action: PayloadAction<Artist[]>) => {
+      state.selected.relatedArtists = action.payload;
+    },
+    setArtistAlbums: (state, action: PayloadAction<Album[]>) => {
+      state.selected.artistAlbums = action.payload;
+    },
+    setAlbumTracks: (state, action: PayloadAction<SimplifiedTrack[]>) => {
+      state.selected.albumTracks = action.payload;
     },
   },
   extraReducers(builder) {
@@ -87,9 +115,6 @@ const MusicReducer = createSlice({
       ),
       builder.addCase(fetchSimilarTracks.fulfilled, (state, action) => {
         state.selected.similarTracks = action.payload;
-      }),
-      builder.addCase(saveTrack.fulfilled, (state, action) => {
-        console.log('Track Saved');
       }),
       builder.addCase(fetchArtists.fulfilled, (state, action) => {
         state.artists = action.payload as Artist[];
@@ -119,6 +144,17 @@ export const getSimilarTracks = (state: RootState) =>
   state.music.selected.similarTracks;
 export const getIsSaved = (state: RootState) => state.music.selected.saved;
 
+// Selectors for artists view
+export const getArtistsTopTracks = (state: RootState) =>
+  state.music.selected.artistTopTracks;
+export const getRelatedArtists = (state: RootState) =>
+  state.music.selected.relatedArtists;
+export const getArtistsAlbums = (state: RootState) =>
+  state.music.selected.artistAlbums;
+
+export const getAlbumTracks = (state: RootState) =>
+  state.music.selected.albumTracks;
+
 // Exports for usage in other files
 export const {
   setPreview,
@@ -130,6 +166,10 @@ export const {
   setSaved,
   setSelectedArtists,
   setSimilarTracks,
+  setArtistTopTracks,
+  setRelatedArtists,
+  setArtistAlbums,
+  setAlbumTracks,
 } = MusicReducer.actions;
 
 export default MusicReducer.reducer;
