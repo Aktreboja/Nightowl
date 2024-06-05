@@ -56,6 +56,20 @@ Some current features include: 1. Viewing and analyzing top tracks and artists b
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+<!-- Technologies -->
+
+
+## Technologies and Concepts
+
+### Application Structure
+
+- For this application, I went with a true single page application, centered around using multiple "containers" as different views. 
+
+### Redux State management
+
+- Due to the web application structure including numerous containers at various levels of the component tree, decided to go with Redux as the global state management system for Nightowl.
+
 <!-- GETTING STARTED -->
 
 ## Getting Started
@@ -66,11 +80,15 @@ In order to get started by using Nightowl locally
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/Aktreboja/spotify.git
+   git clone https://github.com/Aktreboja/Nightowl.git
    ```
 2. Register your app with Spotify
 
    _link get started: https://developer.spotify.com/documentation/web-api/tutorials/getting-started_
+
+![image](https://github.com/Aktreboja/Nightowl/assets/15055373/5d977e26-5226-41e5-8d59-7b5c9a68cdc7)
+
+Note: When setting up the redirect uris, `http://localhost:3000`, or the uri that runs your devlopment instance will be for development purposes, and the live site url will be for production.
 
 3. Add in environment variables
 
@@ -91,6 +109,8 @@ In order to get started by using Nightowl locally
    NEXT_PUBLIC_SPOTIFY_REDIRECT_URL = "http://localhost:3000"
 
    ```
+
+   Note: `NEXT_PUBLIC_SPOTIFY_SCOPE` may or may not be similar, depending on what kind of routes you will be using or if you plan to add more. Please refer to the individual API routes to confirm.
 
 4. Install the necessary packages and run the application
 
