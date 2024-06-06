@@ -177,7 +177,7 @@ The following url will also contain query parameters
 
 ## Roadmap
 
-- [ ] Fix unaligned hover outlines on trackArt components
+- [x] Fix unaligned hover outlines on trackArt components
 - [ ] Add previews to artists by playing their top track
 - [ ] Fix UI errors from playback state changes
 - [ ] Add modal to initialize UI for audio previewing
@@ -195,7 +195,7 @@ The following url will also contain query parameters
 
 Aldrich Reboja - aktreboja@gmail.com
 
-Project Link: [https://github.com/aktreboja/Spotify](https://github.com/aktreboja/spotify)
+Project Link: [https://github.com/aktreboja/Nightowl](https://github.com/aktreboja/Nightowl)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
