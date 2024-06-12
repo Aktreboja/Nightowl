@@ -7,7 +7,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a> -->
 
-  <h3 align="center">Nightowl</h3>
+  <h1 align="center"><i>Nightowl</i></h1>
 
   <p align="center">
     A Web application focused on improving music exploration within spotify
@@ -40,9 +40,14 @@
 
 ## About The Project
 
-Nighowl is a web application that improves the way you discover music through Spotify.
+Nighowl is a web application that improves the way you discover music through Spotify. This web application takes your analytical data, such as your top tracks and artists, and provides an almost rabbit hole experience when searching for new music. It is clearly meant to keep you up all night listening to music. 
 
-Some current features include: 1. Viewing and analyzing top tracks and artists based on timeline. 2. Preview tracks to enhance and speed up music discovery. 3. Retrieving track recommendations based on the selected track. 4. Ability to select and save tracks to their Spotify account.
+Current features include: 
+
+1. Viewing and analyzing top tracks and artists based on timeline.
+2. Preview tracks to enhance and speed up music discovery.
+3. Ability to select and save tracks to their Spotify account.
+4. Retrieving track recommendations based on the selected track. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
