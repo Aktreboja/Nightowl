@@ -47,7 +47,7 @@ const Landing = () => {
           />
         </div>
         <div className="my-7 text-white z-50">
-          <h1 className="font-bold max-lg:text-6xl text-8xl w-fit h-fit  text-center text-white">
+          <h1 className="font-bold max-lg:text-6xl text-8xl w-fit h-fit  text-center text-white italic">
             Nightowl
           </h1>
           <p className="mt-2">A platform for the adventurous</p>

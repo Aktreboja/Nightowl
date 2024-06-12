@@ -4,10 +4,17 @@ import { checkToken } from '@/features/reducers/AuthReducer';
 
 import { Playlist, Page, TrackItem } from '@spotify/web-api-ts-sdk';
 import { CreatePlaylistProps } from '@/types/types';
+import {
+  clearSelectedPlaylist,
+  clearTrackQueue,
+  getTrackQueue,
+} from '@/features/reducers/PlaylistReducer';
+import { setView, setToastMessage } from '@/features/reducers/UIReducer';
 
 const useSpotifyPlaylists = () => {
   const { request } = useSpotifyApi();
   const spotifyToken = useAppSelector(checkToken);
+  const dispatch = useAppDispatch();
 
   const GetOptions = {
     method: 'GET',
@@ -80,7 +87,48 @@ const useSpotifyPlaylists = () => {
     }
   };
 
-  return { fetchUserPlaylists, createPlaylist };
+  const addToPlaylist = async (
+    playlist_id: string,
+    playlistQueue: string[],
+  ): Promise<any> => {
+    try {
+      const addPlaylistBody = {
+        uris: playlistQueue,
+      };
+
+      const PostOptions = {
+        ...GetOptions,
+        method: 'POST',
+        body: JSON.stringify(addPlaylistBody),
+      };
+
+      console.log(PostOptions);
+
+      const response = await request(
+        `/playlists/${playlist_id}/tracks`,
+        PostOptions,
+      );
+
+      if (response.ok) {
+        const toastMessage =
+          playlistQueue.length > 1
+            ? 'Tracks added to playlist'
+            : 'Track added to playlist!';
+        dispatch(clearSelectedPlaylist());
+        dispatch(clearTrackQueue());
+        dispatch(setToastMessage(toastMessage));
+        dispatch(setView('Top Stats'));
+      }
+    } catch (error) {
+      console.error('Error Adding to Playlist');
+    }
+  };
+
+  return {
+    fetchUserPlaylists,
+    createPlaylist,
+    addToPlaylist,
+  };
 };
 
 export default useSpotifyPlaylists;

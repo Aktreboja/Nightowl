@@ -18,6 +18,9 @@ import {
   getRelatedArtists,
   setArtistAlbums,
   getArtistsAlbums,
+  clearSelected,
+  setSelectedArtists,
+  setSimilarTracks,
 } from '@/features/reducers/MusicReducer';
 import { useAppDispatch } from '@/features/hooks';
 import { checkToken } from '@/features/reducers/AuthReducer';
@@ -132,6 +135,16 @@ export default function MetadataContainer() {
     }
   };
 
+  // Clear all of the metadata state before closing the modal.
+  const handleModalClose = () => {
+    dispatch(setArtistTopTracks([]));
+    dispatch(setArtistAlbums([]));
+    dispatch(setRelatedArtists([]));
+    dispatch(setSelectedArtists([]));
+    dispatch(setSimilarTracks([]));
+    dispatch(setSelected(null));
+  };
+
   // Conditional for Track
   if (selected && 'preview_url' in selected) {
     const { name, artists, album } = selected as Track;
@@ -144,7 +157,7 @@ export default function MetadataContainer() {
       <section className=" bg-white rounded-md py-7 w-full relative">
         <span
           className="absolute right-3 top-2 cursor-pointer border rounded-full border-black border-opacity-45 p-1 hover:bg-secondary hover:bg-opacity-85 hover:text-white duration-75"
-          onClick={() => dispatch(setSelected(null))}
+          onClick={() => handleModalClose()}
         >
           <IoCloseSharp className="" />
         </span>

@@ -11,6 +11,7 @@ interface PlaylistState {
   queue: Track[];
   playlistMeta: PlaylistMetadata;
   playlists: Playlist<TrackItem>[];
+  selectedPlaylist: Playlist<TrackItem> | null;
   searchResults: Track[];
 }
 
@@ -22,6 +23,7 @@ const initialState: PlaylistState = {
   },
   playlists: [],
   searchResults: [],
+  selectedPlaylist: null,
 };
 
 const PlaylistReducer = createSlice({
@@ -40,8 +42,17 @@ const PlaylistReducer = createSlice({
     clearSearchResults: (state) => {
       state.searchResults = [];
     },
+    clearSelectedPlaylist: (state) => {
+      state.selectedPlaylist = null;
+    },
     updatePlaylists: (state, action: PayloadAction<Playlist<TrackItem>[]>) => {
       state.playlists = action.payload;
+    },
+    updateSelectedPlaylist: (
+      state,
+      action: PayloadAction<Playlist<TrackItem>>,
+    ) => {
+      state.selectedPlaylist = action.payload;
     },
     addTrackToQueue: (state, action: PayloadAction<Track>) => {
       const existingTrack = state.queue.find(
@@ -80,6 +91,8 @@ export const getQueueCount = (state: RootState) => state.playlist.queue.length;
 
 // Playlist Selectors
 export const getPlaylists = (state: RootState) => state.playlist.playlists;
+export const getSelectedPlaylist = (state: RootState) =>
+  state.playlist.selectedPlaylist;
 export const getSearchResults = (state: RootState) =>
   state.playlist.searchResults;
 
@@ -88,6 +101,8 @@ export const {
   clearTrackQueue,
   removeTrackFromQueue,
   updatePlaylists,
+  updateSelectedPlaylist,
+  clearSelectedPlaylist,
   updatePlaylistDescription,
   updatePlaylistName,
   updateSearchResults,

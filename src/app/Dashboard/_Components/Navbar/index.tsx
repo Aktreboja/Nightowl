@@ -18,20 +18,20 @@ const Navbar = () => {
   const [settings, setSettings] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
 
-  // UseEffect to handle out of click bounds for Profile
-  useEffect(() => {
-    const handleClickOutsideBounds = (event: MouseEvent) => {
-      if (
-        settingsRef.current &&
-        !settingsRef.current.contains(event.target as Node)
-      )
-        setSettings(false);
-    };
-    document.addEventListener('mousedown', handleClickOutsideBounds);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutsideBounds);
-    };
-  });
+  // todo: UseEffect to handle out of click bounds for Profile, commented until there's a better fix
+  // useEffect(() => {
+  //   const handleClickOutsideBounds = (event: MouseEvent) => {
+  //     if (
+  //       settingsRef.current &&
+  //       !settingsRef.current.contains(event.target as Node)
+  //     )
+  //       setSettings(false);
+  //   };
+  //   document.addEventListener('mousedown', handleClickOutsideBounds);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutsideBounds);
+  //   };
+  // });
 
   // View Change on-click Handler
   const handleViewChange = (newView: string) => {
@@ -44,8 +44,13 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 shadow-xl w-full h-14 z-30 overflow-hidden bg-secondary text-white flex items-center justify-between">
-      <div className="h-full w-fit flex  items-center">
-        <h1 className="px-4 font-bold">Nightowl</h1>
+      <div
+        className="h-full w-fit flex text-xl items-center cursor-pointer"
+        onClick={() => dispatch(setView('Top Stats'))}
+      >
+        <h1 className="px-4 font-bold">
+          <i>Nightowl</i>
+        </h1>
       </div>
       <div className="hidden md:flex ">
         <p
@@ -92,7 +97,7 @@ const Navbar = () => {
         </div>
       </div>
       {settings && (
-        <div className="fixed top-16 right-1 w-60 h-fit z-40 rounded-md bg-white text-black shadow-lg">
+        <div className="fixed top-14 right-1 w-60 h-fit z-40 rounded-md bg-white text-black shadow-lg">
           <div className="max-md:block hidden">
             <button
               type="button"
