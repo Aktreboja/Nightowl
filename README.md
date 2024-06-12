@@ -176,12 +176,12 @@ The following url will also contain query parameters
 ## Roadmap
 
 - [x] Fix unaligned hover outlines on trackArt components
-- [ ] Add previews to artists by playing their top track
-- [ ] Fix UI errors from playback state changes
-- [ ] Add modal to initialize UI for audio previewing
+- [x] Add previews to artists by playing their top track
+- [x] Fix UI errors from playback state changes
+- [x] Add modal to initialize UI for audio previewing
 - [ ] Fix persisted state functionality (token refresh)
-- [ ] Add to playlist functionality
-- [ ] Add notification components for enhanced user experience
+- [x] Add to playlist functionality
+- [x] Add notification components for enhanced user experience
 - [ ] Implement recommended playlist feature
 - [ ] Convert from REST to GraphQL api.
 
