@@ -119,54 +119,7 @@ Note: When setting up the redirect uris, `http://localhost:3000`, or the uri tha
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Previews
 
-### Landing Page
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/36f4927b-1a6d-4e9a-90ed-54ecb8ff21c1)
-
-### Authorize Page (Spotify authorize)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/1772601b-a014-4692-9045-44be65bbe410)
-
-### Notes
-
-The following url will also contain query parameters
-
-2. Client ID: The client id of the application
-3. scope: The scope of what the access token received will be able to use
-4. redirect_uri: Where the authorize page will redirect to once authorization is completed
-
-### Dashboard Page (Top Stats)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/18662b29-bfd1-41a6-baa7-8febd5187717)
-
-### Notes
-
-1. Hover over a track to view it's information and listen to a preview
-2. Select a track to learn more about the track (artist(s) and similar tracks
-
-### Dashboard Page (Hovered Track)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/fc80efcc-e77c-48b2-932e-f073452b71be)
-
-### Dashboard Page (Selected Track)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/73ccfafd-f086-4984-be1b-67eb19e2433d)
-
-### Notes
-
-1. Selecting a track will provide metadata on that track
-2. Can also hover and select the tracks from within the container to be able to easily navigate through tracks.
-
-### Dashboard Page (Playlist View)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/a9d16e4e-6bf8-4be5-8491-8766d5808ed3)
-
-### Notes
-
-1. Tracks that are selected will automatically be sent here, can be saved to the user's liked songs.
-2. If the user doesn't want a specific track, can delete from the list.
 
 <!-- ROADMAP -->
 
