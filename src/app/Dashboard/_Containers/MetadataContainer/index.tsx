@@ -148,7 +148,7 @@ export default function MetadataContainer() {
         >
           <IoCloseSharp className="" />
         </span>
-        <div className="flex max-lg:w-[90%] w-4/5  mx-auto mt-5">
+        <div className="flex max-lg:w-[90%] w-4/5  mx-auto my-8">
           <div className="relative w-20 h-20 ml-3">
             <Image
               src={images[0].url}
@@ -162,7 +162,7 @@ export default function MetadataContainer() {
             <h1 className="w-full font-bold">{name}</h1>
             <p>{artistsString}</p>
             <button
-              className="border-black border rounded-sm px-4 py-0.5"
+              className="border-black border rounded-sm px-4 py-0.5 mt-1 hover:bg-secondary hover:text-white duration-75"
               onClick={
                 isSaved
                   ? () => handleTrackSave('Saved')
