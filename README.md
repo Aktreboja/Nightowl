@@ -56,15 +56,13 @@ Some current features include: 1. Viewing and analyzing top tracks and artists b
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- Technologies -->
-
 
 ## Technologies and Concepts
 
 ### Application Structure
 
-- For this application, I went with a true single page application, centered around using multiple "containers" as different views. 
+- For this application, I went with a true single page application, centered around using multiple "containers" as different views.
 
 ### Redux State management
 
