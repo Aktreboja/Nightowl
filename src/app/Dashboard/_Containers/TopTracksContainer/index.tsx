@@ -47,11 +47,11 @@ export const TopTracksContainer = () => {
   return (
     <>
       <div>
-        <p className="max-md:text-lg text-3xl mx-3 mt-3 font-bold text-black text-center xl:text-left">
+        <p className="max-md:text-xl text-4xl mx-3 mt-3 font-bold text-black text-center xl:text-left my-6">
           Your Top Tracks
         </p>
         {/* Selectors for time ranges. */}
-        <div className="flex justify-center xl:justify-start my-2">
+        <div className="flex justify-center xl:justify-start my-3 text-lg">
           <p
             onClick={() => dispatch(setTimeRange('short_term'))}
             className={`${time_range == 'short_term' ? 'underline' : ''} max-md:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}
