@@ -7,7 +7,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a> -->
 
-  <h3 align="center">Nightowl</h3>
+  <h1 align="center"><i>Nightowl</i></h1>
 
   <p align="center">
     A Web application focused on improving music exploration within spotify
@@ -15,38 +15,35 @@
 </div>
 
 <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
+  <h3>Table of Contents</h3>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#built-with">Built With</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#installation">Installation</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
-</details>
+
+
 
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
 
-Nighowl is a web application that improves the way you discover music through Spotify.
+Nighowl is a web application that improves the way you discover music through Spotify. This web application takes your analytical data, such as your top tracks and artists, and provides an almost rabbit hole experience when searching for new music. It is clearly meant to keep you up all night listening to music. 
 
-Some current features include: 1. Viewing and analyzing top tracks and artists based on timeline. 2. Preview tracks to enhance and speed up music discovery. 3. Retrieving track recommendations based on the selected track. 4. Ability to select and save tracks to their Spotify account.
+Current features include: 
+
+1. Viewing and analyzing top tracks and artists based on timeline.
+2. Preview tracks to enhance and speed up music discovery.
+3. Ability to select and save tracks to their Spotify account.
+4. Retrieving track recommendations based on the selected track. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Built With
+<h3 name = "built-with"> Built With</h3>
 
 - [![Next][Next.js]][Next-url]
 - [![React][React.js]][React-url]
@@ -122,66 +119,19 @@ Note: When setting up the redirect uris, `http://localhost:3000`, or the uri tha
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Previews
 
-### Landing Page
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/36f4927b-1a6d-4e9a-90ed-54ecb8ff21c1)
-
-### Authorize Page (Spotify authorize)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/1772601b-a014-4692-9045-44be65bbe410)
-
-### Notes
-
-The following url will also contain query parameters
-
-2. Client ID: The client id of the application
-3. scope: The scope of what the access token received will be able to use
-4. redirect_uri: Where the authorize page will redirect to once authorization is completed
-
-### Dashboard Page (Top Stats)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/18662b29-bfd1-41a6-baa7-8febd5187717)
-
-### Notes
-
-1. Hover over a track to view it's information and listen to a preview
-2. Select a track to learn more about the track (artist(s) and similar tracks
-
-### Dashboard Page (Hovered Track)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/fc80efcc-e77c-48b2-932e-f073452b71be)
-
-### Dashboard Page (Selected Track)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/73ccfafd-f086-4984-be1b-67eb19e2433d)
-
-### Notes
-
-1. Selecting a track will provide metadata on that track
-2. Can also hover and select the tracks from within the container to be able to easily navigate through tracks.
-
-### Dashboard Page (Playlist View)
-
-![image](https://github.com/Aktreboja/spotify/assets/15055373/a9d16e4e-6bf8-4be5-8491-8766d5808ed3)
-
-### Notes
-
-1. Tracks that are selected will automatically be sent here, can be saved to the user's liked songs.
-2. If the user doesn't want a specific track, can delete from the list.
 
 <!-- ROADMAP -->
 
 ## Roadmap
 
 - [x] Fix unaligned hover outlines on trackArt components
-- [ ] Add previews to artists by playing their top track
-- [ ] Fix UI errors from playback state changes
-- [ ] Add modal to initialize UI for audio previewing
+- [x] Add previews to artists by playing their top track
+- [x] Fix UI errors from playback state changes
+- [x] Add modal to initialize UI for audio previewing
 - [ ] Fix persisted state functionality (token refresh)
-- [ ] Add to playlist functionality
-- [ ] Add notification components for enhanced user experience
+- [x] Add to playlist functionality
+- [x] Add notification components for enhanced user experience
 - [ ] Implement recommended playlist feature
 - [ ] Convert from REST to GraphQL api.
 
