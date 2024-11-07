@@ -17,16 +17,16 @@ const TopStatsContainer = () => {
         {/* Wrapper container for all left sided components */}
         <div className="flex flex-col justify-center items-end h-fit max-lg:w-4/5 w-fit ml-2 ">
           {/* Naviation bar */}
-          <div className="w-full flex ">
+          <div className="w-full flex py-2">
             <div
               onClick={() => setCurrentTab('Tracks')}
-              className={`w-fit my-2 mx-1 px-3 py-2 max-sm:text-sm text-black font-semibold cursor-pointer rounded-md ${currentTab == 'Tracks' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}  hover:bg-button-secondary hover:text-black  duration-100`}
+              className={`w-fit my-2 mx-1 px-3 py-3 max-sm:text-sm text-black font-semibold cursor-pointer rounded-md ${currentTab == 'Tracks' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}  hover:bg-button-secondary hover:text-black  duration-100`}
             >
               Top Tracks
             </div>
             <div
               onClick={() => setCurrentTab('Artists')}
-              className={`w-fit my-2 mx-1 px-3 py-2  max-sm:text-sm font-semibold cursor-pointer rounded-md ${currentTab == 'Artists' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}   hover:bg-button-secondary hover:text-black  duration-100`}
+              className={`w-fit my-2 mx-1 px-3 py-3  max-sm:text-sm font-semibold cursor-pointer rounded-md ${currentTab == 'Artists' ? 'bg-button-secondary text-black' : 'bg-button-primary text-white'}   hover:bg-button-secondary hover:text-black  duration-100`}
             >
               Top Artists
             </div>

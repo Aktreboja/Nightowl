@@ -67,10 +67,10 @@ const TopArtistsContainer = () => {
   return (
     <>
       <div>
-        <p className="max-md:text-lg text-3xl mx-3 mt-3 font-bold text-black text-center xl:text-left">
+        <p className="max-md:text-xl text-4xl mx-3 mt-3 font-bold text-black text-center xl:text-left my-6">
           Your Top Artists
         </p>
-        <div className="flex justify-center xl:justify-start my-2">
+        <div className="flex justify-center xl:justify-start my-3 text-lg">
           <p
             onClick={() => setTimeRange('short_term')}
             className={`${timeRange == 'short_term' ? 'underline' : ''} max-sm:text-sm mx-3 cursor-pointer hover:underline font-semibold text-black`}

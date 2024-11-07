@@ -51,6 +51,9 @@ const MusicReducer = createSlice({
   name: 'Music',
   initialState,
   reducers: {
+    clearSelected: (state) => {
+      state.selected.selectedItem = null;
+    },
     setPreview: (
       state,
       action: PayloadAction<Track | Artist | Album | null>,
@@ -170,6 +173,7 @@ export const {
   setRelatedArtists,
   setArtistAlbums,
   setAlbumTracks,
+  clearSelected,
 } = MusicReducer.actions;
 
 export default MusicReducer.reducer;

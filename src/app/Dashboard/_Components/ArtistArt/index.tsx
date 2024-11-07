@@ -63,13 +63,13 @@ export default function ArtistArt({
 
   return (
     <div
-      className={`relative max-sm:w-16 max-sm:h-16 ${dimensions} m-0 hover:shadow-lg duration-100 cursor-pointer ${rounded ? 'rounded-full' : null}`}
+      className={`relative max-sm:w-20 max-sm:h-20 ${dimensions} m-0 hover:shadow-lg duration-100 cursor-pointer ${rounded ? 'rounded-full' : null}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => dispatch(setSelected(artist))}
     >
       <div
-        className={`absolute top-0 left-0 max-sm:w-16 max-sm:h-16 ${dimensions} bg-white bg-opacity-25 z-10 opacity-0 transition-opacity duration-75  ${hover ? 'opacity-100' : ''} ${rounded ? 'rounded-full' : null}`}
+        className={`absolute top-0 left-0 max-sm:w-20 max-sm:h-20 ${dimensions} bg-white bg-opacity-25 z-10 opacity-0 transition-opacity duration-75  ${hover ? 'opacity-100' : ''} ${rounded ? 'rounded-full' : null}`}
       ></div>
       <Image
         src={images[images.length - 1].url}

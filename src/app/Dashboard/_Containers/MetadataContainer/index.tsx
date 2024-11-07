@@ -18,6 +18,9 @@ import {
   getRelatedArtists,
   setArtistAlbums,
   getArtistsAlbums,
+  clearSelected,
+  setSelectedArtists,
+  setSimilarTracks,
 } from '@/features/reducers/MusicReducer';
 import { useAppDispatch } from '@/features/hooks';
 import { checkToken } from '@/features/reducers/AuthReducer';
@@ -132,6 +135,16 @@ export default function MetadataContainer() {
     }
   };
 
+  // Clear all of the metadata state before closing the modal.
+  const handleModalClose = () => {
+    dispatch(setArtistTopTracks([]));
+    dispatch(setArtistAlbums([]));
+    dispatch(setRelatedArtists([]));
+    dispatch(setSelectedArtists([]));
+    dispatch(setSimilarTracks([]));
+    dispatch(setSelected(null));
+  };
+
   // Conditional for Track
   if (selected && 'preview_url' in selected) {
     const { name, artists, album } = selected as Track;
@@ -141,71 +154,80 @@ export default function MetadataContainer() {
     const artistsString = artists.map((artist) => artist.name).join(', ');
 
     return (
-      <section className=" bg-white rounded-md py-7 w-full relative">
+      <section className=" bg-white rounded-md py-7 w-full relative ">
         <span
           className="absolute right-3 top-2 cursor-pointer border rounded-full border-black border-opacity-45 p-1 hover:bg-secondary hover:bg-opacity-85 hover:text-white duration-75"
-          onClick={() => dispatch(setSelected(null))}
+          onClick={() => handleModalClose()}
         >
           <IoCloseSharp className="" />
         </span>
-        <div className="flex max-lg:w-[90%] w-4/5  mx-auto mt-5">
-          <div className="relative w-20 h-20 ml-3">
-            <Image
-              src={images[0].url}
-              layout="fill"
-              objectFit="cover"
-              alt={`${name} cover `}
-            />
-          </div>
 
-          <div className="px-4">
-            <h1 className="w-full font-bold">{name}</h1>
-            <p>{artistsString}</p>
-            <button
-              className="border-black border rounded-sm px-4 py-0.5"
-              onClick={
-                isSaved
-                  ? () => handleTrackSave('Saved')
-                  : () => handleTrackSave('Add')
-              }
-            >
-              {isSaved ? 'Saved' : 'Save'}
-            </button>
-          </div>
-        </div>
-        <hr className="my-4 text-primary w-4/5 mx-auto" />
+        <div className="mx-2 px-3 my-4">
+          <div className="flex mx-auto mt-4 my-8">
+            <div className="relative max-lg:w-20 max-lg:h-20 w-24 h-24 ">
+              <Image
+                src={images[0].url}
+                layout="fill"
+                objectFit="cover"
+                alt={`${name} cover `}
+              />
+            </div>
 
-        {/* Artists */}
-        <div className="px-1 w-4/5 mx-auto">
-          <h1 className="font-semibold">Artists</h1>
-          <div className="flex mt-2 ">
-            {/* Artist Images */}
-            <div className="w-full flex">
-              {!loading && selectedArtists.length > 0 ? (
-                selectedArtists.map((artist, key) => {
-                  return (
-                    <div key={key} className="mx-1">
-                      <ArtistArt artist={artist} rounded={true} />
-                    </div>
-                  );
-                })
-              ) : (
-                <ArtistLoader />
-              )}
+            <div className="px-4 flex flex-col justify-between items-start">
+              <div>
+                <h1 className="w-full font-bold max-lg:text-sm text-2xl">
+                  {name}
+                </h1>
+                <p className="font-medium">{artistsString}</p>
+              </div>
+
+              <button
+                className="border-black border rounded-sm px-3 py-2 mt-1 hover:bg-secondary hover:text-white duration-75"
+                onClick={
+                  isSaved
+                    ? () => handleTrackSave('Saved')
+                    : () => handleTrackSave('Add')
+                }
+              >
+                {isSaved ? 'Saved' : 'Save'}
+              </button>
             </div>
           </div>
-        </div>
-        {/* Similar Music */}
-        <hr className="my-4 text-primary  mx-auto w-4/5" />
-        <div className="flex flex-col px-3 items-center w-[90%] mx-auto">
-          <h1 className="font-semibold w-full lg:w-[90%] ">Similar Tracks</h1>
 
-          {/* Tracks container */}
-          <div className="grid px-1 py-4 max-md:grid-cols-5 grid-cols-10 w-[90%] overflow-y-auto ">
-            {recommendedTracks.length > 0 &&
-              recommendedTracks.map((track, key) => (
-                <TrackArt key={key} track={track} />
-              ))}
+          {/* Artists */}
+          <div className=" w-full mx-auto my-8">
+            <h1 className="font-semibold text-2xl">Artists</h1>
+            <div className="flex mt-2 ">
+              {/* Artist Images */}
+              <div className="w-full flex">
+                {!loading && selectedArtists.length > 0 ? (
+                  selectedArtists.map((artist, key) => {
+                    return (
+                      <div key={key} className="mx-1">
+                        <ArtistArt artist={artist} rounded={true} />
+                      </div>
+                    );
+                  })
+                ) : (
+                  <ArtistLoader />
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Similar Music */}
+          <div className="flex flex-col  items-center w-full mx-auto">
+            <h1 className="font-semibold w-full lg:text-2xl ">
+              Similar Tracks
+            </h1>
+
+            {/* Tracks container */}
+            <div className="grid px-1 py-4 max-md:grid-cols-5 grid-cols-10 w-full  overflow-y-auto ">
+              {recommendedTracks.length > 0 &&
+                recommendedTracks.map((track, key) => (
+                  <TrackArt key={key} track={track} />
+                ))}
+            </div>
           </div>
         </div>
       </section>
@@ -226,71 +248,70 @@ export default function MetadataContainer() {
         >
           <IoCloseSharp className="" />
         </span>
-        <div className="flex max-lg:w-[90%] w-4/5  mx-auto mt-5">
-          <div className="relative w-28 h-28">
-            <Image
-              src={images[0].url}
-              layout="fill"
-              objectFit="cover"
-              alt={`${name} cover `}
-            />
-          </div>
 
-          <div className="px-2 mt-0.5">
-            <h1 className="w-full font-bold">{name}</h1>
-            <p>
-              <strong>Genres: </strong>
-              {genresString}
-            </p>
-            <button className="border-black border rounded-sm px-3 py-0.5 mt-2">
-              {isSaved ? 'followed' : 'Follow'}
-            </button>
-          </div>
-        </div>
-        <hr className="my-4 text-primary w-4/5 mx-auto" />
-        {/* Artists */}
-        <div className="px-1 w-4/5 mx-auto">
-          <h1 className="font-semibold">Top Tracks from {name}</h1>
-          <div className="flex">
-            {/* Artist Images */}
-            <div className="grid px-1 py-4 max-md:grid-cols-5 grid-cols-10  overflow-y-auto ">
-              {artistTopTracks.length > 0 &&
-                artistTopTracks.map((track, key) => {
-                  return <TrackArt track={track} key={key} />;
-                })}
+        <div className="px-3 my-4">
+          <div className="flex mx-auto my-10">
+            <div className="relative w-28 h-28">
+              <Image
+                src={images[0].url}
+                layout="fill"
+                objectFit="cover"
+                alt={`${name} cover `}
+              />
+            </div>
+
+            <div className="px-2 mt-0.5">
+              <h1 className="w-full font-bold">{name}</h1>
+              <p>
+                <strong>Genres: </strong>
+                {genresString}
+              </p>
+              <button className="border-black border rounded-sm px-3 py-0.5 mt-2">
+                {isSaved ? 'followed' : 'Follow'}
+              </button>
             </div>
           </div>
-        </div>
 
-        <hr className="my-4 text-primary  mx-auto w-4/5" />
-
-        {/* Artist's Albums */}
-        <div className="px-1 w-4/5 mx-auto">
-          <h1 className="font-semibold">Albums by {name}</h1>
-          <div className="flex">
-            {/* Album Images */}
-            <div className="grid px-1 py-4 max-md:grid-cols-5 grid-cols-10 overflow-y-auto ">
-              {artistAlbums.length > 0 &&
-                artistAlbums
-                  .filter((album) => album.album_type == 'album')
-                  .map((album, key) => {
-                    return <AlbumArt album={album} key={key} />;
+          {/*    Artist's Top Tracks   */}
+          <div className=" mx-auto my-4">
+            <h1 className="font-semibold">Top Tracks from {name}</h1>
+            <div className="flex">
+              {/* Artist Images */}
+              <div className="grid px-1 py-4 max-md:grid-cols-5 grid-cols-10  overflow-y-auto ">
+                {artistTopTracks.length > 0 &&
+                  artistTopTracks.map((track, key) => {
+                    return <TrackArt track={track} key={key} />;
                   })}
+              </div>
             </div>
           </div>
-        </div>
 
-        <hr className="my-4 text-primary  mx-auto w-4/5" />
+          {/* Artist's Albums */}
+          <div className="mx-auto my-4">
+            <h1 className="font-semibold">Albums by {name}</h1>
+            <div className="flex">
+              {/* Album Images */}
+              <div className="grid px-1 py-4 max-md:grid-cols-5 grid-cols-10 overflow-y-auto ">
+                {artistAlbums.length > 0 &&
+                  artistAlbums
+                    .filter((album) => album.album_type == 'album')
+                    .map((album, key) => {
+                      return <AlbumArt album={album} key={key} />;
+                    })}
+              </div>
+            </div>
+          </div>
 
-        <div className="px-1 w-4/5 mx-auto">
-          <h1 className="font-semibold">Artists related to {name}</h1>
-          <div className="flex">
-            {/* Artist Images */}
-            <div className="grid px-1 py-4 max-md:grid-cols-5 grid-cols-10 overflow-y-auto ">
-              {relatedArtists.length > 0 &&
-                relatedArtists.map((artist, key) => {
-                  return <ArtistArt artist={artist} key={key} dimension={20} />;
-                })}
+          <div className="px-1  mx-auto">
+            <h1 className="font-semibold">Artists related to {name}</h1>
+            <div className="flex">
+              {/* Artist Images */}
+              <div className="grid px-1 py-4 max-md:grid-cols-5 grid-cols-10 overflow-y-auto ">
+                {relatedArtists.length > 0 &&
+                  relatedArtists.map((artist, key) => {
+                    return <ArtistArt artist={artist} key={key} />;
+                  })}
+              </div>
             </div>
           </div>
         </div>
