@@ -14,7 +14,6 @@ import NotificationToast from '@/app/Dashboard/_Components/NotificationToast';
 import RecommendationContainer from '@/app/Dashboard/_Containers/RecommendationContainer';
 import useSpotify from '@/utils/Spotify/hooks/useSpotify';
 import WelcomeComponent from '@/app/_Components/WelcomeComponent';
-
 import { getInteractable } from '@/features/reducers/UIReducer';
 
 const Dashboard: React.FC = () => {

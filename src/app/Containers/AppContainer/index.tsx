@@ -5,7 +5,6 @@ import useSpotify from '@/utils/Spotify/hooks/useSpotify';
 import Landing from '@/_pages/Landing';
 import LandingLoader from '@/app/_Components/LandingLoader';
 import { useAppDispatch, useAppSelector } from '@/features/hooks';
-
 import {
   checkAuth,
   setToken,

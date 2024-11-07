@@ -1,14 +1,14 @@
+'use client';
 import './globals.css';
-import { Metadata } from 'next';
 import AppContainer from '@/app/_Containers/AppContainer';
-
-export const metadata: Metadata = {
-  title: 'Nightowl',
-  description:
-    'A Spotify Based web application designed to have you listen to music all night.',
-};
+import { ApolloProvider } from '@apollo/client';
+import client from './_lib/apolloClient';
 
 // Home base page. Remained as a Server component to modify Metadata content
 export default function Home() {
-  return <AppContainer />;
+  return (
+    <ApolloProvider client={client}>
+      <AppContainer />
+    </ApolloProvider>
+  );
 }

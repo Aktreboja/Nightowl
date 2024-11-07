@@ -8,30 +8,6 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-/* Customizing scrollbar */
-::-webkit-scrollbar {
-  width: 10px; /* Set the width of the scrollbar */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.2
-  ); /* Set the color of the scrollbar thumb */
-  border-radius: 3px; /* Set the border radius of the thumb */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.4
-  ); /* Change the color of the thumb on hover */
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
