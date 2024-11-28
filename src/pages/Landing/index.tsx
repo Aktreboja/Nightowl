@@ -57,5 +57,4 @@ export default Landing;
 
 /**
  * Photo by <a href="https://unsplash.com/@jhjowen?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">James Owen</a> on <a href="https://unsplash.com/photos/turned-on-electronic-keyboard-c-NBiJrhwdM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-  
  */

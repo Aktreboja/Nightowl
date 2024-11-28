@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 import flow1 from '@/images/flow_1.png';
 import flow2 from '@/images/flow_2.png';
 import flow3 from '@/images/flow_3.png';

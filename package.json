@@ -53,6 +53,7 @@
     "@types/redux-persist": "^4.3.1",
     "autoprefixer": "^10.0.1",
     "babel-jest": "^29.7.0",
+    "daisyui": "^4.12.14",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "husky": "^9.0.11",
