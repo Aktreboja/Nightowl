@@ -14,11 +14,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const spotifyClient = new SpotifyClient(
-    process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID as string,
-    process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET as string,
-    process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URL as string
-  );
+  const spotifyClient = SpotifyClient.getInstance();
 
   const code = searchParams.get('code');
 

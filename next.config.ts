@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    optimizePackageImports: [
+      '@spotify/web-api-ts-sdk',
+      '@spotify/web-api-ts-sdk/types',
+      '@chakra-ui/react',
+    ],
+  },
 };
 
 export default nextConfig;

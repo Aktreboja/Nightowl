@@ -5,18 +5,34 @@ interface SpotifyTokenResponse {
   refresh_token?: string;
 }
 
-export class SpotifyClient {
-  private tokenExpiration: number = 0;
+export interface SpotifyClientParams {
+  type?: string;
+  time_range?: string;
+  limit?: number;
+  offset?: number;
+}
 
-  constructor(
+export class SpotifyClient {
+  private static instance: SpotifyClient;
+
+  private constructor(
     private clientId: string,
     private clientSecret: string,
-    private redirectUri: string
-  ) {
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
-    this.redirectUri = redirectUri;
+    private redirectUrl: string
+  ) {}
+
+  public static getInstance(): SpotifyClient {
+    if (!SpotifyClient.instance) {
+      SpotifyClient.instance = new SpotifyClient(
+        process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID as string,
+        process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET as string,
+        process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URL as string
+      );
+    }
+    return SpotifyClient.instance;
   }
+
+  private tokenExpiration: number = 0;
 
   async authenticate(
     code: string,
@@ -35,7 +51,7 @@ export class SpotifyClient {
           body: new URLSearchParams({
             grant_type: 'authorization_code',
             code: code,
-            redirect_uri: this.redirectUri,
+            redirect_uri: this.redirectUrl,
             code_verifier: codeVerifier,
           }),
         }
@@ -87,15 +103,22 @@ export class SpotifyClient {
   async get<T>(
     endpoint: string,
     accessToken: string,
-    refreshToken?: string
+    refreshToken?: string,
+    params?: SpotifyClientParams
   ): Promise<T | null> {
     const token = await this.ensureValidToken(accessToken);
-    console.log('token: ', token);
-    const response = await fetch(`https://api.spotify.com/v1${endpoint}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const queryString = params
+      ? `?${new URLSearchParams(params as unknown as Record<string, string>)}`
+      : '';
+    const response = await fetch(
+      `https://api.spotify.com/v1${endpoint}${queryString}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        method: 'GET',
+      }
+    );
 
     if (!response.ok) {
       return null;
