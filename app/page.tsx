@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { User } from '@spotify/web-api-ts-sdk';
 import DashboardContent from '@/app/_components/Dashboard/DashboardContent';
-
+import DashboardLayout from '@/app/_components/Dashboard/DashboardLayout';
+import { useSpotify } from '@/app/_utils/Spotify/SpotifyContext';
 const Home = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [user, setUser] = useState<User | null>(null);
+  const { user, setUser } = useSpotify();
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -57,13 +58,19 @@ const Home = () => {
     };
 
     initializeUser();
-  }, [code, router, spotifyClient]);
+  }, [code]);
 
   if (isLoading) {
     return <div>Loading...</div>; // Consider adding a proper loading component
   }
 
-  return isAuthenticated && user ? <DashboardContent /> : <Landing />;
+  return isAuthenticated && user ? (
+    <DashboardLayout>
+      <DashboardContent />
+    </DashboardLayout>
+  ) : (
+    <Landing />
+  );
 };
 
 export default Home;

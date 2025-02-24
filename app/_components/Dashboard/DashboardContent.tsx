@@ -2,6 +2,8 @@
 import { SpotifyClient } from '@/app/_utils/Spotify/SpotifyClient';
 import { User } from '@spotify/web-api-ts-sdk';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { logoutClick } from '@/app/_utils/Spotify';
 const DashboardContent = () => {
   const [user, setUser] = useState<User | null>(null);
   const spotifyClient = new SpotifyClient(
@@ -22,7 +24,22 @@ const DashboardContent = () => {
     fetchUserData();
   }, []);
 
-  return <div>{user?.display_name}</div>;
+  return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <div className="flex flex-col gap-4">
+        {user?.images[0]?.url && (
+          <Image
+            src={user.images[0].url}
+            alt="Profile Picture"
+            width={100}
+            height={100}
+          />
+        )}
+        <h1>Welcome, {user?.display_name}</h1>
+        <button onClick={() => logoutClick()}>Logout</button>
+      </div>
+    </div>
+  );
 };
 
 export default DashboardContent;

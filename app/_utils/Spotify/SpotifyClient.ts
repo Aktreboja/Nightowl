@@ -47,7 +47,6 @@ export class SpotifyClient {
 
       const data: SpotifyTokenResponse = await response.json();
       this.tokenExpiration = Date.now() + data.expires_in * 1000;
-      console.log('token expiration: ', this.tokenExpiration);
       localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('refresh_token', data.refresh_token || '');
       return data;
