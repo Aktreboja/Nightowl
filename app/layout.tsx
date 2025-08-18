@@ -20,7 +20,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  document.title = 'Nightowl';
   return (
     <html suppressHydrationWarning lang="en">
       <body
@@ -28,17 +27,7 @@ export default function RootLayout({
       >
         <Provider>
           <UserProvider>
-            <SpotifyProvider
-              clientId={process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID as string}
-              clientSecret={
-                process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET as string
-              }
-              redirectUri={
-                process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI as string
-              }
-            >
-              {children}
-            </SpotifyProvider>
+            <SpotifyProvider>{children}</SpotifyProvider>
           </UserProvider>
         </Provider>
       </body>

@@ -5,7 +5,6 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
-import { SpotifyClient } from './SpotifyClient';
 
 interface SpotifyUser {
   id: string;
@@ -15,43 +14,34 @@ interface SpotifyUser {
 }
 
 interface SpotifyContextType {
-  client: SpotifyClient | null;
   accessToken: string | null;
   refreshToken: string | null;
   user: SpotifyUser | null;
   setUser: (user: SpotifyUser | null) => void;
   isAuthenticated: boolean;
   logout: () => void;
+  setTokens: (accessToken: string, refreshToken?: string) => void;
 }
 
 const SpotifyContext = createContext<SpotifyContextType>({
-  client: null,
   accessToken: null,
   refreshToken: null,
   user: null,
   setUser: () => {},
   isAuthenticated: false,
   logout: () => {},
+  setTokens: () => {},
 });
 
 export const useSpotify = () => useContext(SpotifyContext);
 
 interface SpotifyProviderProps {
   children: ReactNode;
-  clientId: string;
-  clientSecret: string;
-  redirectUri: string;
 }
 
 export const SpotifyProvider: React.FC<SpotifyProviderProps> = ({
   children,
-  clientId,
-  clientSecret,
-  redirectUri,
 }) => {
-  const [client] = useState(
-    () => new SpotifyClient(clientId, clientSecret, redirectUri)
-  );
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [user, setUser] = useState<SpotifyUser | null>(null);
@@ -68,24 +58,52 @@ export const SpotifyProvider: React.FC<SpotifyProviderProps> = ({
   useEffect(() => {
     // Fetch user data when access token is available
     const fetchUserData = async () => {
-      if (accessToken && client) {
-        const userData = await client.get<SpotifyUser>(
-          '/me',
-          accessToken,
-          refreshToken || undefined
-        );
-        if (userData) {
-          setUser(userData);
+      if (accessToken) {
+        try {
+          const response = await fetch('https://api.spotify.com/v1/me', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
+          if (response.ok) {
+            const userData: SpotifyUser = await response.json();
+            setUser(userData);
+          } else {
+            // Token might be expired, clear it
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('spotify_code_verifier');
+            setAccessToken(null);
+            setRefreshToken(null);
+            setUser(null);
+          }
+        } catch (error) {
+          console.error('Failed to fetch user data:', error);
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          localStorage.removeItem('spotify_code_verifier');
+          setAccessToken(null);
+          setRefreshToken(null);
+          setUser(null);
         }
       }
     };
 
     fetchUserData();
-  }, [accessToken, client, refreshToken]);
+  }, [accessToken]);
+
+  const setTokens = (newAccessToken: string, newRefreshToken?: string) => {
+    setAccessToken(newAccessToken);
+    if (newRefreshToken) {
+      setRefreshToken(newRefreshToken);
+    }
+  };
 
   const logout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('spotify_code_verifier');
     setAccessToken(null);
     setRefreshToken(null);
     setUser(null);
@@ -94,13 +112,13 @@ export const SpotifyProvider: React.FC<SpotifyProviderProps> = ({
   return (
     <SpotifyContext.Provider
       value={{
-        client,
         accessToken,
         refreshToken,
         user,
         isAuthenticated: !!accessToken,
         logout,
         setUser,
+        setTokens,
       }}
     >
       {children}

@@ -1,72 +1,32 @@
 'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Landing from '@/app/_components/Landing';
-import { SpotifyClient } from '@/app/_utils/Spotify/SpotifyClient';
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { User } from '@spotify/web-api-ts-sdk';
-import DashboardContent from '@/app/_components/Dashboard/DashboardContent';
-import DashboardLayout from '@/app/_components/Dashboard/DashboardLayout';
 import { useSpotify } from '@/app/_utils/Spotify/SpotifyContext';
 const Home = () => {
+  const { isAuthenticated, user } = useSpotify();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const { user, setUser } = useSpotify();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const spotifyClient = SpotifyClient.getInstance();
-
-  const code = searchParams.get('code');
 
   useEffect(() => {
-    const initializeUser = async () => {
-      try {
-        // Handle initial authentication
-        if (code) {
-          const codeVerifier = localStorage.getItem('code_verifier');
-          if (codeVerifier) {
-            await spotifyClient.authenticate(code, codeVerifier);
-            setIsAuthenticated(true);
-            router.replace('/');
-            return;
-          }
-        }
+    // If authenticated and user data is loaded, redirect to profile
+    if (isAuthenticated && user) {
+      router.push('/profile');
+    }
+  }, [isAuthenticated, user, router]);
 
-        // Check existing authentication
-        const accessToken = localStorage.getItem('access_token');
-        const refreshToken = localStorage.getItem('refresh_token');
-
-        if (accessToken) {
-          setIsAuthenticated(true);
-          const userData = await spotifyClient.get<User>(
-            '/me',
-            accessToken,
-            refreshToken || undefined
-          );
-          setUser(userData);
-        }
-      } catch (error) {
-        console.error('Authentication error:', error);
-        // Handle error appropriately
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeUser();
-  }, [code]);
-
-  if (isLoading) {
-    return <div>Loading...</div>; // Consider adding a proper loading component
+  // Show loading while redirecting
+  if (isAuthenticated && user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
+        <div className="text-center text-white">
+          <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p>Redirecting to profile...</p>
+        </div>
+      </div>
+    );
   }
 
-  return isAuthenticated && user ? (
-    <DashboardLayout>
-      <DashboardContent />
-    </DashboardLayout>
-  ) : (
-    <Landing />
-  );
+  return <Landing />;
 };
 
 export default Home;
