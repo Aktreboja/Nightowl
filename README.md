@@ -1,164 +1,171 @@
-<a name="readme-top"></a>
+# Nightowl - Spotify Music Discovery App
 
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-<!--   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a> -->
+A modern web application that allows users to connect with Spotify and view their profile using the PKCE (Proof Key for Code Exchange) authentication flow.
 
-  <h1 align="center"><i>Nightowl</i></h1>
+## Features
 
-  <p align="center">
-    A Web application focused on improving music exploration within spotify
-  </p>
-</div>
+- 🔐 Secure Spotify authentication using PKCE flow
+- 👤 View Spotify profile information
+- 🎨 Modern UI with Shadcn components
+- 📱 Responsive design
+- 🔄 Automatic token refresh
 
-<!-- TABLE OF CONTENTS -->
-  <h3>Table of Contents</h3>
-  <ol>
-    <li><a href="#about-the-project">About The Project</a></li>
-    <li><a href="#built-with">Built With</a></li>
-    <li><a href="#getting-started">Getting Started</a></li>
-    <li><a href="#prerequisites">Prerequisites</a></li>
-    <li><a href="#installation">Installation</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
+## Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn/ui
+- **Authentication**: Spotify Web API with PKCE
+- **State Management**: React Context
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- Node.js 18+ installed
+- A Spotify Developer account
+- A Spotify app created in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+
+## Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd Nightowl
+```
+
+### 2. Install Dependencies
+
+```bash
+yarn install
+```
+
+### 3. Spotify App Configuration
+
+1. Go to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. Create a new app or use an existing one
+3. Add the following redirect URI to your app settings:
+   - `http://localhost:3000/callback` (for development)
+   - `https://yourdomain.com/callback` (for production)
+4. Copy your **Client ID** (you'll need this for the environment variables)
+
+### 4. Environment Variables
+
+Update your `.env.local` file with the correct Spotify configuration:
+
+```bash
+# Spotify API Configuration
+NEXT_PUBLIC_SPOTIFY_CLIENT_ID=your_spotify_client_id_here
+NEXT_PUBLIC_SPOTIFY_REDIRECT_URI=http://localhost:3000/callback
+```
+
+**Important Notes:**
+
+- For PKCE flow, you don't need the client secret in the frontend
+- The client secret should only be used in secure backend environments
+- Make sure the redirect URI matches exactly what you configured in your Spotify app
+
+### 5. Run the Development Server
+
+```bash
+yarn dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## How It Works
+
+### Authentication Flow
+
+1. **User clicks "Continue with Spotify"** on the landing page
+2. **PKCE Code Verifier & Challenge** are generated
+3. **User is redirected** to Spotify's authorization page
+4. **User grants permissions** and is redirected back to `/callback`
+5. **Authorization code is exchanged** for access and refresh tokens
+6. **User profile is fetched** and displayed
+
+### File Structure
+
+```
+app/
+├── _components/
+│   ├── Landing.tsx              # Landing page with Spotify login
+│   ├── SpotifyLoginButton.tsx   # Spotify authentication button
+│   ├── SpotifyProfile.tsx       # User profile display
+│   ├── SpotifyCallback.tsx      # OAuth callback handler
+│   └── ui/
+│       └── button.tsx           # Shadcn button component
+├── _utils/
+│   └── Spotify/
+│       ├── auth.ts              # PKCE authentication utilities
+│       └── SpotifyContext.tsx   # React context for state management
+├── callback/
+│   └── page.tsx                 # Callback route
+├── profile/
+│   └── page.tsx                 # Profile route
+└── page.tsx                     # Main landing page
+```
+
+## API Endpoints
+
+The app uses the following Spotify Web API endpoints:
+
+- `GET /me` - Get current user's profile
+- `POST /api/token` - Exchange authorization code for tokens
+
+## Security Features
+
+- **PKCE Flow**: Uses Proof Key for Code Exchange for enhanced security
+- **No Client Secret in Frontend**: Client secret is not exposed in the browser
+- **Secure Token Storage**: Tokens are stored in localStorage (consider using httpOnly cookies for production)
+- **Automatic Token Refresh**: Handles token expiration automatically
+
+## Development
+
+### Available Scripts
+
+- `yarn dev` - Start development server
+- `yarn build` - Build for production
+- `yarn start` - Start production server
+- `yarn lint` - Run ESLint
+
+### Environment Variables
+
+| Variable                           | Description                  | Required |
+| ---------------------------------- | ---------------------------- | -------- |
+| `NEXT_PUBLIC_SPOTIFY_CLIENT_ID`    | Your Spotify app's client ID | Yes      |
+| `NEXT_PUBLIC_SPOTIFY_REDIRECT_URI` | OAuth redirect URI           | Yes      |
+
+## Production Deployment
+
+1. Update the redirect URI in your Spotify app settings
+2. Set the production environment variables
+3. Build and deploy your application
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"Invalid redirect URI" error**
+
+   - Ensure the redirect URI in your Spotify app settings matches exactly
+   - Check for trailing slashes and protocol (http vs https)
+
+2. **"Invalid client" error**
+
+   - Verify your `NEXT_PUBLIC_SPOTIFY_CLIENT_ID` is correct
+   - Make sure your Spotify app is properly configured
+
+3. **"Code verifier not found" error**
+   - Clear localStorage and try again
+   - Ensure the PKCE flow is working correctly
 
 
+## Resources
 
-<!-- ABOUT THE PROJECT -->
-
-## About The Project
-
-Nighowl is a web application that improves the way you discover music through Spotify. This web application takes your analytical data, such as your top tracks and artists, and provides an almost rabbit hole experience when searching for new music. It is clearly meant to keep you up all night listening to music. 
-
-Current features include: 
-
-1. Viewing and analyzing top tracks and artists based on timeline.
-2. Preview tracks to enhance and speed up music discovery.
-3. Ability to select and save tracks to their Spotify account.
-4. Retrieving track recommendations based on the selected track. 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<h3 name = "built-with"> Built With</h3>
-
-- [![Next][Next.js]][Next-url]
-- [![React][React.js]][React-url]
-- [![Tailwind][Tailwind]][Tailwind-url]
-- [![TypeScript][TypeScript]][TypeScript-url]
-- [![Redux][Redux]][Redux-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- Technologies -->
-
-## Technologies and Concepts
-
-### Application Structure
-
-- For this application, I went with a true single page application, centered around using multiple "containers" as different views.
-
-### Redux State management
-
-- Due to the web application structure including numerous containers at various levels of the component tree, decided to go with Redux as the global state management system for Nightowl.
-
-<!-- GETTING STARTED -->
-
-## Getting Started
-
-### Prerequisites and Installation
-
-In order to get started by using Nightowl locally
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/Aktreboja/Nightowl.git
-   ```
-2. Register your app with Spotify
-
-   _link get started: https://developer.spotify.com/documentation/web-api/tutorials/getting-started_
-
-![image](https://github.com/Aktreboja/Nightowl/assets/15055373/5d977e26-5226-41e5-8d59-7b5c9a68cdc7)
-
-Note: When setting up the redirect uris, `http://localhost:3000`, or the uri that runs your devlopment instance will be for development purposes, and the live site url will be for production.
-
-3. Add in environment variables
-
-   ```env
-   NEXT_PUBLIC_SPOTIFY_API_BASE = https://api.spotify.com/v1
-
-   # Client id comes from registering the application on Spotify's developer dashboard
-   NEXT_PUBLIC_SPOTIFY_CLIENT_ID = ""
-
-   # The scope that the access token you requested will have. This will be dependent on which APIs you call. Please refer to the API route's documentation for more information
-   NEXT_PUBLIC_SPOTIFY_SCOPE = "user-top-read user-library-modify playlist-read-private playlist-modify-public playlist-modify-private playlist-read-private user-library-read"
-
-   # The endpoints that will provide you the access and refresh tokens
-   NEXT_PUBLIC_SPOTIFY_AUTH_ENDPOINT = https://accounts.spotify.com/authorize
-   NEXT_PUBLIC_SPOTIFY_TOKEN_ENDPOINT = https://accounts.spotify.com/api/token
-
-   # This will be different based on various environments, redirects you to this url once you have authorized your Spotify account from the AUTH endpoint
-   NEXT_PUBLIC_SPOTIFY_REDIRECT_URL = "http://localhost:3000"
-
-   ```
-
-   Note: `NEXT_PUBLIC_SPOTIFY_SCOPE` may or may not be similar, depending on what kind of routes you will be using or if you plan to add more. Please refer to the individual API routes to confirm.
-
-4. Install the necessary packages and run the application
-
-   ```sh
-       # Install dependencies
-       npm install
-
-       # Run the application
-       npm run dev
-   ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-
-## Roadmap
-
-- [x] Fix unaligned hover outlines on trackArt components
-- [x] Add previews to artists by playing their top track
-- [x] Fix UI errors from playback state changes
-- [x] Add modal to initialize UI for audio previewing
-- [ ] Fix persisted state functionality (token refresh)
-- [x] Add to playlist functionality
-- [x] Add notification components for enhanced user experience
-- [ ] Implement recommended playlist feature
-- [ ] Convert from REST to GraphQL api.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTACT -->
-
-## Contact
-
-Aldrich Reboja - aktreboja@gmail.com
-
-Project Link: [https://github.com/aktreboja/Nightowl](https://github.com/aktreboja/Nightowl)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/aktreboja
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[TypeScript]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
-[TypeScript-url]: https://www.typescriptlang.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Tailwind]: https://img.shields.io/badge/tailwindcss-0F172A?style=for-the-badge&logo=tailwindcss
-[Tailwind-url]: https://tailwindcss.com/
-[Redux]: https://img.shields.io/badge/redux-593d88?style=for-the-badge&logo=redux
-[Redux-url]: https://www.redux.js.org
+- [Spotify Web API Documentation](https://developer.spotify.com/documentation/web-api)
+- [PKCE Flow Tutorial](https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Shadcn/ui Documentation](https://ui.shadcn.com)
