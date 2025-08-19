@@ -1,11 +1,12 @@
 'use client';
-import { SpotifyClient } from '@/app/_utils/Spotify/SpotifyClient';
 import { User } from '@spotify/web-api-ts-sdk';
 import { useEffect, useState } from 'react';
 import UserTopStatsContent from '@/app/_components/Dashboard/UserTopStatsContent';
 import { Track, Artist } from '@spotify/web-api-ts-sdk';
 import ItemPreview from '@/app/_components/Dashboard/ItemPreview';
 import ItemModal from '@/app/_components/Dashboard/ItemModal';
+import { spotifyService } from '@/app/_utils/Spotify';
+
 const DashboardContent = () => {
   const [user, setUser] = useState<User | null>(null);
   const [hoveredTrack, setHoveredTrack] = useState<Track | null>(null);
@@ -13,15 +14,19 @@ const DashboardContent = () => {
 
   const [selectedItem, setSelectedItem] = useState<Track | Artist | null>(null);
 
-  const spotifyClient = SpotifyClient.getInstance();
-
   useEffect(() => {
     const fetchUserData = async () => {
       const accessToken = localStorage.getItem('access_token');
+      const refreshToken = localStorage.getItem('refresh_token');
 
-      if (accessToken) {
-        const userResponse = await spotifyClient.get('/me', accessToken);
-        setUser(userResponse as User);
+      if (accessToken && refreshToken) {
+        const userResponse = await spotifyService.getCurrentUser(
+          accessToken,
+          refreshToken
+        );
+        if (userResponse) {
+          setUser(userResponse);
+        }
       }
     };
 

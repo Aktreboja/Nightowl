@@ -1,10 +1,10 @@
 import { useSpotify } from '@/app/_utils/Spotify/SpotifyContext';
 import { useEffect, useState } from 'react';
-import { SpotifyClient } from '@/app/_utils/Spotify/SpotifyClient';
 import { Artist } from '@spotify/web-api-ts-sdk';
 import { Page } from '@spotify/web-api-ts-sdk';
 import Image from 'next/image';
 import { SpotifyClientParams } from '@/app/_utils/Spotify/SpotifyClient';
+import { spotifyService } from '@/app/_utils/Spotify';
 
 interface TopArtistsProps {
   setHoveredArtist: (artist: Artist | null) => void;
@@ -27,19 +27,21 @@ const TopArtists = ({ setHoveredArtist }: TopArtistsProps) => {
     limit: 20,
   });
 
-  const spotifyClient = SpotifyClient.getInstance();
-
   useEffect(() => {
     const fetchTopArtists = async () => {
       const accessToken = localStorage.getItem('access_token');
       const refreshToken = localStorage.getItem('refresh_token');
-      const artists = await spotifyClient.get<Page<Artist>>(
-        '/me/top/artists',
-        accessToken as string,
-        refreshToken as string,
-        artistConfig
-      );
-      setTopArtists(artists as Page<Artist>);
+
+      if (accessToken && refreshToken) {
+        const artists = await spotifyService.getTopArtists(
+          accessToken,
+          refreshToken,
+          artistConfig
+        );
+        if (artists) {
+          setTopArtists(artists);
+        }
+      }
     };
     fetchTopArtists();
   }, [user]);

@@ -1,6 +1,18 @@
 import { generateRandomString, sha256, base64encode } from '@/app/_utils';
 import { Token } from '@/app/_types/Spotify';
 
+// Export the SpotifyService
+export { spotifyService, SpotifyService } from './SpotifyService';
+export type { TimeRange, TopItemsData } from './SpotifyService';
+
+// Export custom hooks
+export {
+  useTopItems,
+  useTopArtists,
+  useTopTracks,
+  useCurrentUser,
+} from './useSpotifyService';
+
 // Redirects the user to Spotify's Authorize page.
 export async function redirectToSpotifyAuthorize() {
   const code_verifier = generateRandomString(64);

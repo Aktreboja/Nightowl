@@ -6,6 +6,7 @@ interface SpotifyTokenResponse {
 }
 
 export interface SpotifyClientParams {
+  q?: string;
   type?: string;
   time_range?: string;
   limit?: number;

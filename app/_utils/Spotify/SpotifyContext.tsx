@@ -5,12 +5,10 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
+import { User } from '@spotify/web-api-ts-sdk';
 
-interface SpotifyUser {
-  id: string;
-  display_name: string;
-  email: string;
-  images: { url: string }[];
+interface SpotifyUser extends User {
+  country: string;
 }
 
 interface SpotifyContextType {

@@ -1,7 +1,7 @@
 /**
  * Spotify PKCE Authentication Utilities
- * @param length 
- * @returns 
+ * @param length
+ * @returns
  */
 export const generateCodeVerifier = (length: number = 64): string => {
   const possible =
@@ -27,12 +27,12 @@ export const createAuthUrl = (
   clientId: string,
   redirectUri: string,
   codeChallenge: string,
-  scopes: string[] = ['user-read-private', 'user-read-email']
+  scopes: string
 ): string => {
   const params = new URLSearchParams({
     response_type: 'code',
     client_id: clientId,
-    scope: scopes.join(' '),
+    scope: scopes,
     code_challenge_method: 'S256',
     code_challenge: codeChallenge,
     redirect_uri: redirectUri,

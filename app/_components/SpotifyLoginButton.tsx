@@ -34,7 +34,12 @@ export const SpotifyLoginButton: React.FC<SpotifyLoginButtonProps> = ({
       localStorage.setItem('spotify_code_verifier', codeVerifier);
 
       // Create authorization URL
-      const authUrl = createAuthUrl(clientId, redirectUri, codeChallenge);
+      const authUrl = createAuthUrl(
+        clientId,
+        redirectUri,
+        codeChallenge,
+        process.env.NEXT_PUBLIC_SPOTIFY_SCOPE as string
+      );
 
       // Redirect to Spotify authorization
       window.location.href = authUrl;

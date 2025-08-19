@@ -1,11 +1,11 @@
 import { useSpotify } from '@/app/_utils/Spotify/SpotifyContext';
 import { useEffect, useState } from 'react';
-import { SpotifyClient } from '@/app/_utils/Spotify/SpotifyClient';
 import { Artist, Track } from '@spotify/web-api-ts-sdk';
 import { Page } from '@spotify/web-api-ts-sdk';
 import Image from 'next/image';
 import { SpotifyClientParams } from '@/app/_utils/Spotify/SpotifyClient';
 import { Skeleton } from '@chakra-ui/react';
+import { spotifyService } from '@/app/_utils/Spotify';
 
 interface TopTracksProps {
   setHoveredTrack: (track: Track | null) => void;
@@ -29,19 +29,21 @@ const TopTracks = ({ setHoveredTrack, setSelectedItem }: TopTracksProps) => {
     limit: 20,
   });
 
-  const spotifyClient = SpotifyClient.getInstance();
-
   useEffect(() => {
     const fetchTopTracks = async () => {
       const accessToken = localStorage.getItem('access_token');
       const refreshToken = localStorage.getItem('refresh_token');
-      const tracks = await spotifyClient.get<Page<Track>>(
-        '/me/top/tracks',
-        accessToken as string,
-        refreshToken as string,
-        trackConfig
-      );
-      setTopTracks(tracks as Page<Track>);
+
+      if (accessToken && refreshToken) {
+        const tracks = await spotifyService.getTopTracks(
+          accessToken,
+          refreshToken,
+          trackConfig
+        );
+        if (tracks) {
+          setTopTracks(tracks);
+        }
+      }
     };
     fetchTopTracks();
   }, [user]);
