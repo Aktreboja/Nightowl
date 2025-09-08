@@ -1,5 +1,7 @@
 import { Track, Artist } from '@spotify/web-api-ts-sdk';
 import Image from 'next/image';
+import { TooltipRoot, TooltipTrigger, TooltipContent } from '@chakra-ui/react';
+import { Tooltip } from '@/app/_components/ui/tooltip';
 
 type TrackModalProps = {
   item: Track;
@@ -64,17 +66,21 @@ const TrackModal = ({ item, artists, modalCloseHandler }: TrackModalProps) => {
                     className="flex flex-col items-center text-center"
                     onClick={() => modalCloseHandler(artist)}
                   >
-                    <div className="w-16 h-16 relative mb-2">
-                      <Image
-                        src={artist.images[0]?.url || ''}
-                        alt={artist.name}
-                        fill
-                        className="object-cover rounded-full"
-                      />
-                    </div>
-                    <p className="text-sm font-medium text-white max-w-20 truncate">
-                      {artist.name}
-                    </p>
+                    <Tooltip content={artist.name} showArrow>
+                      <div>
+                        <div className="w-16 h-16 relative mb-2">
+                          <Image
+                            src={artist.images[0]?.url || ''}
+                            alt={artist.name}
+                            fill
+                            className="object-cover rounded-full"
+                          />
+                        </div>
+                        <p className="text-sm font-medium text-white max-w-20 truncate">
+                          {artist.name}
+                        </p>
+                      </div>
+                    </Tooltip>
                   </div>
                 ))
               ) : (

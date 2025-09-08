@@ -11,6 +11,14 @@ import { TimeRange } from '../../_utils/Spotify';
 import { SpotifyService } from '../../_utils/Spotify';
 import ItemModal from '../Dashboard/modals/ItemModal';
 import UserCard from './UserCard';
+import {
+  SelectRoot,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValueText,
+} from '@/components/ui/select';
+import { createListCollection } from '@chakra-ui/react';
 
 export const SpotifyProfile: React.FC = () => {
   const { user, accessToken, refreshToken, logout, isAuthenticated } =
@@ -180,34 +188,47 @@ export const SpotifyProfile: React.FC = () => {
               </Menu.Positioner>
             </Portal>
           </Menu.Root>
-          {/* <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="border-white text-white hover:bg-white hover:text-black"
-          >
-            Sign Out
-          </Button> */}
         </div>
 
         {/* Profile Section */}
         <UserCard user={user} />
-
         <div className="mb-6">
-          <div className="flex space-x-4">
-            {(Object.keys(timeRangeLabels) as TimeRange[]).map((range) => (
-              <Button
-                key={range}
-                onClick={() => setSelectedTimeRange(range)}
-                variant={selectedTimeRange === range ? 'default' : 'outline'}
-                className={
-                  selectedTimeRange === range
-                    ? 'bg-white text-black hover:bg-gray-100'
-                    : 'border-white text-white hover:bg-white hover:text-black'
+          <div className="w-full max-w-sm mx-auto px-4">
+            <label className="block text-sm font-medium text-gray-300 mb-2 text-center">
+              Time Range
+            </label>
+            <SelectRoot
+              value={[selectedTimeRange]}
+              onValueChange={(details) => {
+                if (details.value && details.value.length > 0) {
+                  setSelectedTimeRange(details.value[0] as TimeRange);
                 }
-              >
-                {timeRangeLabels[range]}
-              </Button>
-            ))}
+              }}
+              collection={createListCollection({
+                items: Object.entries(timeRangeLabels).map(
+                  ([value, label]) => ({
+                    label,
+                    value,
+                  })
+                ),
+              })}
+            >
+              <SelectTrigger className="w-full bg-gray-800 border border-gray-600 text-white hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent rounded-lg px-4 text-sm font-medium touch-manipulation">
+                <SelectValueText placeholder="Select time range" />
+              </SelectTrigger>
+
+              <SelectContent className="bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto">
+                {Object.entries(timeRangeLabels).map(([value, label]) => (
+                  <SelectItem
+                    key={value}
+                    item={{ label, value }}
+                    className="text-white hover:bg-gray-700 focus:bg-gray-700 cursor-pointer px-4 py-3 text-sm font-medium min-h-[44px] flex items-center touch-manipulation"
+                  >
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </SelectRoot>
           </div>
         </div>
 
