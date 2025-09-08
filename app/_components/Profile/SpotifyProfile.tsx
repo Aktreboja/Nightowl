@@ -1,6 +1,7 @@
 'use client';
-
 import { Button } from '@/app/_components/ui/button';
+import { Menu, Portal } from '@chakra-ui/react';
+import { Menu as MenuIcon, Power } from 'lucide-react';
 import { useSpotify } from '../../_utils/Spotify/SpotifyContext';
 import { useRouter } from 'next/navigation';
 import { Artist, Track } from '@spotify/web-api-ts-sdk';
@@ -156,13 +157,36 @@ export const SpotifyProfile: React.FC = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Nightowl</h1>
-          <Button
+
+          <Menu.Root>
+            <Menu.Trigger asChild>
+              <Button variant="outline" size="sm">
+                <MenuIcon />
+              </Button>
+            </Menu.Trigger>
+            <Portal>
+              <Menu.Positioner>
+                <Menu.Content>
+                  <Menu.Item
+                    value="sign-out"
+                    color="fg.error"
+                    className="flex justify-center gap-2"
+                    _hover={{ bg: 'bg.error', color: 'fg.error' }}
+                  >
+                    <Power size={14} />
+                    Sign Out
+                  </Menu.Item>
+                </Menu.Content>
+              </Menu.Positioner>
+            </Portal>
+          </Menu.Root>
+          {/* <Button
             onClick={handleLogout}
             variant="outline"
             className="border-white text-white hover:bg-white hover:text-black"
           >
             Sign Out
-          </Button>
+          </Button> */}
         </div>
 
         {/* Profile Section */}
