@@ -5,11 +5,8 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
-import { User } from '@spotify/web-api-ts-sdk';
+import { SpotifyUser } from '@/app/_types/Spotify';
 
-interface SpotifyUser extends User {
-  country: string;
-}
 
 interface SpotifyContextType {
   accessToken: string | null;

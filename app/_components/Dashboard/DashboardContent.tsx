@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import UserTopStatsContent from '@/app/_components/Dashboard/UserTopStatsContent';
 import { Track, Artist } from '@spotify/web-api-ts-sdk';
 import ItemPreview from '@/app/_components/Dashboard/ItemPreview';
-import ItemModal from '@/app/_components/Dashboard/ItemModal';
+import ItemModal from '@/app/_components/Dashboard/modals/ItemModal';
 import { spotifyService } from '@/app/_utils/Spotify';
 
 const DashboardContent = () => {

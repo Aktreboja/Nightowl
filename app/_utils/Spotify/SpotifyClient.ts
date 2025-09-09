@@ -6,11 +6,7 @@ interface SpotifyTokenResponse {
 }
 
 export interface SpotifyClientParams {
-  q?: string;
-  type?: string;
-  time_range?: string;
-  limit?: number;
-  offset?: number;
+  [key: string]: string | number | boolean | undefined;
 }
 
 export class SpotifyClient {
@@ -108,9 +104,20 @@ export class SpotifyClient {
     params?: SpotifyClientParams
   ): Promise<T | null> {
     const token = await this.ensureValidToken(accessToken);
-    const queryString = params
-      ? `?${new URLSearchParams(params as unknown as Record<string, string>)}`
-      : '';
+
+    let queryString = '';
+    if (params) {
+      const searchParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          searchParams.append(key, String(value));
+        }
+      });
+      queryString = searchParams.toString()
+        ? `?${searchParams.toString()}`
+        : '';
+    }
+
     const response = await fetch(
       `https://api.spotify.com/v1${endpoint}${queryString}`,
       {

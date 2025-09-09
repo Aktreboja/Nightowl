@@ -1,15 +1,24 @@
 'use client';
-
-import { Button } from './ui/button';
-import { useSpotify } from '../_utils/Spotify/SpotifyContext';
+import { Button } from '@/app/_components/ui/button';
+import { Menu, Portal } from '@chakra-ui/react';
+import { Menu as MenuIcon, Power } from 'lucide-react';
+import { useSpotify } from '../../_utils/Spotify/SpotifyContext';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Artist, Track, Page } from '@spotify/web-api-ts-sdk';
+import { Artist, Track } from '@spotify/web-api-ts-sdk';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { TimeRange } from '../_utils/Spotify';
-import { SpotifyService } from '../_utils/Spotify';
-import ItemModal from './Dashboard/ItemModal';
+import { TimeRange } from '../../_utils/Spotify';
+import { SpotifyService } from '../../_utils/Spotify';
+import ItemModal from '../Dashboard/modals/ItemModal';
+import UserCard from './UserCard';
+import {
+  SelectRoot,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValueText,
+} from '@/components/ui/select';
+import { createListCollection } from '@chakra-ui/react';
 
 export const SpotifyProfile: React.FC = () => {
   const { user, accessToken, refreshToken, logout, isAuthenticated } =
@@ -27,10 +36,6 @@ export const SpotifyProfile: React.FC = () => {
   } | null>(null);
 
   const [selectedItem, setSelectedItem] = useState<Track | Artist | null>(null);
-
-  useEffect(() => {
-    console.log('SELECTED ITEM:', selectedItem);
-  }, [selectedItem]);
 
   useEffect(() => {
     const fetchTopItems = async () => {
@@ -160,70 +165,71 @@ export const SpotifyProfile: React.FC = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Nightowl</h1>
-          <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="border-white text-white hover:bg-white hover:text-black"
-          >
-            Sign Out
-          </Button>
+
+          <Menu.Root>
+            <Menu.Trigger asChild>
+              <Button variant="outline" size="sm">
+                <MenuIcon />
+              </Button>
+            </Menu.Trigger>
+            <Portal>
+              <Menu.Positioner>
+                <Menu.Content>
+                  <Menu.Item
+                    value="sign-out"
+                    color="fg.error"
+                    className="flex justify-center gap-2"
+                    _hover={{ bg: 'bg.error', color: 'fg.error' }}
+                    onClick={handleLogout}
+                  >
+                    <Power size={14} />
+                    Sign Out
+                  </Menu.Item>
+                </Menu.Content>
+              </Menu.Positioner>
+            </Portal>
+          </Menu.Root>
         </div>
 
         {/* Profile Section */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <div className="flex items-center space-x-6">
-            {user.images && user.images.length > 0 ? (
-              <img
-                src={user.images[0].url}
-                alt={user.display_name}
-                className="w-24 h-24 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-24 h-24 rounded-full bg-gray-600 flex items-center justify-center">
-                <svg
-                  className="w-12 h-12 text-gray-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-            )}
-            <div>
-              <Link href={user.external_urls.spotify} target="_blank">
-                <h2 className="text-2xl font-bold">{user.display_name}</h2>
-              </Link>
-              <p className="text-gray-400">{user.email}</p>
-              <p className="text-sm text-gray-500">User ID: {user.id}</p>
-              <p className="text-sm text-gray-500">
-                Followers: {user.followers.total}
-              </p>
-              <p className="text-sm text-gray-500">Country: {user.country}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Time Range Selector */}
+        <UserCard user={user} />
         <div className="mb-6">
-          <div className="flex space-x-4">
-            {(Object.keys(timeRangeLabels) as TimeRange[]).map((range) => (
-              <Button
-                key={range}
-                onClick={() => setSelectedTimeRange(range)}
-                variant={selectedTimeRange === range ? 'default' : 'outline'}
-                className={
-                  selectedTimeRange === range
-                    ? 'bg-white text-black hover:bg-gray-100'
-                    : 'border-white text-white hover:bg-white hover:text-black'
+          <div className="w-full max-w-sm mx-auto px-4">
+            <label className="block text-sm font-medium text-gray-300 mb-2 text-center">
+              Time Range
+            </label>
+            <SelectRoot
+              value={[selectedTimeRange]}
+              onValueChange={(details) => {
+                if (details.value && details.value.length > 0) {
+                  setSelectedTimeRange(details.value[0] as TimeRange);
                 }
-              >
-                {timeRangeLabels[range]}
-              </Button>
-            ))}
+              }}
+              collection={createListCollection({
+                items: Object.entries(timeRangeLabels).map(
+                  ([value, label]) => ({
+                    label,
+                    value,
+                  })
+                ),
+              })}
+            >
+              <SelectTrigger className="w-full bg-gray-800 border border-gray-600 text-white hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent rounded-lg px-4 text-sm font-medium touch-manipulation">
+                <SelectValueText placeholder="Select time range" />
+              </SelectTrigger>
+
+              <SelectContent className="bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto">
+                {Object.entries(timeRangeLabels).map(([value, label]) => (
+                  <SelectItem
+                    key={value}
+                    item={{ label, value }}
+                    className="text-white hover:bg-gray-700 focus:bg-gray-700 cursor-pointer px-4 py-3 text-sm font-medium min-h-[44px] flex items-center touch-manipulation"
+                  >
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </SelectRoot>
           </div>
         </div>
 
