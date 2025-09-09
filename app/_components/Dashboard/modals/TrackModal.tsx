@@ -1,7 +1,10 @@
 import { Track, Artist } from '@spotify/web-api-ts-sdk';
 import Image from 'next/image';
-import { TooltipRoot, TooltipTrigger, TooltipContent } from '@chakra-ui/react';
 import { Tooltip } from '@/app/_components/ui/tooltip';
+import { SpotifyClient } from '@/app/_utils/Spotify/SpotifyClient';
+import { useEffect, useState } from 'react';
+import { useSpotify } from '@/app/_utils/Spotify/SpotifyContext';
+import { Button } from '@/app/_components/ui/button';
 
 type TrackModalProps = {
   item: Track;
@@ -9,6 +12,25 @@ type TrackModalProps = {
   modalCloseHandler: (item: Track | Artist | null) => void;
 };
 const TrackModal = ({ item, artists, modalCloseHandler }: TrackModalProps) => {
+  const spotifyClient = SpotifyClient.getInstance();
+  const { accessToken, refreshToken } = useSpotify();
+
+  const [isTrackSaved, setIsTrackSaved] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const isTrackSaved = await spotifyClient.get<boolean[]>(
+        `/me/tracks/contains`,
+        accessToken as string,
+        refreshToken as string,
+        {
+          ids: item.id,
+        }
+      );
+      setIsTrackSaved(isTrackSaved?.[0] as boolean);
+    };
+    fetchData();
+  }, [item]);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
@@ -53,6 +75,9 @@ const TrackModal = ({ item, artists, modalCloseHandler }: TrackModalProps) => {
                   '0'
                 )}
               </p>
+              <Button variant="outline" onClick={() => {}}>
+                {isTrackSaved ? 'Saved' : 'Save'}
+              </Button>
             </div>
           </div>
 

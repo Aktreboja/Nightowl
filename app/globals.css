@@ -2,21 +2,394 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
-  --card: theme('colors.gray.800');
+  /* Base colors */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
+
+  /* Primary color scale */
+  --primary-50: 214 100% 97%;
+  --primary-100: 214 95% 93%;
+  --primary-200: 213 97% 87%;
+  --primary-300: 212 96% 78%;
+  --primary-400: 213 94% 68%;
+  --primary-500: 217 91% 60%;
+  --primary-600: 221 83% 53%;
+  --primary-700: 224 76% 48%;
+  --primary-800: 226 71% 40%;
+  --primary-900: 224 64% 33%;
+  --primary-950: 226 57% 21%;
+
+  /* Secondary color scale */
+  --secondary-50: 210 40% 98%;
+  --secondary-100: 210 40% 96%;
+  --secondary-200: 214 32% 91%;
+  --secondary-300: 213 27% 84%;
+  --secondary-400: 215 20% 65%;
+  --secondary-500: 215 16% 47%;
+  --secondary-600: 215 19% 35%;
+  --secondary-700: 215 25% 27%;
+  --secondary-800: 217 33% 17%;
+  --secondary-900: 222 84% 5%;
+  --secondary-950: 229 84% 5%;
+
+  /* Accent color scale */
+  --accent-50: 210 40% 98%;
+  --accent-100: 210 40% 96%;
+  --accent-200: 214 32% 91%;
+  --accent-300: 213 27% 84%;
+  --accent-400: 215 20% 65%;
+  --accent-500: 215 16% 47%;
+  --accent-600: 215 19% 35%;
+  --accent-700: 215 25% 27%;
+  --accent-800: 217 33% 17%;
+  --accent-900: 222 84% 5%;
+  --accent-950: 229 84% 5%;
+
+  /* Destructive color scale */
+  --destructive-50: 0 86% 97%;
+  --destructive-100: 0 93% 94%;
+  --destructive-200: 0 96% 89%;
+  --destructive-300: 0 94% 82%;
+  --destructive-400: 0 91% 71%;
+  --destructive-500: 0 84% 60%;
+  --destructive-600: 0 72% 51%;
+  --destructive-700: 0 74% 42%;
+  --destructive-800: 0 70% 35%;
+  --destructive-900: 0 63% 31%;
+  --destructive-950: 0 75% 15%;
+}
+
+.dark {
+  /* Base colors - dark mode */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 94.1%;
+
+  /* Primary color scale - dark mode */
+  --primary-50: 226 57% 21%;
+  --primary-100: 224 64% 33%;
+  --primary-200: 226 71% 40%;
+  --primary-300: 224 76% 48%;
+  --primary-400: 221 83% 53%;
+  --primary-500: 217 91% 60%;
+  --primary-600: 213 94% 68%;
+  --primary-700: 212 96% 78%;
+  --primary-800: 213 97% 87%;
+  --primary-900: 214 95% 93%;
+  --primary-950: 214 100% 97%;
+
+  /* Secondary color scale - dark mode */
+  --secondary-50: 222 84% 5%;
+  --secondary-100: 217 33% 17%;
+  --secondary-200: 215 25% 27%;
+  --secondary-300: 215 19% 35%;
+  --secondary-400: 215 16% 47%;
+  --secondary-500: 215 20% 65%;
+  --secondary-600: 213 27% 84%;
+  --secondary-700: 214 32% 91%;
+  --secondary-800: 210 40% 96%;
+  --secondary-900: 210 40% 98%;
+  --secondary-950: 0 0% 100%;
+
+  /* Accent color scale - dark mode */
+  --accent-50: 222 84% 5%;
+  --accent-100: 217 33% 17%;
+  --accent-200: 215 25% 27%;
+  --accent-300: 215 19% 35%;
+  --accent-400: 215 16% 47%;
+  --accent-500: 215 20% 65%;
+  --accent-600: 213 27% 84%;
+  --accent-700: 214 32% 91%;
+  --accent-800: 210 40% 96%;
+  --accent-900: 210 40% 98%;
+  --accent-950: 0 0% 100%;
+
+  /* Destructive color scale - dark mode */
+  --destructive-50: 0 75% 15%;
+  --destructive-100: 0 63% 31%;
+  --destructive-200: 0 70% 35%;
+  --destructive-300: 0 74% 42%;
+  --destructive-400: 0 72% 51%;
+  --destructive-500: 0 84% 60%;
+  --destructive-600: 0 91% 71%;
+  --destructive-700: 0 94% 82%;
+  --destructive-800: 0 96% 89%;
+  --destructive-900: 0 93% 94%;
+  --destructive-950: 0 86% 97%;
+}
+
+* {
+  border-color: hsl(var(--border));
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  font-feature-settings: 'rlig' 1, 'calt' 1;
 }
 
+/* Chakra UI Component Styles */
+@layer components {
+  /* Button styles */
+  .chakra-button {
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .chakra-button--solid {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+  .chakra-button--outline {
+    @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .chakra-button--ghost {
+    @apply hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .chakra-button--link {
+    @apply text-primary underline-offset-4 hover:underline;
+  }
+
+  /* Input styles */
+  .chakra-input {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Card styles */
+  .chakra-card {
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+  }
+
+  .chakra-card-header {
+    @apply flex flex-col space-y-1.5 p-6;
+  }
+
+  .chakra-card-title {
+    @apply text-2xl font-semibold leading-none tracking-tight;
+  }
+
+  .chakra-card-description {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .chakra-card-content {
+    @apply p-6 pt-0;
+  }
+
+  .chakra-card-footer {
+    @apply flex items-center p-6 pt-0;
+  }
+
+  /* Dialog styles */
+  .chakra-dialog {
+    @apply fixed inset-0 z-50 flex items-center justify-center;
+  }
+
+  .chakra-dialog-backdrop {
+    @apply fixed inset-0 bg-black/80;
+  }
+
+  .chakra-dialog-content {
+    @apply relative z-50 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg;
+  }
+
+  .chakra-dialog-header {
+    @apply flex flex-col space-y-1.5 text-center sm:text-left;
+  }
+
+  .chakra-dialog-title {
+    @apply text-lg font-semibold leading-none tracking-tight;
+  }
+
+  .chakra-dialog-description {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .chakra-dialog-footer {
+    @apply flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2;
+  }
+
+  /* Avatar styles */
+  .chakra-avatar {
+    @apply relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full;
+  }
+
+  .chakra-avatar-image {
+    @apply aspect-square h-full w-full;
+  }
+
+  .chakra-avatar-fallback {
+    @apply flex h-full w-full items-center justify-center rounded-full bg-muted;
+  }
+
+  /* Checkbox styles */
+  .chakra-checkbox {
+    @apply peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground;
+  }
+
+  /* Tooltip styles */
+  .chakra-tooltip {
+    @apply z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95;
+  }
+
+  /* Popover styles */
+  .chakra-popover {
+    @apply z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none animate-in fade-in-0 zoom-in-95;
+  }
+
+  /* Slider styles */
+  .chakra-slider {
+    @apply relative flex w-full touch-none select-none items-center;
+  }
+
+  .chakra-slider-track {
+    @apply relative h-2 w-full grow overflow-hidden rounded-full bg-secondary;
+  }
+
+  .chakra-slider-range {
+    @apply absolute h-full bg-primary;
+  }
+
+  .chakra-slider-thumb {
+    @apply block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  /* Radio styles */
+  .chakra-radio {
+    @apply aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Drawer styles */
+  .chakra-drawer {
+    @apply fixed inset-0 z-50 flex items-end sm:items-center;
+  }
+
+  .chakra-drawer-backdrop {
+    @apply fixed inset-0 bg-black/80;
+  }
+
+  .chakra-drawer-content {
+    @apply relative z-50 grid w-full gap-4 border-t bg-background p-6 shadow-lg animate-in slide-in-from-bottom-full duration-300 sm:max-w-lg sm:rounded-t-lg;
+  }
+
+  /* Field styles */
+  .chakra-field {
+    @apply space-y-2;
+  }
+
+  .chakra-field-label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
+
+  .chakra-field-description {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .chakra-field-error {
+    @apply text-sm font-medium text-destructive;
+  }
+
+  /* Input group styles */
+  .chakra-input-group {
+    @apply flex h-10 w-full items-center rounded-md border border-input bg-background;
+  }
+
+  .chakra-input-group-addon {
+    @apply flex items-center justify-center whitespace-nowrap px-3 text-sm text-muted-foreground;
+  }
+
+  .chakra-input-group-field {
+    @apply flex-1 border-0 bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+}
+
+/* Utility classes */
 .card {
-  @apply bg-gray-700;
+  @apply bg-card text-card-foreground rounded-lg border shadow-sm;
 }
 
 .input-field {
-  @apply border rounded-md p-4;
+  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+/* Animation utilities */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoom-in {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.fade-in-0 {
+  animation: fade-in 0.2s ease-out;
+}
+
+.slide-in-from-bottom-full {
+  animation: slide-in-from-bottom 0.3s ease-out;
+}
+
+.zoom-in-95 {
+  animation: zoom-in 0.2s ease-out;
 }

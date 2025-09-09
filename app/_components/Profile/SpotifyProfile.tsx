@@ -180,6 +180,7 @@ export const SpotifyProfile: React.FC = () => {
                     color="fg.error"
                     className="flex justify-center gap-2"
                     _hover={{ bg: 'bg.error', color: 'fg.error' }}
+                    onClick={handleLogout}
                   >
                     <Power size={14} />
                     Sign Out
